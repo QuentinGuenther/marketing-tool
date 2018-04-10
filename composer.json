@@ -1,0 +1,28 @@
+{
+    "name":"marketing-tool",
+    "authors": [
+        {
+            "name": "Quentin Guenther",
+            "email": "qguenther@outlook.com"
+        },
+        {
+            "name": "Jen Shin",
+            "email": "jshin13@mail.greenriver.com"
+        },
+        {
+            "name": "Bessy Torres-Miller",
+            "email": "btorres-miller@mail.greenriver.edu"
+        },
+        {
+            "name": "Kianna Dyck",
+            "email": "kdyck@mail.greenriver.edu"
+        }
+    ],
+    "require": {
+        "bcosca/fatfree-core": "dev-master",
+        "php-http/guzzle6-adapter": "^1.1"
+    },
+    "autoload": {
+        "classmap": ["models/"]
+    }
+}
