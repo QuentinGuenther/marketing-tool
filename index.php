@@ -1,4 +1,11 @@
 <?php
+    /*
+        Name: Quentin, Kianna, Jen, Bessy
+        Date: 04/10/2018
+        Name of File: index.php
+        Purpose: This page is the controller for marketing tool application.
+     */
+
     session_start();
 
     // Turn on error reporting
@@ -15,6 +22,7 @@
     // Set debug level to dev
     $f3->set('DEBUG', 3);
 
+    // home route
     $f3->route('GET /', function($f3) {
         echo Template::instance()->render('views/html/home.html');
     });

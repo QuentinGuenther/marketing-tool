@@ -1,0 +1,11 @@
+/*
+    Name: Quentin, Kianna, Jen, Bessy
+    Date: 04/10/2018
+    Name of File: styles.css
+    Purpose: This page contains styles for marketing tool application.
+*/
+
+/* Quill Editor Styles */
+#editor-container {
+    min-height: 50vh;
+}
