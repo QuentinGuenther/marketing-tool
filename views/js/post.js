@@ -19,14 +19,21 @@ var Post = (function() {
         theme: 'snow'  // or 'bubble'
     });
 
+
+
     // constructor
     function init() {
+
         quill;
+
     }
 
     // public api
     return {
         init: init
+
     };
 
+
 })();
+

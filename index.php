@@ -23,8 +23,16 @@
     $f3->set('DEBUG', 3);
 
     // home route
-    $f3->route('GET /', function($f3) {
+    $f3->route('GET|POST /', function($f3) {
+        if(isset($_POST)) {
+            var_dump($_POST);
+        }
         echo Template::instance()->render('views/html/home.html');
+    });
+
+    // preview post route
+    $f3->route('GET /view-post', function($f3) {
+        echo Template::instance()->render('views/html/view-post.html');
     });
 
     /**

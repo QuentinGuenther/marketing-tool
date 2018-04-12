@@ -29,14 +29,16 @@
     <div class="container mt-2">
         <div class="row">
             <div class="col">
-                <form action="GET">
+                <form id="idea-form" method="POST" action="">
                     <div class="form-group">
-                        <label for="my-txt-area">New Post</label><br/>
-                        Post Title <input type = "text" id ="title" name = "name" class="form-control"><br/>
-                        <div id="editor-container" ref="quil-editor"></div>
+                        <br/>
+                        Post Title <input type = "text" id ="title" name = "title" class="form-control"><br/>
+                        <label for = "new-post">New Post</label>
+                        <input type = "hidden" name = "new-post">
+                        <div id="editor-container" name = "content" ref="quil-editor"></div>
                     </div>
 
-                    <input type="submit" class="btn btn-primary" value="Add Post" />
+                    <input type="submit" id = "submit"  name = "submit" class="btn btn-primary" value="Add Post" />
                 </form>
             </div>
         </div>
@@ -48,7 +50,68 @@
     <script src="{{ @BASE }}/views/js/jquery.min.js"></script>
     <!-- Quill js -->
     <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    <!-- External js -->
-    <script src="{{ @BASE }}/views/js/post.js"></script>
+    <!-- External js
+    <script src="{{ @BASE }}/views/js/post.js"></script>-->
+
+    <script>
+        var quill = new Quill("[ref='quil-editor']", {
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['image', 'code-block']
+                ]
+            },
+            placeholder: 'Compose an epic...',
+            theme: 'snow'  // or 'bubble'
+        });
+
+        var form = document.querySelector('form');
+        form.onsubmit = function() {
+            //populate hidden form on submit
+            var newpost = document.querySelector('input[name=new-post]');
+            newpost.value = JSON.stringify(quill.getContents());
+
+            console.log("Success", $(form).serialize(), $(form).serializeArray());
+
+            return true;
+        }
+
+        /*$("#idea-form").submit(function(event){
+           event.preventDefault();
+
+           var $form = $(this),
+               url = $form.attr('action');
+
+           window.delta = quill.getContents();
+
+           var content = JSON.stringify(window.delta);
+
+           //var posting = $.post(url, {title: $('#title').val(), content: content});
+
+           $.ajax({
+              type: "POST",
+              url: "/",
+              data: {title: $('#title').val(), content: content},
+               success: alert("success"),
+               statusCode: {
+                  404: function(){alert("error")}
+               },
+               dataType: JSON
+           });
+
+           posting.done(function(data){
+               alert("success");
+           });
+        });
+        $('#submit').click(function() {
+            window.delta = quill.getContents();
+           // alert(window.delta.toString());
+            //console.log(delta);//save to db as json format
+        });
+
+*/
+
+    </script>
 </body>
 </html>
