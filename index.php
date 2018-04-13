@@ -22,7 +22,14 @@
     // Set debug level to dev
     $f3->set('DEBUG', 3);
 
-    // home route
+    // Team Home Page
+    $f3->route('GET /home', function($f3) {
+
+        $template = new Template();
+        echo $template->render('views/html/team-home.html');
+    });
+
+    // home route (Currently create new post page)
     $f3->route('GET|POST /', function($f3) {
 
 
@@ -85,4 +92,3 @@
     });
 
     $f3->run();
-?>

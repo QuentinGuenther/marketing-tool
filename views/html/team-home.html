@@ -1,0 +1,87 @@
+<!--
+Name: Kianna Dyck, Bessy Torres-Miller
+Date: 04/13/2018
+File Name: team-home.html
+Purpose: This file is the home page for a given team. It contains a list of project idea links that when clicked
+redirects the user to another page with the project's information and discussion. This page also contains a list of
+member names in the team, the team name, and an add button to add a new project idea.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required Meta Tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Team Name</title> <!-- Replaced with {{ @teamName }} -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
+
+    <!-- External CSS -->
+    <!--<link rel="stylesheet"
+          type="text/css"
+          href="">-->
+</head>
+<body>
+    <!-- Navigation Menu -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
+        <a class="navbar-brand" href="./home">Home</a>
+
+        <!-- Hamburger Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible Content -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="text-center">Team Name</h1>
+
+        <!-- Add Button -->
+        <a class="btn btn-primary mb-2" href="./">Add New Project</a>
+
+        <!-- Project Idea Posts -->
+        <div class="list-group">
+            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 1</a>
+            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 2</a>
+            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 3</a>
+            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 4</a>
+            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 5</a>
+        </div>
+
+    </div> <!-- container -->
+
+
+    <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="{{ @BASE }}/views/js/jquery.min.js"></script>
+
+    <!-- Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous">
+    </script>
+
+    <!-- Bootstrap js -->
+    <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
+
+    <!-- External js -->
+    <!--<script src=""></script>-->
+
+</body>
+
+</html>
