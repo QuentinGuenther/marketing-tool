@@ -25,11 +25,9 @@
     // home route
     $f3->route('GET|POST /', function($f3) {
 
+
         if(isset($_POST['submit'])) {
-            $contentErr = "";
-            $titleErr = "";
-           // var_dump($_POST);
-            // }
+
             $isValid = true;
 
             if (!empty($_POST['title'])) {
@@ -39,57 +37,30 @@
                 $f3->set('titleErr', $titleErr);
                 $isValid = false;
             }
-            $content = $_POST['new-post'];
-            $json = json_decode($content, true);
-            print_r($content.'<br/>');
 
-            foreach($json as $key => $value) {
-                print_r($value);
-                foreach($value as $valuekey => $secondvalue) {
-                    print_r($secondvalue);
-                    foreach($secondvalue as $key1 => $value2) {
-                        if (!isset($value2)) {
-                            $isValid = false;
+            if (isset($_POST['new-post'])) {
 
-                            $contentErr = "Please input text and/or images.";
-                            $f3->set('contentErr', $contentErr);
-                            return;
-                        }
-                    }
-                }
-            }
+                $content = $_POST['new-post'];
+                $json = json_decode($content, true);
+              //  var_dump($json);
+                //print_r($content . '<br/>');
+                var_dump($json['ops'][0]['insert']); //check if in correct place
 
-            /*foreach($json['ops']['insert'] as $item) {
-                if($item == "\n") {
+                if(strlen($json['ops'][0]['insert']) == 1) {
                     $isValid = false;
-
                     $contentErr = "Please input text and/or images.";
-                    $f3->set('contentErr', $contentErr);
-                }            }
-            //for ( $i = 0; $i < sizeof($content); $i++ ) {
-           /* foreach($content as $key => $value){
-                foreach ( $value['ops']['insert'] as $item) {
-                    if($item == "\n") {
-                        $isValid = false;
-
-                        $contentErr = "Please input text and/or images.";
-                        $f3->set('contentErr', $contentErr);
-                    }
-                    }
-               // }
-            }
-            /*foreach () {
-                $f3->set('content', $content);
-            } else {
-                $contentErr = "Please input text and/or images.";
+                }
                 $f3->set('contentErr', $contentErr);
-                $isValid = false;
-            }*/
+
+            }
+
 
             if ($isValid) {
-                $f3->reroute('/view-post');
-            }
+                $f3->set('content', $content);
 
+                $f3->reroute('/view-post');
+
+            }
         }
         echo Template::instance()->render('views/html/home.html');
     });
