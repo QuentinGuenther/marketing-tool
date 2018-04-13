@@ -27,11 +27,27 @@
         if(isset($_POST)) {
             var_dump($_POST);
         }
+        $isValid = true;
+        if(!empty($_POST['title'])) {
+            $title = $_POST['title'];
+        } else {
+            $isValid = false;
+        }
+        if(!empty($_POST['new-post'])) {
+            $content = $_POST['new-post'];
+            $f3->set('content', $content);
+        } else {
+            $isValid = false;
+        }
+
+        if($isValid) {
+            $f3->reroute('/view-post');
+        }
         echo Template::instance()->render('views/html/home.html');
     });
 
     // preview post route
-    $f3->route('GET /view-post', function($f3) {
+    $f3->route('GET|POST @view: /view-post', function($f3) {
         echo Template::instance()->render('views/html/view-post.html');
     });
 

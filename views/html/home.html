@@ -29,11 +29,11 @@
     <div class="container mt-2">
         <div class="row">
             <div class="col">
-                <form id="idea-form" method="POST" action="">
+                <form id="idea-form" method="post" action="#">
                     <div class="form-group">
                         <br/>
                         Post Title <input type = "text" id ="title" name = "title" class="form-control"><br/>
-                        <label for = "new-post">New Post</label>
+                        <label>New Post</label>
                         <input type = "hidden" name = "new-post">
                         <div id="editor-container" name = "content" ref="quil-editor"></div>
                     </div>
@@ -73,6 +73,8 @@
             newpost.value = JSON.stringify(quill.getContents());
 
             console.log("Success", $(form).serialize(), $(form).serializeArray());
+
+            //to grab image, newpost.insert.image
 
             return true;
         }
