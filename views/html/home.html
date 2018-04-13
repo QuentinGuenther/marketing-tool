@@ -32,10 +32,14 @@
                 <form id="idea-form" method="post" action="#">
                     <div class="form-group">
                         <br/>
-                        Post Title <input type = "text" id ="title" name = "title" class="form-control"><br/>
+                        Post Title <input type = "text" id ="title" name = "title" class="form-control">
+                        <span class="text-danger">{{ @titleErr }}<br/></span>
+                        <br/>
+
                         <label>New Post</label>
                         <input type = "hidden" name = "new-post">
                         <div id="editor-container" name = "content" ref="quil-editor"></div>
+                        <span class="text-danger">{{ @contentErr}}</span>
                     </div>
 
                     <input type="submit" id = "submit"  name = "submit" class="btn btn-primary" value="Add Post" />
