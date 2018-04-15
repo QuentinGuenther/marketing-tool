@@ -8,4 +8,10 @@
 /* Quill Editor Styles */
 #editor-container {
     min-height: 50vh;
+    max-height: 50vh;
+}
+
+/* Override Quill Container Styles */
+.ql-container {
+    height: 0;
 }

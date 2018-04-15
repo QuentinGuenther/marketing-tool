@@ -16,7 +16,7 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
-    
+
     <!-- Quill -->
     <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
@@ -25,20 +25,21 @@
     <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/styles.css" />
 </head>
 <body>
-    
+
     <div class="container mt-2">
         <div class="row">
             <div class="col">
-                <form id="idea-form" method="post" action="#">
+                <form id="idea-form" method="post" action="">
                     <div class="form-group">
                         <br/>
-                        Post Title <input type = "text" id ="title" name = "title" class="form-control">
+                        Post Title <input type = "text" id ="title" name = "title" class="form-control" tabindex="1">
                         <span class="text-danger">{{ @titleErr }}<br/></span>
                         <br/>
-
+                    </div>
+                    <div class="form-group">
                         <label>New Post</label>
                         <input type = "hidden" name = "new-post">
-                        <div id="editor-container" name = "content" ref="quil-editor"></div>
+                        <div id="editor-container" name = "content" rel="quill-editor"  tabindex="2"></div>
                         <span class="text-danger">{{ @contentErr}}</span>
                     </div>
 
@@ -54,70 +55,12 @@
     <script src="{{ @BASE }}/views/js/jquery.min.js"></script>
     <!-- Quill js -->
     <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    <!-- External js
-    <script src="{{ @BASE }}/views/js/post.js"></script>-->
-
+    <!-- External js-->
+    <script src="{{ @BASE }}/views/js/post.js"></script>
     <script>
-        var quill = new Quill("[ref='quil-editor']", {
-            modules: {
-                toolbar: [
-                    [{ header: [1, 2, false] }],
-                    ['bold', 'italic', 'underline'],
-                    ['image', 'code-block']
-                ]
-            },
-            placeholder: 'Compose an epic...',
-            theme: 'snow'  // or 'bubble'
+        $(document).ready(function() {
+            Post.createEditor();
         });
-
-        var form = document.querySelector('form');
-        form.onsubmit = function() {
-            //populate hidden form on submit
-            var newpost = document.querySelector('input[name=new-post]');
-            newpost.value = JSON.stringify(quill.getContents());
-
-            console.log("Success", $(form).serialize(), $(form).serializeArray());
-
-            //to grab image, newpost.insert.image
-
-            return true;
-        }
-
-        /*$("#idea-form").submit(function(event){
-           event.preventDefault();
-
-           var $form = $(this),
-               url = $form.attr('action');
-
-           window.delta = quill.getContents();
-
-           var content = JSON.stringify(window.delta);
-
-           //var posting = $.post(url, {title: $('#title').val(), content: content});
-
-           $.ajax({
-              type: "POST",
-              url: "/",
-              data: {title: $('#title').val(), content: content},
-               success: alert("success"),
-               statusCode: {
-                  404: function(){alert("error")}
-               },
-               dataType: JSON
-           });
-
-           posting.done(function(data){
-               alert("success");
-           });
-        });
-        $('#submit').click(function() {
-            window.delta = quill.getContents();
-           // alert(window.delta.toString());
-            //console.log(delta);//save to db as json format
-        });
-
-*/
-
     </script>
 </body>
 </html>

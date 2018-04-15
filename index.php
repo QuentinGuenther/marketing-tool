@@ -63,13 +63,18 @@
 
 
             if ($isValid) {
-                $f3->set('content', $content);
+                $_SESSION['content'] = $content;
 
                 $f3->reroute('/view-post');
 
             }
         }
         echo Template::instance()->render('views/html/home.html');
+    });
+
+    $f3->route('GET /get-post', function($f3) {
+        header('Content-Type: application/json');
+        echo json_encode($_SESSION['content']);
     });
 
     // preview post route
@@ -79,7 +84,7 @@
 
     /**
      * Route for the error page
-     * 
+     *
      * If a page is not found, the error page
      * gets displayed
      *
