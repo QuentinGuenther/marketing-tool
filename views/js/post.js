@@ -41,6 +41,7 @@ var Post = (function() {
             theme: 'snow'
         });
 
+        editor.setContents(getQuillContent(""));
         quillFocusHandler(editor);
         quillSubmitHandler(editor);
     }

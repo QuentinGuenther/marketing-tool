@@ -48,6 +48,7 @@
             if (isset($_POST['new-post'])) {
 
                 $content = $_POST['new-post'];
+                $_SESSION['content'] = $content;
                 $json = json_decode($content, true);
               //  var_dump($json);
                 //print_r($content . '<br/>');
