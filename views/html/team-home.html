@@ -14,15 +14,14 @@ member names in the team, the team name, and an add button to add a new project 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Team Name</title> <!-- Replaced with {{ @teamName }} -->
+    <title>Agility Team</title> <!-- Replaced with {{ @teamName }} -->
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/simple-sidebar.css" >
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
 
-    <!-- External CSS -->
-    <!--<link rel="stylesheet"
-          type="text/css"
-          href="">-->
 </head>
 <body>
     <!-- Navigation Menu -->
@@ -45,6 +44,45 @@ member names in the team, the team name, and an add button to add a new project 
             </ul>
         </div>
     </nav>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Team Members
+                    </a>
+                </li>
+                <li>
+                    <a href="#">Kianna </a>
+                </li>
+                <li>
+                    <a href="#">Jenn</a>
+                </li>
+                <li>
+                    <a href="#">Quentin</a>
+                </li>
+                <li>
+                    <a href="#">Bessy</a>
+                </li>
+
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+
+                <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Team Members</a>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
 
 
     <!-- Main Content -->
@@ -78,6 +116,15 @@ member names in the team, the team name, and an add button to add a new project 
 
     <!-- Bootstrap js -->
     <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
+    <script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 
     <!-- External js -->
     <!--<script src=""></script>-->
