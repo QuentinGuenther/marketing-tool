@@ -6,8 +6,8 @@
 	 *	define( "DB_PASSWORD", "password");
 	 * Since this file contains sensitive information,
 	 * it should be stored outside of public_html.
-	 */	
-    // require_once('//');
+	 */
+    require_once ('/home/jshingre/marketing_config.php');
     
 	/**
 	 * This class contains generic functions for REST functionallity.
@@ -15,6 +15,7 @@
 	 * @author Quentin Guenther
 	 * @copyright 2018
 	 */
+
 	abstract class RestDB
 	{
 		/**
@@ -87,7 +88,7 @@
 		 * 		varuable/value attached to the parameter and the PDO data type of the parameter.
 		 * @return boolean Success.
 		 */
-		protected static function update($sql, $params)
+	/*	protected static function update($sql, $params)
 		{
 			return self::insert($sql, $params, false);			
 		}
@@ -97,7 +98,7 @@
 		 * @param $sql The SQL statement to run.
 		 * @return boolean Success.
 		 */
-		protected static function delete($sql, $params)
+		/*protected static function delete($sql, $params)
 		{
 			global $dbh;
 			$statement = $dbh->prepare($sql);
@@ -108,5 +109,5 @@
 			}
 			$success = $statement->execute();
 			return $success;
-		}
+		}*/
 	}
