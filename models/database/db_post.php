@@ -42,35 +42,7 @@ class Db_post extends RestDB
 
     public static function getAllPosts($teamId)
     {
-<<<<<<< HEAD
-        global $dbh;
         $sql = "SELECT postId, title, content FROM post WHERE teamId = :teamId";
-
-        // prepare
-        $statement = $dbh->prepare($sql);
-        // bind
-        $statement->bindParam(':teamId', $teamId, PDO::PARAM_INT);
-        // execute
-        $statement->execute();
-
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-
-
-        /*$sql = "SELECT postId, title, content FROM post WHERE teamId = :teamId";
-
-        $params = array(
-            ':teamId' => array($teamId => PDO::PARAM_INT)
-        );
-
-        $result = parent::get($sql, $params);
-        return $result;*/
-
-    }
-
-=======
-        $sql = "SELECT postId, title, content FROM post WHERE teamId = :teamId";
->>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
 
         $params = array(
             ':teamId' => array($teamId => PDO::PARAM_INT)

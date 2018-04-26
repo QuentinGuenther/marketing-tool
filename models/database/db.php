@@ -12,15 +12,9 @@
 	// database must be on same server as project*
 	require_once("/home/btorresm/marketing-config.php");
     
-=======
-	 */	
+
     // require_once('//');
 
-    define("DB_DSN", "mysql:dbname=kdyckgre_marketing");
-    define("DB_USERNAME", "kdyckgre_muser");
-    define("DB_PASSWORD", 'tmb$dB_k011');
-
->>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
 	/**
 	 * This class contains generic functions for REST functionallity.
 	 * with the database.
@@ -38,11 +32,10 @@
 			try {
 				global $dbh;
 			    $dbh = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-<<<<<<< HEAD
 			    echo "connected to db";
-=======
+
 //			    echo "connected to database!";
->>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
+
 			    return $dbh;
 			}
 			catch(PDOException $e) {

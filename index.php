@@ -6,11 +6,6 @@
         Purpose: This page is the controller for marketing tool application.
      */
 
-<<<<<<< HEAD
-//    session_start();
-
-=======
->>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
     // Turn on error reporting
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -27,26 +22,20 @@
     // Set debug level to dev
     $f3->set('DEBUG', 3);
 
-<<<<<<< HEAD
     $dbh = new db_post();
-=======
+
     // establish connection to database
     $db = new Db_post();
->>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
 
     // Team Home Page
     $f3->route('GET /home', function($f3) {
 
-<<<<<<< HEAD
         global $dbh;
 
-//        $posts = $GLOBALS['dbh']->getAllPosts(1);
-
         $posts = $dbh->getAllPosts(1);
-//        echo($posts);
+
         print_r($posts);
-        /*$f3->set('posts', $posts);*/
-=======
+
         global $db;
 
         // get teamId and teamName of logged in user
@@ -75,7 +64,6 @@
 
         // set hive variables
         $f3->set('postIdeas', $posts);
->>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
 
         $template = new Template();
         echo $template->render('views/html/team-home.html');
