@@ -1,6 +1,6 @@
 <?php
     /*
-        Name: Quentin, Kianna, Jen, Bessy
+        Name: Quentin Guenther, Kianna Dyck, Jen Shin, Bessy Torres-Miller
         Date: 04/10/2018
         Name of File: index.php
         Purpose: This page is the controller for marketing tool application.
@@ -14,6 +14,7 @@
     // Require autoload
     require_once('vendor/autoload.php');
 
+    // start session
     session_start();
 
     // Create fat-free instance
@@ -22,19 +23,11 @@
     // Set debug level to dev
     $f3->set('DEBUG', 3);
 
-    
-
     // establish connection to database
     $db = new Db_post();
 
     // Team Home Page
     $f3->route('GET /home', function($f3) {
-
-        global $dbh;
-
-        $posts = $dbh->getAllPosts(1);
-
-        print_r($posts);
 
         global $db;
 
