@@ -6,8 +6,11 @@
         Purpose: This page is the controller for marketing tool application.
      */
 
+<<<<<<< HEAD
 //    session_start();
 
+=======
+>>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
     // Turn on error reporting
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -16,17 +19,25 @@
     // Require autoload
     require_once('vendor/autoload.php');
 
+    session_start();
+
     // Create fat-free instance
     $f3 = Base::instance();
 
     // Set debug level to dev
     $f3->set('DEBUG', 3);
 
+<<<<<<< HEAD
     $dbh = new db_post();
+=======
+    // establish connection to database
+    $db = new Db_post();
+>>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
 
     // Team Home Page
     $f3->route('GET /home', function($f3) {
 
+<<<<<<< HEAD
         global $dbh;
 
 //        $posts = $GLOBALS['dbh']->getAllPosts(1);
@@ -35,6 +46,36 @@
 //        echo($posts);
         print_r($posts);
         /*$f3->set('posts', $posts);*/
+=======
+        global $db;
+
+        // get teamId and teamName of logged in user
+
+        // retrieve all project ideas with teamId
+        $posts = $db::getAllPosts(1);
+        if(empty($posts)) {
+            $f3->set('noPosts', "There are currently no project ideas for your team. 
+            Click the Add New Project button to be the first to share an idea.");
+        }
+
+        /* Array (
+            [0] => Array (
+                [postId] => 1
+                [title] => Team Agility
+                [content] => Hi, Agile Dev Team! Welcome to my project post idea! )
+
+            [1] => Array (
+                [postId] => 2
+                [title] => Project Awesome
+                [content] => This project will be awesome. Vote for it! :) )
+        ) */
+
+        // retrieve all team member names with teamId
+
+
+        // set hive variables
+        $f3->set('postIdeas', $posts);
+>>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
 
         $template = new Template();
         echo $template->render('views/html/team-home.html');

@@ -6,7 +6,7 @@
  * Time: 12:33 PM
  */
 
-class db_post extends RestDB
+class Db_post extends RestDB
 {
     public function __construct() {
         parent::__construct();
@@ -42,6 +42,7 @@ class db_post extends RestDB
 
     public static function getAllPosts($teamId)
     {
+<<<<<<< HEAD
         global $dbh;
         $sql = "SELECT postId, title, content FROM post WHERE teamId = :teamId";
 
@@ -67,6 +68,18 @@ class db_post extends RestDB
 
     }
 
+=======
+        $sql = "SELECT postId, title, content FROM post WHERE teamId = :teamId";
+>>>>>>> 80ed0e3a6a52f2d91374314ec617e4a8bfaf2544
 
+        $params = array(
+            ':teamId' => array($teamId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        return $result;
+
+    }
 
 }
