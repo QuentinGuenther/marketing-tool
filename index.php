@@ -22,7 +22,7 @@
     // Set debug level to dev
     $f3->set('DEBUG', 3);
 
-    $dbh = new db_post();
+    
 
     // establish connection to database
     $db = new Db_post();
@@ -72,8 +72,9 @@
     // home route (Currently create new post page)
     $f3->route('GET|POST /', function($f3) {
 
-
         if(isset($_POST['submit'])) {
+            $title = "";
+            $content = "";
 
             $isValid = true;
 
@@ -87,8 +88,9 @@
 
             if (isset($_POST['new-post'])) {
 
+                $title = $_POST['title'];
                 $content = $_POST['new-post'];
-                $_SESSION['content'] = $content;
+
                 $json = json_decode($content, true);
               //  var_dump($json);
                 //print_r($content . '<br/>');
@@ -104,7 +106,8 @@
 
 
             if ($isValid) {
-                $_SESSION['content'] = $content;
+                //var_dump(Db_post::insertPost($title, $content));
+                $_SESSION["id"] = Db_post::insertPost($title, $content);
 
                 $f3->reroute('/view-post');
 
@@ -114,12 +117,15 @@
     });
 
     $f3->route('GET /get-post', function($f3) {
+        $post = Db_post::getPost($_SESSION["id"]);
+
+        //var_dump($post['title']);
         header('Content-Type: application/json');
-        echo json_encode($_SESSION['content']);
+        echo json_encode($post['content']);
     });
 
     // preview post route
-    $f3->route('GET|POST @view: /view-post', function($f3) {
+    $f3->route('GET|POST @view: /view-post', function($f3, $params) {
         echo Template::instance()->render('views/html/view-post.html');
     });
 
