@@ -50,58 +50,46 @@ member names in the team, the team name, and an add button to add a new project 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="#">
-                        Team Members
-                    </a>
+                <li class="sidebar-brand">Team Members</li>
+                <li>
+                    Kianna
                 </li>
                 <li>
-                    <a href="#">Kianna </a>
+                    Jenn
                 </li>
                 <li>
-                    <a href="#">Jenn</a>
+                    Quentin
                 </li>
                 <li>
-                    <a href="#">Quentin</a>
-                </li>
-                <li>
-                    <a href="#">Bessy</a>
+                    Bessy
                 </li>
 
             </ul>
         </div>
-        <!-- /#sidebar-wrapper -->
 
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
 
-                <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Team Members</a>
+        <!-- Main Content -->
+        <div class="container">
+            <h1 class="text-center">Team Name</h1>
+
+            <a href="#menu-toggle" class="btn btn-secondary mb-3" id="menu-toggle">Team Members</a>
+            <!-- Add Button -->
+            <a class="btn btn-primary mb-3" href="./">Add New Project</a>
+
+            <!-- Project Idea Posts -->
+            <check if="{{isset (@noPosts) }}">
+                <p class="text-center">{{ @noPosts }}</p>
+            </check>
+
+            <div class="list-group">
+                <repeat group="{{ @postIdeas }}" value="{{ @post }}">
+                    <a href="./view-post" class="list-group-item list-group-item-action">{{ @post['title'] }}</a>
+                </repeat>
             </div>
-        </div>
-        <!-- /#page-content-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+        </div> <!-- container -->
 
-
-    <!-- Main Content -->
-    <div class="container">
-        <h1 class="text-center">Team Name</h1>
-
-        <!-- Add Button -->
-        <a class="btn btn-primary mb-2" href="./">Add New Project</a>
-
-        <!-- Project Idea Posts -->
-        <div class="list-group">
-            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 1</a>
-            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 2</a>
-            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 3</a>
-            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 4</a>
-            <a href="./view-post" class="list-group-item list-group-item-action">Project Title 5</a>
-        </div>
-
-    </div> <!-- container -->
+    </div> <!-- wrapper -->
 
 
     <!-- Scripts -->

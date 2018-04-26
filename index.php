@@ -6,9 +6,6 @@
         Purpose: This page is the controller for marketing tool application.
      */
 
-    session_start();
-
-
     // Turn on error reporting
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -17,14 +14,48 @@
     // Require autoload
     require_once('vendor/autoload.php');
 
+    session_start();
+
     // Create fat-free instance
     $f3 = Base::instance();
 
     // Set debug level to dev
     $f3->set('DEBUG', 3);
 
+    // establish connection to database
+    $db = new Db_post();
+
     // Team Home Page
     $f3->route('GET /home', function($f3) {
+
+        global $db;
+
+        // get teamId and teamName of logged in user
+
+        // retrieve all project ideas with teamId
+        $posts = $db::getAllPosts(1);
+        if(empty($posts)) {
+            $f3->set('noPosts', "There are currently no project ideas for your team. 
+            Click the Add New Project button to be the first to share an idea.");
+        }
+
+        /* Array (
+            [0] => Array (
+                [postId] => 1
+                [title] => Team Agility
+                [content] => Hi, Agile Dev Team! Welcome to my project post idea! )
+
+            [1] => Array (
+                [postId] => 2
+                [title] => Project Awesome
+                [content] => This project will be awesome. Vote for it! :) )
+        ) */
+
+        // retrieve all team member names with teamId
+
+
+        // set hive variables
+        $f3->set('postIdeas', $posts);
 
         $template = new Template();
         echo $template->render('views/html/team-home.html');
