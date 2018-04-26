@@ -1,5 +1,5 @@
 <?php
-	/* 
+	/*
 	 * This config file should contain the following:
 	 *	define( "DB_DSN", "data_source_name");
 	 *	define( "DB_USERNAME", "username");
@@ -7,7 +7,9 @@
 	 * Since this file contains sensitive information,
 	 * it should be stored outside of public_html.
 	 */
-    require_once ('/home/jshingre/marketing_config.php');
+
+	// database must be on same server as project*
+	require_once("/home/btorresm/marketing-config.php");
     
 	/**
 	 * This class contains generic functions for REST functionallity.
@@ -15,7 +17,6 @@
 	 * @author Quentin Guenther
 	 * @copyright 2018
 	 */
-
 	abstract class RestDB
 	{
 		/**
@@ -27,10 +28,12 @@
 			try {
 				global $dbh;
 			    $dbh = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+			    echo "connected to db";
 			    return $dbh;
 			}
 			catch(PDOException $e) {
 	        	echo $e->getMessage();
+                echo "NOT connected to db";
 	        	return;
 	    	}
 		}
@@ -40,7 +43,7 @@
 		 * @param string $sql The SQL statement to run.
 		 * @param array $params A 3 dimentional array containing PDO parameters,
 		 * 		varuable/value attached to the parameter and the PDO data type of the parameter.
-		 * @return An array indexed by column name as returned in your result set.
+		 * @return array indexed by column name as returned in your result set.
 		 */
 		protected static function get($sql, $params = array())
 		{
@@ -88,7 +91,7 @@
 		 * 		varuable/value attached to the parameter and the PDO data type of the parameter.
 		 * @return boolean Success.
 		 */
-	/*	protected static function update($sql, $params)
+		protected static function update($sql, $params)
 		{
 			return self::insert($sql, $params, false);			
 		}
@@ -98,7 +101,7 @@
 		 * @param $sql The SQL statement to run.
 		 * @return boolean Success.
 		 */
-		/*protected static function delete($sql, $params)
+		protected static function delete($sql, $params)
 		{
 			global $dbh;
 			$statement = $dbh->prepare($sql);
@@ -109,5 +112,5 @@
 			}
 			$success = $statement->execute();
 			return $success;
-		}*/
+		}
 	}

@@ -40,6 +40,33 @@ class db_post extends RestDB
 
     }
 
+    public static function getAllPosts($teamId)
+    {
+        global $dbh;
+        $sql = "SELECT postId, title, content FROM post WHERE teamId = :teamId";
+
+        // prepare
+        $statement = $dbh->prepare($sql);
+        // bind
+        $statement->bindParam(':teamId', $teamId, PDO::PARAM_INT);
+        // execute
+        $statement->execute();
+
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+
+
+        /*$sql = "SELECT postId, title, content FROM post WHERE teamId = :teamId";
+
+        $params = array(
+            ':teamId' => array($teamId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+        return $result;*/
+
+    }
+
 
 
 }

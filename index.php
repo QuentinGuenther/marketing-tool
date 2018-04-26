@@ -6,8 +6,7 @@
         Purpose: This page is the controller for marketing tool application.
      */
 
-    session_start();
-
+//    session_start();
 
     // Turn on error reporting
     ini_set('display_errors', 1);
@@ -23,8 +22,19 @@
     // Set debug level to dev
     $f3->set('DEBUG', 3);
 
+    $dbh = new db_post();
+
     // Team Home Page
     $f3->route('GET /home', function($f3) {
+
+        global $dbh;
+
+//        $posts = $GLOBALS['dbh']->getAllPosts(1);
+
+        $posts = $dbh->getAllPosts(1);
+//        echo($posts);
+        print_r($posts);
+        /*$f3->set('posts', $posts);*/
 
         $template = new Template();
         echo $template->render('views/html/team-home.html');
