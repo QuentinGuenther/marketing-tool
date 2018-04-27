@@ -10,7 +10,7 @@
 	 */
 
 	// database must be on same server as project*
-	require_once("/home/btorresm/marketing-config.php");
+	require_once("/home/qguenthe/db_config/marketing-config.php");
     
 
     // require_once('//');
@@ -32,9 +32,6 @@
 			try {
 				global $dbh;
 			    $dbh = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-			    echo "connected to db";
-
-//			    echo "connected to database!";
 
 			    return $dbh;
 			}

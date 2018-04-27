@@ -110,8 +110,8 @@ $f3->route('GET|POST /', function($f3) {
     echo Template::instance()->render('views/html/home.html');
 });
 
-$f3->route('GET /get-post', function($f3) {
-    $post = Db_post::getPost($_SESSION["id"]);
+$f3->route('GET /get-post/@uuid', function($f3, $params) {
+    $post = Db_post::getPost($params['uuid']);
 
     //var_dump($post['title']);
     header('Content-Type: application/json');

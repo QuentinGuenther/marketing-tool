@@ -90,7 +90,7 @@ var Post = (function() {
             theme: 'bubble'
         });
 
-        var postId = $("#postId").val();
+        var postId = window.location.href.split("/").pop();;
         reader.setContents(getQuillContent(postId));
         reader.enable(false);
     }
@@ -105,7 +105,7 @@ var Post = (function() {
      */
     function getQuillContent(uuid) {
         // TODO: route url to unique post.
-        var url = 'get-post';
+        var url = "../get-post/" + uuid;
         var delta;
         $.ajax({
             url: url,
