@@ -28,13 +28,14 @@ class Db_post extends RestDB
      * @param $content The quill json object containing text, formatting, and images.
      * @return int The ID of the last inserted row or sequence value.
      */
-    public static function insertPost($title, $content)
+    public static function insertPost($title, $content, $teamId)
     {
-        $sql = "INSERT INTO post(title, content) VALUES (:title, :content)";
+        $sql = "INSERT INTO post(title, content, teamId) VALUES (:title, :content, :teamId)";
 
         $params = array(
             ':title' => array($title => PDO::PARAM_STR),
-            ':content' => array($content => PDO::PARAM_STR)
+            ':content' => array($content => PDO::PARAM_STR),
+            ':teamId' => array($teamId => PDO::PARAM_STR)
         );
 
         return parent::insert($sql, $params);

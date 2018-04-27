@@ -89,18 +89,20 @@ var Post = (function() {
         var reader =new Quill(READER_REL, {
             theme: 'bubble'
         });
-        reader.setContents(getQuillContent(""));
+
+        var postId = $("#postId").val();
+        reader.setContents(getQuillContent(postId));
         reader.enable(false);
     }
 
-   /**
-    * This function sends a request for a JSON object to the server which
-    * contains the QuillJS delta information.
-    * The URL which the request is made to is "./get-post/{UUID}".
-    *
-    * @param {String} uuid The unique identifier of a post.
-    * @return {JSON} Returns a QuillJS delta.
-    */
+    /**
+     * This function sends a request for a JSON object to the server which
+     * contains the QuillJS delta information.
+     * The URL which the request is made to is "./get-post/{UUID}".
+     *
+     * @param {String} uuid The unique identifier of a post.
+     * @return {JSON} Returns a QuillJS delta.
+     */
     function getQuillContent(uuid) {
         // TODO: route url to unique post.
         var url = 'get-post';

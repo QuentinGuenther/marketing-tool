@@ -24,98 +24,98 @@ member names in the team, the team name, and an add button to add a new project 
 
 </head>
 <body>
-    <!-- Navigation Menu -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
-        <a class="navbar-brand" href="./home">Home</a>
+<!-- Navigation Menu -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
+    <a class="navbar-brand" href="./home">Home</a>
 
-        <!-- Hamburger Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <!-- Hamburger Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <!-- Collapsible Content -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+    <!-- Collapsible Content -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
 
-            </ul>
+        </ul>
+    </div>
+</nav>
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">Team Members</li>
+            <li>
+                Kianna Dyck
+            </li>
+            <li>
+                Jen Shin
+            </li>
+            <li>
+                Quentin Guenther
+            </li>
+            <li>
+                Bessy Torres-Miller
+            </li>
+
+        </ul>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="text-center">Team Name</h1>
+
+        <a href="#menu-toggle" class="btn btn-secondary mb-3" id="menu-toggle">Team Members</a>
+        <!-- Add Button -->
+        <a class="btn btn-primary mb-3" href="./">Add New Project</a>
+
+        <!-- Project Idea Posts -->
+        <check if="{{isset (@noPosts) }}">
+            <p class="text-center">{{ @noPosts }}</p>
+        </check>
+
+        <div class="list-group">
+            <repeat group="{{ @postIdeas }}" value="{{ @post }}">
+                <a href= "{{ @BASE }}/view-post/{{ @post['postId']}}" class="list-group-item list-group-item-action">{{ @post['title'] }}</a>
+            </repeat>
         </div>
-    </nav>
 
-    <div id="wrapper">
+    </div> <!-- container -->
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">Team Members</li>
-                <li>
-                    Kianna Dyck
-                </li>
-                <li>
-                    Jen Shin
-                </li>
-                <li>
-                    Quentin Guenther
-                </li>
-                <li>
-                    Bessy Torres-Miller
-                </li>
-
-            </ul>
-        </div>
+</div> <!-- wrapper -->
 
 
-        <!-- Main Content -->
-        <div class="container">
-            <h1 class="text-center">Team Name</h1>
+<!-- Scripts -->
+<!-- jQuery -->
+<script src="{{ @BASE }}/views/js/jquery.min.js"></script>
 
-            <a href="#menu-toggle" class="btn btn-secondary mb-3" id="menu-toggle">Team Members</a>
-            <!-- Add Button -->
-            <a class="btn btn-primary mb-3" href="./">Add New Project</a>
+<!-- Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous">
+</script>
 
-            <!-- Project Idea Posts -->
-            <check if="{{isset (@noPosts) }}">
-                <p class="text-center">{{ @noPosts }}</p>
-            </check>
+<!-- Bootstrap js -->
+<script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
+<script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
 
-            <div class="list-group">
-                <repeat group="{{ @postIdeas }}" value="{{ @post }}">
-                    <a href="./view-post" class="list-group-item list-group-item-action">{{ @post['title'] }}</a>
-                </repeat>
-            </div>
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
 
-        </div> <!-- container -->
-
-    </div> <!-- wrapper -->
-
-
-    <!-- Scripts -->
-    <!-- jQuery -->
-    <script src="{{ @BASE }}/views/js/jquery.min.js"></script>
-
-    <!-- Popper -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous">
-    </script>
-
-    <!-- Bootstrap js -->
-    <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
-    <script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Menu Toggle Script -->
-    <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
-
-    <!-- External js -->
-    <!--<script src=""></script>-->
+<!-- External js -->
+<!--<script src=""></script>-->
 
 </body>
 
