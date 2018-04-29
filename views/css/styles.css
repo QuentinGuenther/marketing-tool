@@ -5,10 +5,38 @@
     Purpose: This page contains styles for marketing tool application.
 */
 
+:root {
+    --green-river-green: #2c882b;
+    --green-river-green-light: #039806;
+}
+
+.bg-green-river-green {
+    background-color: var(--green-river-green);
+}
+
+.bg-green-river-green a {
+    color: var(--white)!important;
+}
+
+.btn.bg-green-river-green {
+    color: var(--white);
+    border-color: var(--green-river-green);
+}
+
+.btn.bg-green-river-green:hover {
+    color: var(--white);
+    background-color: var(--green-river-green-light);
+}
+
 /* Quill Editor Styles */
-#editor-container {
+#editor-container, #reader-container {
     min-height: 50vh;
-    max-height: 50vh;
+    height: auto;
+}
+
+.ql-reader {
+    border: var(--light) solid 1px;
+    border-radius: 1%
 }
 
 /* Override Quill Container Styles */

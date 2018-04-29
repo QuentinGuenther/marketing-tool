@@ -18,11 +18,13 @@
     <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/styles.css" />
 </head>
 <body>
+    <include href="views/html/components/nav.html">
 
     <div class="container mt-2">
+        <h1>{{ @title }}</h1>
         <div class="row">
             <div class="col">
-                <div id="editor-container" name = "content" rel="quill-reader"></div>
+                <div id="reader-container" class="ql-reader" name = "content" rel="quill-reader"></div>
             </div>
         </div>
     </div>

@@ -22,28 +22,13 @@ member names in the team, the team name, and an add button to add a new project 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
 
+    <!-- External Styles -->
+    <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/styles.css" />
+
 </head>
 <body>
-<!-- Navigation Menu -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
-    <a class="navbar-brand" href="./home">Home</a>
 
-    <!-- Hamburger Button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Collapsible Content -->
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
-
-        </ul>
-    </div>
-</nav>
+<include href="views/html/components/nav.html">
 
 <div id="wrapper">
 
@@ -74,7 +59,7 @@ member names in the team, the team name, and an add button to add a new project 
 
         <a href="#menu-toggle" class="btn btn-secondary mb-3" id="menu-toggle">Team Members</a>
         <!-- Add Button -->
-        <a class="btn btn-primary mb-3" href="./">Add New Project</a>
+        <a class="btn mb-3 bg-green-river-green" href="./create-post">Add New Project</a>
 
         <!-- Project Idea Posts -->
         <check if="{{isset (@noPosts) }}">

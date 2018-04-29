@@ -27,7 +27,7 @@ $f3->set('DEBUG', 3);
 $db = new Db_post();
 
 // Team Home Page
-$f3->route('GET /home', function($f3) {
+$f3->route('GET /', function($f3) {
 
     global $db;
 
@@ -63,7 +63,7 @@ $f3->route('GET /home', function($f3) {
 });
 
 // home route (Currently create new post page)
-$f3->route('GET|POST /', function($f3) {
+$f3->route('GET|POST /create-post', function($f3) {
 
     if(isset($_POST['submit'])) {
         $title = "";
@@ -99,12 +99,8 @@ $f3->route('GET|POST /', function($f3) {
 
 
         if ($isValid) {
-            //var_dump(Db_post::insertPost($title, $content));
-            $_SESSION["id"] = Db_post::insertPost($title, $content, 1);
-
-            $f3->reroute('/view-post');
-//                $f3->reroute('/home');
-
+            $id = Db_post::insertPost($title, $content, 1);
+            $f3->reroute('/view-post/'.$id);
         }
     }
     echo Template::instance()->render('views/html/home.html');
@@ -120,11 +116,7 @@ $f3->route('GET /get-post/@uuid', function($f3, $params) {
 
 // preview post route
 $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
-
-    $postId= $params['postId'];
-    //$student = getStudent($sid);
-    $f3->set('postId', $postId);
-
+    $f3->set('title', Db_post::getPost($params['postId'])['title'] );
 
     echo Template::instance()->render('views/html/view-post.html');
 });
