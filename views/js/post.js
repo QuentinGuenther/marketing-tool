@@ -1,5 +1,5 @@
 /*
-    Name: Quentin, Kianna, Jen, Bessy
+    Authors: Quentin Guenther, Kianna Dyck, Jen Shin, Bessy Torres-Miller
     Date: 04/10/2018
     Name of File: post.js
     Purpose: This page initializes quill editor.
@@ -8,10 +8,10 @@
 /**
  * This module has functionality to add QuillJS to a page.
  *
- * @author Quentin
- * @author Kianna
- * @author Jen
- * @author Bessy
+ * @author Quentin Guenther <Qguenther@mail.greenriver.edu>
+ * @author Jen Shin <Jshin13@mail.greenriver.edu>
+ * @author Kianna Dyck <kdyck@mail.greenriver.edu>
+ * @author Bessy Torres-Miller <Btorres-miller@mail.greenriver.edu>
  */
 var Post = (function() {
     const EDITOR_REL = "[rel='quill-editor']";
@@ -21,7 +21,7 @@ var Post = (function() {
      * This function scans the page for HTML elements
      * with the ref type of "quill-editor" then creates a new QuillJS object
      * on that element. Attributes which are associated with editing
-     * capibilities are then assigned to the QuillJS object.
+     * capabilities are then assigned to the QuillJS object.
      *
      * @return {NULL}
      */
@@ -41,7 +41,8 @@ var Post = (function() {
             theme: 'snow'
         });
 
-        editor.setContents(getQuillContent(""));
+        // sending an empty string to getQuillContent causes an error since /get-post route now has a parameter
+        editor.setContents(""); //getQuillContent("")
         quillFocusHandler(editor);
         quillSubmitHandler(editor);
     }
@@ -81,7 +82,7 @@ var Post = (function() {
      * This function scans the page for HTML elements
      * with the ref type of "quill-reader" then creates a new QuillJS object
      * on that element. Attributes which are associated with read only
-     * capibilities are then assigned to the QuillJS object.
+     * capabilities are then assigned to the QuillJS object.
      *
      * @return {NULL}
      */
@@ -90,7 +91,8 @@ var Post = (function() {
             theme: 'bubble'
         });
 
-        var postId = window.location.href.split("/").pop();;
+        // var postId = window.location.href.split("/").pop();;
+        var postId = $("#postId").val();
         reader.setContents(getQuillContent(postId));
         reader.enable(false);
     }
@@ -104,7 +106,6 @@ var Post = (function() {
      * @return {JSON} Returns a QuillJS delta.
      */
     function getQuillContent(uuid) {
-        // TODO: route url to unique post.
         var url = "../get-post/" + uuid;
         var delta;
         $.ajax({

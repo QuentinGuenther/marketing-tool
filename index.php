@@ -1,6 +1,22 @@
 <?php
+/**
+ * This page is the controller for marketing tool application.
+ *
+ * PHP version 5.3
+ * @author Quentin Guenther <Qguenther@mail.greenriver.edu>
+ * @author Jen Shin <Jshin13@mail.greenriver.edu>
+ * @author Kianna Dyck <kdyck@mail.greenriver.edu>
+ * @author Bessy Torres-Miller <Btorres-miller@mail.greenriver.edu>
+ *
+ * @since 1.0
+ * @version 1.0
+ *
+ * @copyright 2018 Team Agility
+ *
+ */
+
 /*
-    Name: Quentin Guenther, Kianna Dyck, Jen Shin, Bessy Torres-Miller
+    Authors: Quentin Guenther, Kianna Dyck, Jen Shin, Bessy Torres-Miller
     Date: 04/10/2018
     Name of File: index.php
     Purpose: This page is the controller for marketing tool application.
@@ -12,7 +28,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Require autoload
-require_once('vendor/autoload.php');
+require_once 'vendor/autoload.php';
 
 // start session
 session_start();
@@ -35,25 +51,12 @@ $f3->route('GET /', function($f3) {
 
     // retrieve all project ideas with teamId
     $posts = $db::getAllPosts(1);
-    if(empty($posts)) {
+    if (empty($posts)) {
         $f3->set('noPosts', "There are currently no project ideas for your team. 
             Click the Add New Project button to be the first to share an idea.");
     }
 
-    /* Array (
-        [0] => Array (
-            [postId] => 1
-            [title] => Team Agility
-            [content] => Hi, Agile Dev Team! Welcome to my project post idea! )
-
-        [1] => Array (
-            [postId] => 2
-            [title] => Project Awesome
-            [content] => This project will be awesome. Vote for it! :) )
-    ) */
-
     // retrieve all team member names with teamId
-
 
     // set hive variables
     $f3->set('postIdeas', $posts);
@@ -62,10 +65,10 @@ $f3->route('GET /', function($f3) {
     echo $template->render('views/html/team-home.html');
 });
 
-// home route (Currently create new post page)
+// create new post route
 $f3->route('GET|POST /create-post', function($f3) {
 
-    if(isset($_POST['submit'])) {
+    if (isset($_POST['submit'])) {
         $title = "";
         $content = "";
 
@@ -85,37 +88,49 @@ $f3->route('GET|POST /create-post', function($f3) {
             $content = $_POST['new-post'];
 
             $json = json_decode($content, true);
-            //  var_dump($json);
-            //print_r($content . '<br/>');
-            var_dump($json['ops'][0]['insert']); //check if in correct place
 
-            if(strlen($json['ops'][0]['insert']) == 1) {
+            if (strlen($json['ops'][0]['insert']) == 1) {
                 $isValid = false;
                 $contentErr = "Please input text and/or images.";
+                $f3->set('contentErr', $contentErr);
             }
-            $f3->set('contentErr', $contentErr);
 
         }
-
 
         if ($isValid) {
             $id = Db_post::insertPost($title, $content, 1);
             $f3->reroute('/view-post/'.$id);
         }
     }
+
     echo Template::instance()->render('views/html/home.html');
 });
 
+// intermediary route, only accessed by post.js ajax call
 $f3->route('GET /get-post/@uuid', function($f3, $params) {
+    // retrieve post information
     $post = Db_post::getPost($params['uuid']);
 
-    //var_dump($post['title']);
     header('Content-Type: application/json');
+    // return string that is encoded in JSON format
     echo json_encode($post['content']);
 });
 
-// preview post route
+// If user tries to navigate to view-post directly without a parameter
+$f3->route('GET /view-post', function($f3) {
+    $f3->reroute("/");
+});
+
+// view post route
 $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
+
+    // check that param entered is a number
+    if (!ctype_digit($params['postId'])) {
+        $f3->reroute("/");
+    }
+
+    $postId = $params['postId'];
+    $f3->set('postId', $postId);
     $f3->set('title', Db_post::getPost($params['postId'])['title'] );
 
     echo Template::instance()->render('views/html/view-post.html');
@@ -131,7 +146,7 @@ $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
  * @param $f3 Base
  */
 $f3->set('ONERROR', function($f3) {
-    if($f3->get('ERROR.code') == '404')
+    if ($f3->get('ERROR.code') == '404')
         echo Template::instance()->render('views/error.html');
 });
 

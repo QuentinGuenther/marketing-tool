@@ -1,5 +1,5 @@
 <!--
-Name: Kianna Dyck, Bessy Torres-Miller
+Authors: Kianna Dyck, Bessy Torres-Miller
 Date: 04/13/2018
 File Name: team-home.html
 Purpose: This file is the home page for a given team. It contains a list of project idea links that when clicked
@@ -14,7 +14,7 @@ member names in the team, the team name, and an add button to add a new project 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Agility Team</title> <!-- Replaced with {{ @teamName }} -->
+    <title>Team Agility</title> <!-- Replaced with {{ @teamName }} -->
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/simple-sidebar.css" >
@@ -28,11 +28,12 @@ member names in the team, the team name, and an add button to add a new project 
 </head>
 <body>
 
-<include href="views/html/components/nav.html">
+<!-- Navigation Menu -->
+<include href="views/html/components/nav.html" />
 
 <div id="wrapper">
 
-    <!-- Sidebar -->
+    <!-- Team Member Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">Team Members</li>
@@ -57,9 +58,10 @@ member names in the team, the team name, and an add button to add a new project 
     <div class="container">
         <h1 class="text-center">Team Name</h1>
 
+        <!-- Team Member Toggle Button -->
         <a href="#menu-toggle" class="btn btn-secondary mb-3" id="menu-toggle">Team Members</a>
         <!-- Add Button -->
-        <a class="btn mb-3 bg-green-river-green" href="./create-post">Add New Project</a>
+        <a class="btn mb-3 bg-green-river-green" href="{{ @BASE }}/create-post">Add New Project</a>
 
         <!-- Project Idea Posts -->
         <check if="{{isset (@noPosts) }}">
@@ -68,7 +70,8 @@ member names in the team, the team name, and an add button to add a new project 
 
         <div class="list-group">
             <repeat group="{{ @postIdeas }}" value="{{ @post }}">
-                <a href= "{{ @BASE }}/view-post/{{ @post['postId']}}" class="list-group-item list-group-item-action">{{ @post['title'] }}</a>
+                <a href= "{{ @BASE }}/view-post/{{ @post['postId']}}"
+                   class="list-group-item list-group-item-action d-none">{{ @post['title'] }}</a>
             </repeat>
         </div>
 
@@ -91,16 +94,10 @@ member names in the team, the team name, and an add button to add a new project 
 <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
 <script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
 
-<!-- Menu Toggle Script -->
-<script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-</script>
+<script src="views/js/paginathing.js"></script>
 
 <!-- External js -->
-<!--<script src=""></script>-->
+<script src="{{ @BASE }}/views/js/team-home.js"></script>
 
 </body>
 

@@ -1,3 +1,10 @@
+<!--
+    Authors: Quentin Guenther, Jen Shin, Bessy Torres-Miller, Kianna Dyck
+    Date: 04/10/2018
+    Name of File: view-post.html
+    Purpose: This page displays a post of a product idea.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,13 +25,17 @@
     <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/styles.css" />
 </head>
 <body>
-    <include href="views/html/components/nav.html">
+    <!-- Navigation Menu -->
+    <include href="views/html/components/nav.html" />
 
+    <!-- User Content -->
     <div class="container mt-2">
         <h1>{{ @title }}</h1>
         <div class="row">
             <div class="col">
-                <div id="reader-container" class="ql-reader" name = "content" rel="quill-reader"></div>
+                <div id="reader-container" class="ql-reader" rel="quill-reader"></div>
+                <!-- Hidden input containing value of param, postId -->
+                <input type="hidden" id="postId" value="{{ @postId }}">
             </div>
         </div>
     </div>
@@ -37,11 +48,7 @@
     <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <!-- External js -->
     <script src="{{ @BASE }}/views/js/post.js"></script>
+    <script src="{{ @BASE }}/views/js/view-post.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            Post.createReader();
-        });
-    </script>
 </body>
 </html>

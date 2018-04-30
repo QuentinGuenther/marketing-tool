@@ -1,35 +1,83 @@
-<?
+<?php
+/**
+ * This class creates a post object that manages the title and content.
+ *
+ * PHP version 5.3
+ * @author Quentin Guenther <Qguenther@mail.greenriver.edu>
+ * @author Jen Shin <Jshin13@mail.greenriver.edu>
+ *
+ * @since 1.0
+ * @version 1.0
+ *
+ * @copyright 2018 Quentin Guenther <Qguenther@mail.greenriver.edu>
+ * @copyright Jen Shin <Jshin13@mail.greenriver.edu>
+ *
+ */
 
-class Post 
+/**
+ * This class creates a post object.
+ *
+ * PHP version 5.3
+ * @author Quentin Guenther <Qguenther@mail.greenriver.edu>
+ * @author Jen Shin <Jshin13@mail.greenriver.edu>
+ *
+ * @since 1.0
+ * @version 1.0
+ *
+ * @copyright 2018 Quentin Guenther <Qguenther@mail.greenriver.edu>
+ * @copyright Jen Shin <Jshin13@mail.greenriver.edu>
+ */
+class Post
 {
 
     private $_title;
     private $_content;
 
-    public function __construct($title, $content) 
+    /**
+     * Post constructor.
+     * @param $title String The title of the project post.
+     * @param $content String The content of the project post.
+     */
+    public function __construct($title, $content)
     {
-        $this->title = $title;
-        $this->content = $content;
+        $this->_title = $title;
+        $this->_content = $content;
     }
 
-    public function getTitle() 
+    /**
+     * This function retrieves the post title.
+     * @return String Post Title
+     */
+    public function getTitle()
     {
-        return $this->title;
+        return $this->_title;
     }
 
-    public function getContent() 
+    /**
+     * This function retrieves the post content.
+     * @return String Post Content
+     */
+    public function getContent()
     {
-        return $this->content;
+        return $this->_content;
     }
 
-    public function setTitle($title) 
+    /**
+     * This function sets the title of the post.
+     * @param $title String Post title.
+     */
+    public function setTitle($title)
     {
-        $this->title = $title;
+        $this->_title = $title;
     }
 
-    public function setContent($content) 
+    /**
+     * This function sets the content of the post.
+     * @param $content Post Content
+     */
+    public function setContent($content)
     {
-        $this->content = $content;
+        $this->_content = $content;
     }
 
 }
