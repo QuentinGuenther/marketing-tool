@@ -32,7 +32,7 @@ var Post = (function() {
                     [{ header: [1, 2, 3, false] }],
                     ['bold', 'italic', 'underline'],
                     [{ align: [] }],
-                    ['blockquote', 'link', 'video', 'image'],
+                    ['image'],
                     [{ list: 'ordered' }, { list: 'bullet' }],
                     [{ script: 'sub' }, { script:'super' }]
                 ]
