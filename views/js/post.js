@@ -33,8 +33,7 @@ var Post = (function() {
                     ['bold', 'italic', 'underline'],
                     [{ align: [] }],
                     ['image'],
-                    [{ list: 'ordered' }, { list: 'bullet' }],
-                    [{ script: 'sub' }, { script:'super' }]
+                    [{ list: 'ordered' }, { list: 'bullet' }]
                 ]
             },
             placeholder: 'Compose an epic...',
