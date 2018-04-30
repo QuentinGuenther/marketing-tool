@@ -43,3 +43,15 @@
 .ql-container {
     height: 0;
 }
+
+.list-bg {
+    background-color: #f2f2f2;
+    color: black;
+}
+
+.list-bg:hover {
+    background-color: #bfbfbf;
+    color: black;
+    font-weight: bolder;
+    font-size: large;
+}

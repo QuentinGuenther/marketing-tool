@@ -9,7 +9,7 @@
 $(document).ready(function() {
     $("div.list-group").paginathing({
         perPage: 7, //per page
-        limitPagination: 3, //how many pages show
+        // limitPagination: 3, //how many pages show
         containerClass: 'mt-3',
         ulClass: 'pagination justify-content-center',
         liClass: 'page-item'
