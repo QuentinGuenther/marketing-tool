@@ -88,7 +88,7 @@ class Db_post extends RestDB
      */
     public static function getAllPosts($teamId)
     {
-        $sql = "SELECT postId, title, content FROM post WHERE teamId = :teamId";
+        $sql = "SELECT postId, title, content FROM post WHERE teamId = :teamId ORDER BY postId DESC";
 
         $params = array(
             ':teamId' => array($teamId => PDO::PARAM_INT)

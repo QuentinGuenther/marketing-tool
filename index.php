@@ -99,8 +99,10 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
         }
 
         if ($isValid) {
+            //reroute to home page with refreshed list after posting
             $id = Db_post::insertPost($title, $content, 1);
             $f3->reroute('/view-post/'.$id);
+            //$f3->reroute('/');
         }
     }
 
