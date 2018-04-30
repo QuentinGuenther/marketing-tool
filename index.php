@@ -66,7 +66,7 @@ $f3->route('GET /', function($f3) {
 });
 
 // create new post route
-$f3->route('GET|POST /create-post', function($f3) {
+$f3->route('GET|POST @create: /create-post', function($f3) {
 
     if (isset($_POST['submit'])) {
         $title = "";
@@ -76,6 +76,7 @@ $f3->route('GET|POST /create-post', function($f3) {
 
         if (!empty($_POST['title'])) {
             $title = $_POST['title'];
+            $f3->set('title', $title);
         } else {
             $titleErr = "Please input a title.";
             $f3->set('titleErr', $titleErr);

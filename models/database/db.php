@@ -18,7 +18,7 @@
  * Since this file contains sensitive information,
  * it should be stored outside of public_html.
  */
-require_once "/home/kdyckgre/marketing_config.php";
+require_once "/home/jshingre/marketing_config.php";
 
 /**
  * This class contains generic functions for REST functionality.
