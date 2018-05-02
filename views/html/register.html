@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Home Page</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
+
+    <!-- External Styles -->
+    <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/styles.css" />
+</head>
+<body>
+    <!-- Navigation Menu -->
+    <include href="views/html/components/nav.html">
+
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Register</h1>
+                <hr>
+            </div>
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group">
+                        <small class="text-muted d-block d-lg-none">You need a complex password that changes every hour.</small>
+                        <label for="email" class="form-control-label">Green River College Email</label>
+                        <input type="text" id="email" name="email" placeholder="jsmith@mail.greenriver.edu" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="first-name" class="form-control-label">First Name</label>
+                        <input type="text" id="first-name" name="first-name" placeholder="John" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name" class="form-control-label">Last Name</label>
+                        <input type="text" id="last-name" name="last-name" placeholder="Smith" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <small class="text-muted d-block d-lg-none">You need a complex password that changes every hour.</small>
+                        <small class="text-muted d-block d-lg-none">Passwords mush match.</small>
+                        <label for="password" class="form-control-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password-confirm" class="form-control-label">Confirm Password</label>
+                        <input type="password" id="password-confirm" name="password-confirm" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="team" class="form-control-label">Select your team</label>
+                        <select name="team" id="team" class="form-control">
+                            <option value="" disabled selected>Select your team</option>
+                            <option value="create-new-team">-- Create New Team --</option>
+                            <option value="team1">Team 1</option>
+                            <option value="team2">Team 2</option>
+                            <option value="team3">Team 3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="create-team" class="form-control-label">Create New Team</label>
+                        <input type="text" id="create-team" name="create-team" class="form-control" placeholder="Team Name">
+                    </div>
+        
+                    <input type="submit" class="btn bg-green-river-green" value="Register">
+                </form>
+            </div>
+            <div class="col-md-6 d-none d-lg-block">
+                <aside>
+                    <p><b>Requirements</b></p>
+                    <ul>
+                        <li>Please use your Green River Email address.</li>
+                        <li>You need a complex password that changes every hour.</li>
+                        <li>Passwords mush match.</li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
+    <!-- jQuery Library -->
+    <script src="{{ @BASE }}/views/js/jquery.min.js"></script>
+    
+</body>
+</html>

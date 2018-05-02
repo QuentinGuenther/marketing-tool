@@ -139,6 +139,10 @@ $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
     echo Template::instance()->render('views/html/view-post.html');
 });
 
+$f3->route('GET|POST /register', function($f3) {
+    echo Template::instance()->render('views/html/register.html');
+});
+
 /**
  * Route for the error page
  *
