@@ -140,6 +140,64 @@ $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
 });
 
 $f3->route('GET|POST /register', function($f3) {
+
+    if (isset($_POST['submit'])) {
+        // Basic PHP Validation. Still need to validate email format, teamChoice radio selection, and drop-down menu.
+        // Probably should move this validation to another file. Or utilize a loop...
+        $isValid = true;
+
+        // also need to add email validation for email format
+        if (empty($_POST['email'])) {
+            $isValid = false;
+            // error message
+            $f3->set('invalidEmail', 'Please enter a Green River email.');
+        } else {
+            // create variable that will be sent to user object
+        }
+
+        if (empty($_POST['first-name'])) {
+            $isValid = false;
+            // error message
+            $f3->set('invalidFirst', 'Please enter a first name.');
+        }
+
+        if (empty($_POST['last-name'])) {
+            $isValid = false;
+            // error message
+            $f3->set('invalidLast', 'Please enter a last name.');
+        }
+
+        if (empty($_POST['password']) || empty($_POST['password-confirm'])) {
+            $isValid = false;
+            // error message
+            $f3->set('invalidPassword', 'Please enter a password in both fields.');
+        } else if (!empty($_POST['password']) && !empty($_POST['password-confirm'])) {
+            if ($_POST['password'] != $_POST['password-confirm']) {
+                $isValid = false;
+                // error message
+                $f3->set('mismatchedPasswords', 'Passwords do no match.');
+            }
+        }
+
+        // verify teamChoice radio selection is a valid option (anti-hacker!)
+
+        if ($_POST['teamChoice'] == 'new') {
+            if (empty($_POST['create-team'])) {
+                $isValid = false;
+                // error message
+                $f3->set('invalidTeam', 'Please enter a team name');
+            }
+        }
+
+        // if teamChoice = old, verify $_POST['team'] is a valid value from available drop-down choices (anti-hacker!)
+
+        if ($isValid)
+        {
+            // create user object, store user object in session, and reroute to team-home
+        }
+
+    }
+
     echo Template::instance()->render('views/html/register.html');
 });
 
