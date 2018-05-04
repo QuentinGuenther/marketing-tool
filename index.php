@@ -90,7 +90,7 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
 
             $json = json_decode($content, true);
 
-            if (strlen($json['ops'][0]['insert']) == 1) {
+            if (count($json['ops']) < 1 || $json['ops'][0]['insert'] == "\n") {
                 $isValid = false;
                 $contentErr = "Please input text and/or images.";
                 $f3->set('contentErr', $contentErr);
