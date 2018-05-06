@@ -30,8 +30,20 @@
 
 /* Quill Editor Styles */
 #editor-container, #reader-container {
-    min-height: 50vh;
+    min-height: 75vh;
     height: auto;
+    font-size: 1rem;
+    font-family: var(--font-family-sans-serif);
+}
+
+#editor-container {
+    max-height: 75vh;
+    overflow: auto;
+}
+
+.ql-container img{
+    max-height: 500px;
+    display: block;
 }
 
 .ql-reader {
