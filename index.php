@@ -106,7 +106,7 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
         }
     }
 
-    echo Template::instance()->render('views/html/home.html');
+    echo Template::instance()->render('views/html/create-post.html');
 });
 
 // intermediary route, only accessed by post.js ajax call
