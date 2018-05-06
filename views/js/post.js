@@ -16,6 +16,8 @@
 var Post = (function() {
     const EDITOR_REL = "[rel='quill-editor']";
     const READER_REL = "[rel='quill-reader']";
+    const PROGRESS_BAR_ID = ".progress-bar";
+    const MAX_POST_SIZE = 7000000; // Size in bytes
 
     /**
      * This function scans the page for HTML elements
@@ -38,6 +40,43 @@ var Post = (function() {
             },
             placeholder: 'Compose an epic...',
             theme: 'snow'
+        });
+
+        var updateProgressBar = function(percent) {
+            $(PROGRESS_BAR_ID).attr('aria-valuenow', percent + '%').css('width', percent + '%').html(percent + '%');
+
+            if(percent < 50) {
+                $(PROGRESS_BAR_ID).removeClass('bg-success bg-warning bg-danger');
+                $(PROGRESS_BAR_ID).addClass('bg-success');
+            }
+            else if(percent >= 50 && percent < 80) {
+                $(PROGRESS_BAR_ID).removeClass('bg-success bg-warning bg-danger');
+                $(PROGRESS_BAR_ID).addClass('bg-warning');
+            }
+            else {
+                $(PROGRESS_BAR_ID).removeClass('bg-success bg-warning bg-danger');
+                $(PROGRESS_BAR_ID).addClass('bg-danger');
+            }
+        };
+
+        var updateSubmitButton = function(percent) {
+            if(percent >= 100) {
+                $('#submit').prop('disabled', true);
+                $('#submit').addClass('btn-secondary');
+                $('#submit').removeClass('bg-green-river-green');
+            } else {
+                $('#submit').prop('disabled', false);
+                $('#submit').addClass('bg-green-river-green');
+                $('#submit').removeClass('btn-secondary');
+            }
+        };
+
+        editor.on('text-change', function(delta, oldDelta, source) {
+            var deltaLength = JSON.stringify(editor.getContents()).length;
+            var percentUsed = Math.ceil(deltaLength / MAX_POST_SIZE * 100);
+
+            updateProgressBar(percentUsed);
+            updateSubmitButton(percentUsed);
         });
 
         // sending an empty string to getQuillContent causes an error since /get-post route now has a parameter
