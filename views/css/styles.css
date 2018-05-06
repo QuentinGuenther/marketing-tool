@@ -67,3 +67,7 @@
     font-weight: bolder;
     font-size: large;
 }
+
+.clickable-row {
+    cursor: pointer;
+}

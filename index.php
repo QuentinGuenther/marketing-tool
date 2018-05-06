@@ -205,6 +205,10 @@ $f3->route('GET|POST /register', function($f3) {
     echo Template::instance()->render('views/html/register.html');
 });
 
+$f3->route('GET /admin', function($f3) {
+    echo Template::instance()->render('views/html/admin-team-view.html');
+});
+
 /**
  * Route for the error page
  *
