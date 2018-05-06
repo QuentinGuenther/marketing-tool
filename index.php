@@ -94,6 +94,10 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
                 $isValid = false;
                 $contentErr = "Please input text and/or images.";
                 $f3->set('contentErr', $contentErr);
+            } else if(strlen(implode('', $json)) > 7000000) {
+                $isValid = false;
+                $contentErr = "Post is too large. Try resizing/compressing your images.";
+                $f3->set('contentErr', $contentErr);
             }
 
         }
