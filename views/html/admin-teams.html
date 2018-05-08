@@ -1,0 +1,80 @@
+<!--
+Authors: Bessy Torres-Miller
+Date: 05/06/2018
+File Name: admin-teams.html
+This is the page that list all the teams from the admin view
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required Meta Tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Teams</title>
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/simple-sidebar.css" >
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
+
+    <!-- External Styles -->
+    <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/styles.css" />
+
+</head>
+<body>
+
+<!-- Navigation Menu -->
+<include href="views/html/components/nav.html" />
+
+<div id="wrapper">
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="text-center">Teams</h1>
+        <br>
+
+        <!--<a class="btn mb-3 bg-green-river-green" href="{{ @BASE }}/create-post">Add New Team??</a>-->
+
+        <!-- Team List -->
+        <check if="{{isset (@noTeams) }}">
+            <p class="text-center">{{ @noTeams }}</p>
+        </check>
+
+        <div class="list-group">
+            <repeat group="{{ @teams }}" value="{{ @team }}">
+                <a href= "{{ @BASE }}/view-team/{{ @team['teamName']}}"
+                   class="list-group-item list-group-item-action d-none list-bg">{{ @team['team_name'] }}</a>
+            </repeat>
+        </div>
+
+    </div> <!-- container -->
+
+</div> <!-- wrapper -->
+
+
+<!-- Scripts -->
+<!-- jQuery -->
+<script src="{{ @BASE }}/views/js/jquery.min.js"></script>
+
+<!-- Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous">
+</script>
+
+<!-- Bootstrap js -->
+<script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
+<script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
+
+<script src="views/js/paginathing.js"></script>
+
+<!-- External js -->
+<script src="{{ @BASE }}/views/js/team-home.js"></script>
+
+</body>
+
+</html>

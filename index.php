@@ -85,7 +85,7 @@ $f3->route('GET /teams', function($f3) {
     $f3->set('teams', $teams);
 
     $template = new Template();
-    echo $template->render('views/html/user-teams.html');
+    echo $template->render('views/html/admin-teams.html');
 });
 
 // create new post route
