@@ -42,6 +42,11 @@ $f3->set('DEBUG', 3);
 // establish connection to database
 $db = new Db_post();
 
+$f3->route('GET|POST @login: /login', function($f3) {
+    echo Template::instance()->render('views/html/home.html');
+
+});
+
 // Team Home Page
 $f3->route('GET /', function($f3) {
 

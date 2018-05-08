@@ -1,0 +1,73 @@
+<!--
+    Authors: Quentin Guenther, Kianna Dyck, Jen Shin, Bessy Torres-Miller
+    Date: 04/10/2018
+    Name of File: home.html
+    Purpose: This page allows students to log in with their email and password.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Home Page</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
+
+    <!-- Quill -->
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+    <!-- External Styles -->
+    <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/styles.css" />
+</head>
+<body>
+    <!-- Navigation Menu -->
+    <include href="views/html/components/nav.html">
+
+    <!-- Quill Text Editor -->
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col">
+                <p class="lead text-center">Post your idea, reply to your team mate's posts, and vote for the best project proposal!</p>
+
+                <hr>
+
+                <h2 class="text-center">Login to Your Team's Project Proposal Page</h2>
+                <form id="idea-form" method="post" action="">
+                    <div class="form-group">
+                        <br/>
+                        Username <input type = "text" id ="username" name = "username" class="form-control" value="{{ @username }}">
+                        <span class="text-danger">{{ @usernameErr }}<br/></span>
+
+                        Password <input type = "password" class = "form-control" name = "password">
+                        <span class="text-danger">{{ @passwordErr}}</span>
+                    </div>
+                    <br/>
+                    <input type="submit" id = "submit" name = "submit" class="btn btn-primary" value="Login" />
+
+                </form>
+
+                <br/>
+                <hr/>
+                <!--Link to registration page-->
+                <h5>New user?</h5>
+                <a href="./register">Sign up for an account!</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
+    <!-- jQuery Library -->
+    <script src="{{ @BASE }}/views/js/jquery.min.js"></script>
+    <!-- Quill js -->
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <!-- External js-->
+    <script src="{{ @BASE }}/views/js/post.js"></script>
+    <script src="{{ @BASE }}/views/js/create-post.js"></script>
+</body>
+</html>
