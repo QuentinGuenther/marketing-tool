@@ -100,4 +100,19 @@ class Db_post extends RestDB
 
     }
 
+    /**
+     * This function retrieves all teams from the database.
+     * @param $teamId int The unique id number associated with a specific team.
+     * @return array with all rows from the database with team names
+     *
+     */
+    public static function getAllTeamsId()
+    {
+        $sql = "SELECT team_name FROM team";
+
+        $result = parent::get($sql);
+
+        return $result;
+    }
+
 }
