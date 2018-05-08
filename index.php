@@ -70,6 +70,24 @@ $f3->route('GET /', function($f3) {
     echo $template->render('views/html/team-home.html');
 });
 
+//user teams view
+// Page with a lis t of teams
+$f3->route('GET /teams', function($f3) {
+    global $db;
+
+    // retrieve all project ideas with teamId
+    $teams = $db::getAllTeamsId(1);
+    if (empty($teams)) {
+        $f3->set('noTeams', "No teams created yet");
+    }
+
+    // set hive variables
+    $f3->set('teams', $teams);
+
+    $template = new Template();
+    echo $template->render('views/html/user-teams.html');
+});
+
 // create new post route
 $f3->route('GET|POST @create: /create-post', function($f3) {
 
