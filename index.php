@@ -84,6 +84,7 @@ $f3->route('GET|POST @login: /login', function($f3) {
             } else { //username exists
                 //check password against userId
                 $dbPassword = Db_post::getLoginPassword($userId);
+                //if successful
                 if($password == $dbPassword) {
                     //set userId in session
                     $_SESSION['userId'] = $userId;
@@ -92,6 +93,9 @@ $f3->route('GET|POST @login: /login', function($f3) {
 
                     //reroute to user home
                     $f3->reroute('views/html/team-home.html');
+                } else { //error message to show password is incorrect
+                    $passwordErr = "Password is incorrect.";
+                    $f3->set('passwordErr', $passwordErr);
                 }
             }
         }
