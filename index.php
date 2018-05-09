@@ -44,6 +44,8 @@ $db = new Db_post();
 
 $f3->route('GET|POST @login: /login', function($f3) {
     if (isset($_POST['submit'])) {
+        $password = "";
+        $username = "";
 
         $isValid = true;
 
@@ -73,9 +75,25 @@ $f3->route('GET|POST @login: /login', function($f3) {
         }
         //both fields are not empty
         if ($isValid) {
-            //check if password and username matches db
+            //check if username matches db
+            $userId = Db_post::getLoginUsername($username);
+            //the case where username does not exist
+            if(empty($userId)) {
+                $usernameErr = "This username does not exist.";
+                $f3->set('usernameErr', $usernameErr);
+            } else { //username exists
+                //check password against userId
+                $dbPassword = Db_post::getLoginPassword($userId);
+                if($password == $dbPassword) {
+                    //set userId in session
+                    $_SESSION['userId'] = $userId;
 
+                    //create user object???
 
+                    //reroute to user home
+                    $f3->reroute('views/html/team-home.html');
+                }
+            }
         }
     }
     echo Template::instance()->render('views/html/home.html');

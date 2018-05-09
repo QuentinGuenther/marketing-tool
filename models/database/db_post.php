@@ -115,4 +115,34 @@ class Db_post extends RestDB
         return $result;
     }
 
+    /**
+     * This function checks to see if a username exists in the db
+     * and returns userId.
+     * @param $email string, email is username
+     * @return int userId
+     */
+
+    public static function getLoginUsername($email)
+    {
+        $sql = "SELECT userId FROM user WHERE email = :email AND password = :password";
+
+        $result = parent::get($sql);
+
+        return $result;
+    }
+
+    /**
+     * This function checks if password matches the user during login.
+     * @param $userId int, userId
+     * @return string password
+     */
+    public static function getLoginPassword($userId)
+    {
+        $sql = "SELECT password FROM user WHERE userId = :userId";
+
+        $result = parent::get($sql);
+
+        return $result;
+    }
+
 }
