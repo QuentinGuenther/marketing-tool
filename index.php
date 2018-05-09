@@ -43,6 +43,41 @@ $f3->set('DEBUG', 3);
 $db = new Db_post();
 
 $f3->route('GET|POST @login: /login', function($f3) {
+    if (isset($_POST['submit'])) {
+
+        $isValid = true;
+
+        //if empty, not valid, otherwise sent into hive
+        if (!empty($_POST['username'])) {
+            $username = $_POST['username'];
+            $f3->set('username', $username);
+        } else {
+            $usernameErr = "Please input your email in the username field.";
+            $f3->set('usernameErr', $usernameErr);
+            $isValid = false;
+        }
+
+        if (isset($_POST['password'])) {
+            $password = $_POST['password'];
+
+            if (!empty($_POST['password'])) {
+                $password = $_POST['password'];
+                $f3->set('password', $password);
+            } else {
+                //empty
+                $passwordErr = "Please input a password.";
+                $f3->set('passwordErr', $passwordErr);
+                $isValid = false;
+            }
+
+        }
+        //both fields are not empty
+        if ($isValid) {
+            //check if password and username matches db
+
+
+        }
+    }
     echo Template::instance()->render('views/html/home.html');
 
 });
