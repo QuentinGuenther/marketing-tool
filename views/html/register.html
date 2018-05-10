@@ -12,7 +12,7 @@ Purpose: This file contains forms for creating an account to access the marketin
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Home Page</title>
+    <title>Registration Page</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
@@ -110,13 +110,17 @@ Purpose: This file contains forms for creating an account to access the marketin
 
                     <!-- Drop-down menu containing existing team options -->
                     <div class="form-group" id="existing-team">
-                        <label for="team" class="form-control-label">Team</label>
+
+                        <label for="team" class="form-control-label">Existing Teams</label>
                         <select name="team" id="team" class="form-control">
                             <option value="" disabled selected>Select your team</option>
-                            <option value="create-new-team">-- Create New Team --</option>
-                            <option value="team1">Team 1</option>
-                            <option value="team2">Team 2</option>
-                            <option value="team3">Team 3</option>
+                            <repeat group="{{ @currentTeams }}" value="{{ @team }}">
+                                <option value="{{ @team['teamId'] }}"
+                                <check if="{{ @team['teamId'] == $_POST['team']}}">selected</check>>
+                                    {{ @team['team_name']}}
+                                </option>
+                            </repeat>
+
                         </select>
                     </div>
 
@@ -134,20 +138,34 @@ Purpose: This file contains forms for creating an account to access the marketin
             <!-- Aside for larger screens containing guidelines, complexity requirements, and available/existing teams -->
             <div class="col-md-6 d-none d-lg-block">
                 <aside>
-                    <p><b>Requirements</b></p>
-                    <ul>
-                        <li>All fields must be filled out.</li>
-                        <li>Please use your Green River Email address.</li>
-                        <li>You need a complex password that changes every hour.</li>
-                        <li>Passwords must match.</li>
-                    </ul>
+                    <section class="bg-light p-2 rounded">
+                        <h5>Requirements</h5>
+                        <ul>
+                            <li>All fields must be filled out.</li>
+                            <li>Please use your Green River Email address.</li>
+                            <li>You need a complex password that changes every hour.</li>
+                            <li>Passwords must match.</li>
+                        </ul>
+                    </section>
 
-                    <p><b>Current Teams</b></p>
-                    <ul>
-                        <li>Team 1</li>
-                        <li>Team 2</li>
-                        <li>Team 3</li>
-                    </ul>
+
+                    <section class="mt-1 p-2">
+                        <h5>Current Teams</h5>
+
+                        <ul>
+                        <repeat group="{{ @teamMembers }}" key="{{ @key }}" value="{{ @value }}">
+                            <li>
+                            {{ @key }}:
+                                <ul>
+                                <repeat group=" {{ @value }}" value="{{ @member }}">
+                                    <li>{{ @member['first_name'] }} {{ @member['last_name'] }}</li>
+                                </repeat>
+                                </ul>
+                            </li>
+                        </repeat>
+                        </ul>
+                    </section>
+
                 </aside>
             </div>
         </div>

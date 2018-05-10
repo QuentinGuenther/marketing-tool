@@ -110,14 +110,17 @@ $f3->route('GET /', function($f3) {
     global $db;
 
     // get teamId and teamName of logged in user
+    $teamId = $_SESSION['teamId'];
+    $teamMembers = $_SESSION['teamMembers'];
 
     // retrieve all project ideas with teamId
-    $posts = $db::getAllPosts(1);
+    $posts = $db::getAllPosts($teamId);
     if (empty($posts)) {
         $f3->set('noPosts', "There are currently no project ideas for your team. 
             Click the Add New Project button to be the first to share an idea.");
     }
 
+    $f3->set('teamMembers', $teamMembers);
     // retrieve all team member names with teamId
 
     // set hive variables
@@ -225,10 +228,56 @@ $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
 
 $f3->route('GET|POST /register', function($f3) {
 
+    $db2 = new Db_user();
+    $teams = $db2::getAllCurrentTeams();
+
+    $f3->set('currentTeams', $teams);
+
+    $teamMembers = array();
+    foreach ($teams as $row) {
+        $team = $row['team_name'];
+        $members = $db2::getTeamMembers($row['teamId']);
+        $teamMembers[$team] = $members;
+
+        /* teamMembers associative array */
+        /*Array
+            ( [agility] =>
+                Array (
+                [0] =>
+                    Array (
+                    [first_name] => Kianna
+                    [last_name] => Dyck
+                    [userId] => 1 )
+                [1] => Array (
+                    [first_name] => Bessy
+                    [last_name] => Torres-Miller
+                    [userId] => 2 )
+                [2] => Array (
+                    [first_name] => Quentin
+                    [last_name] => Guenther
+                    [userId] => 3 )
+                [3] => Array (
+                    [first_name] => Jen
+                    [last_name] => Shin
+                    [userId] => 4
+                ) ) )*/
+
+    }
+
+    $f3->set('teamMembers', $teamMembers);
+
     if (isset($_POST['submit'])) {
         // Basic PHP Validation. Still need to validate email format, teamChoice radio selection, and drop-down menu.
         // Probably should move this validation to another file. Or utilize a loop...
         $isValid = true;
+        $newTeam = false;
+
+        $email = "";
+        $firstName = "";
+        $lastName = "";
+        $password = "";
+        $teamName = "";
+        $teamId = "";
 
         // also need to add email validation for email format
         if (empty($_POST['email'])) {
@@ -237,18 +286,23 @@ $f3->route('GET|POST /register', function($f3) {
             $f3->set('invalidEmail', 'Please enter a Green River email.');
         } else {
             // create variable that will be sent to user object
+            $email = $_POST['email'];
         }
 
         if (empty($_POST['first-name'])) {
             $isValid = false;
             // error message
             $f3->set('invalidFirst', 'Please enter a first name.');
+        } else {
+            $firstName = $_POST['first-name'];
         }
 
         if (empty($_POST['last-name'])) {
             $isValid = false;
             // error message
             $f3->set('invalidLast', 'Please enter a last name.');
+        } else {
+            $lastName = $_POST['last-name'];
         }
 
         if (empty($_POST['password']) || empty($_POST['password-confirm'])) {
@@ -260,6 +314,8 @@ $f3->route('GET|POST /register', function($f3) {
                 $isValid = false;
                 // error message
                 $f3->set('mismatchedPasswords', 'Passwords do no match.');
+            } else {
+                $password = $_POST['password'];
             }
         }
 
@@ -270,13 +326,30 @@ $f3->route('GET|POST /register', function($f3) {
                 $isValid = false;
                 // error message
                 $f3->set('invalidTeam', 'Please enter a team name');
+            } else {
+                $newTeam = true;
+                $teamName = $_POST['create-team'];
             }
+        } else {
+            $teamId = $_POST['team'];
         }
 
         // if teamChoice = old, verify $_POST['team'] is a valid value from available drop-down choices (anti-hacker!)
 
         if ($isValid)
         {
+            // Create new team in database if new team name entered
+            if ($newTeam) {
+                $teamId = $db2::insertNewTeam($teamName);
+            }
+
+            // Insert new user into database
+                $userId = $db2::insertNewUser($firstName, $lastName, $email, $password, $teamId);
+
+            $_SESSION['teamId'] = $teamId;
+            $_SESSION['teamMembers'] = $teamMembers;
+            // reroute to team-home page
+            $f3->reroute("/");
             // create user object, store user object in session, and reroute to team-home
         }
 
