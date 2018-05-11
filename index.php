@@ -121,7 +121,11 @@ $f3->route('GET|POST @login: /login', function($f3) {
 
 // Team Home Page
 $f3->route('GET /', function($f3) {
-
+    if(empty($_SESSION['userId'])) {
+        $f3->reroute("./login");
+    } else {
+        $userId = $_SESSION['userId'];
+    }
     global $db;
 
     // get teamId and teamName of logged in user
@@ -148,6 +152,7 @@ $f3->route('GET /', function($f3) {
 //user teams view
 // Page with a lis t of teams
 $f3->route('GET /teams', function($f3) {
+
     global $db;
 
     // retrieve all project ideas with teamId
@@ -165,6 +170,11 @@ $f3->route('GET /teams', function($f3) {
 
 // create new post route
 $f3->route('GET|POST @create: /create-post', function($f3) {
+    if(empty($_SESSION['userId'])) {
+        $f3->reroute("./login");
+    } else {
+        $userId = $_SESSION['userId'];
+    }
 
     if (isset($_POST['submit'])) {
         $title = "";
@@ -213,6 +223,11 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
 
 // intermediary route, only accessed by post.js ajax call
 $f3->route('GET /get-post/@uuid', function($f3, $params) {
+    if(empty($_SESSION['userId'])) {
+        $f3->reroute("./login");
+    } else {
+        $userId = $_SESSION['userId'];
+    }
     // retrieve post information
     $post = Db_post::getPost($params['uuid']);
 
@@ -228,7 +243,11 @@ $f3->route('GET /view-post', function($f3) {
 
 // view post route
 $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
-
+    if(empty($_SESSION['userId'])) {
+        $f3->reroute("./register");
+    } else {
+        $userId = $_SESSION['userId'];
+    }
     // check that param entered is a number
     if (!ctype_digit($params['postId'])) {
         $f3->reroute("/");
@@ -376,6 +395,13 @@ $f3->route('GET|POST /register', function($f3) {
 $f3->route('GET /admin', function($f3) {
     echo Template::instance()->render('views/html/admin-team-view.html');
 });
+
+//logout page
+$f3->route('GET|POST /logout', function($f3) {
+    session_destroy();
+    $f3 -> reroute('/login');
+});
+
 
 /**
  * Route for the error page
