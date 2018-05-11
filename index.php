@@ -326,6 +326,7 @@ $f3->route('GET|POST /register', function($f3) {
         } else {
             // create variable that will be sent to user object
             $email = $_POST['email'];
+
         }
 
         if (empty($_POST['first-name'])) {
@@ -352,7 +353,7 @@ $f3->route('GET|POST /register', function($f3) {
             if ($_POST['password'] != $_POST['password-confirm']) {
                 $isValid = false;
                 // error message
-                $f3->set('mismatchedPasswords', 'Passwords do no match.');
+                $f3->set('mismatchedPasswords', 'Passwords do not match.');
             } else {
                 $password = $_POST['password'];
             }

@@ -36,7 +36,8 @@ Purpose: This file contains forms for creating an account to access the marketin
                     <div class="form-group">
                         <small class="text-muted d-block d-lg-none">You need a complex password that changes every hour.</small>
                         <label for="email" class="form-control-label">Green River College Email</label>
-                        <input type="text" id="email" name="email" placeholder="jsmith@mail.greenriver.edu" class="form-control">
+                        <input type="text" id="email" name="email" placeholder="jsmith@mail.greenriver.edu"
+                               class="form-control" <check if="{{ isset($_POST['email']) }}"> value="{{ $_POST['email'] }}" </check>>
                     </div>
 
                     <!-- In-line error message -->
@@ -47,7 +48,8 @@ Purpose: This file contains forms for creating an account to access the marketin
                     <!-- First Name -->
                     <div class="form-group">
                         <label for="first-name" class="form-control-label">First Name</label>
-                        <input type="text" id="first-name" name="first-name" placeholder="John" class="form-control">
+                        <input type="text" id="first-name" name="first-name" placeholder="John" class="form-control"
+                        <check if="{{ isset($_POST['first-name']) }}"> value="{{ $_POST['first-name'] }}" </check>>
                     </div>
 
                     <!-- In-line error message -->
@@ -58,7 +60,8 @@ Purpose: This file contains forms for creating an account to access the marketin
                     <!-- Last Name -->
                     <div class="form-group">
                         <label for="last-name" class="form-control-label">Last Name</label>
-                        <input type="text" id="last-name" name="last-name" placeholder="Smith" class="form-control">
+                        <input type="text" id="last-name" name="last-name" placeholder="Smith" class="form-control"
+                        <check if="{{ isset($_POST['last-name']) }}"> value="{{ $_POST['last-name'] }}" </check>>
                     </div>
 
                     <!-- In-line error message -->
@@ -71,13 +74,15 @@ Purpose: This file contains forms for creating an account to access the marketin
                         <small class="text-muted d-block d-lg-none">You need a complex password that changes every hour.</small>
                         <small class="text-muted d-block d-lg-none">Passwords must match.</small>
                         <label for="password" class="form-control-label">Password</label>
-                        <input type="password" id="password" name="password" class="form-control">
+                        <input type="password" id="password" name="password" class="form-control" <check
+                            if="{{ isset($_POST['password']) }}"> value="{{ $_POST['password'] }}" </check>>
                     </div>
 
                     <!-- Password Confirmation -->
                     <div class="form-group">
                         <label for="password-confirm" class="form-control-label">Confirm Password</label>
-                        <input type="password" id="password-confirm" name="password-confirm" class="form-control">
+                        <input type="password" id="password-confirm" name="password-confirm" class="form-control"
+                            <check if="{{ isset($_POST['password-confirm']) }}"> value="{{ $_POST['password-confirm'] }}" </check>>
                     </div>
 
                     <!-- In-line error message -->
@@ -95,14 +100,16 @@ Purpose: This file contains forms for creating an account to access the marketin
                     <div class="row mb-3">
                         <div class="col-lg-6">
                             <div class="form-check">
-                                <input id="join-team" class="form-check-input" type="radio" name="teamChoice" value="old" checked>
+                                <input id="join-team" class="form-check-input" type="radio" name="teamChoice" value="old" <check
+                                    if ="{{ ($_POST['teamChoice']) == 'old' }}"><true> checked</true></check> >
                                 <label for="join-team" class="form-check-label">Join Existing Team</label>
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-check">
-                                <input id="add-team" class="form-check-input" type="radio" name="teamChoice" value="new">
+                                <input id="add-team" class="form-check-input" type="radio" name="teamChoice" value="new" <check
+                                    if ="{{ ($_POST['teamChoice']) == 'new' }}"><true> checked</true></check>>
                                 <label for="add-team" class="form-check-label">Create New Team</label>
                             </div>
                         </div>
@@ -127,7 +134,8 @@ Purpose: This file contains forms for creating an account to access the marketin
                     <!-- Input field to create a new team -->
                     <div class="form-group" id="new-team">
                         <label for="create-team" class="form-control-label">Team Name</label>
-                        <input type="text" id="create-team" name="create-team" class="form-control" placeholder="Team Name">
+                        <input type="text" id="create-team" name="create-team" class="form-control"
+                               placeholder="Team Name" <check if="{{ isset($_POST['create-team']) }}"> value="{{ $_POST['create-team'] }}" </check>>
                     </div>
 
                     <!-- Submit Button -->
