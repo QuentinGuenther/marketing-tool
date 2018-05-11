@@ -81,7 +81,7 @@ $f3->route('GET|POST @login: /login', function($f3) {
             $dbPassword = "";
             //check if username matches db
             $userArray = $db2::getLoginUsername($username);
-            print_r($userArray);
+//            print_r($userArray);
             //the case where username does not exist
             if(empty($userArray)) {
                 $usernameErr = "This username does not exist.";
@@ -98,7 +98,7 @@ $f3->route('GET|POST @login: /login', function($f3) {
                 //print_r($dbPassword);
                 foreach ($dbPasswordArray as $row) {
                     $dbPassword = $row['password'];
-                    echo $dbPassword;
+//                    echo $dbPassword;
                 }
                 //if successful
                 if(sha1($password) == $dbPassword) {
@@ -106,6 +106,10 @@ $f3->route('GET|POST @login: /login', function($f3) {
                     $_SESSION['userId'] = $userId;
 
                     //create user object???
+                    // get teamId of user and set to session (eventually will be placed in user object)
+                    $teamId = $db2::getUserTeamId($userId);
+                    $_SESSION['teamId'] = $teamId;
+
                     //reroute to user home
                     $f3->reroute('/');
                 } else { //error message to show password is incorrect
@@ -130,7 +134,6 @@ $f3->route('GET /', function($f3) {
 
     // get teamId and teamName of logged in user
     $teamId = $_SESSION['teamId'];
-    $teamMembers = $_SESSION['teamMembers'];
 
     // retrieve all project ideas with teamId
     $posts = $db::getAllPosts($teamId);
@@ -139,7 +142,6 @@ $f3->route('GET /', function($f3) {
             Click the Add New Project button to be the first to share an idea.");
     }
 
-    $f3->set('teamMembers', $teamMembers);
     // retrieve all team member names with teamId
 
     // set hive variables
@@ -175,6 +177,9 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
     } else {
         $userId = $_SESSION['userId'];
     }
+
+    // retrieve teamId from Session
+    $teamId = $_SESSION['teamId'];
 
     if (isset($_POST['submit'])) {
         $title = "";
@@ -212,7 +217,7 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
 
         if ($isValid) {
             //reroute to home page with refreshed list after posting
-            $id = Db_post::insertPost($title, $content, 1);
+            $id = Db_post::insertPost($title, $content, $teamId);
             $f3->reroute('/view-post/'.$id);
             //$f3->reroute('/');
         }
@@ -378,10 +383,10 @@ $f3->route('GET|POST /register', function($f3) {
             }
 
             // Insert new user into database
-                $userId = $db2::insertNewUser($firstName, $lastName, $email, $password, $teamId);
+            $userId = $db2::insertNewUser($firstName, $lastName, $email, $password, $teamId);
 
+            $_SESSION['userId'] = $userId;
             $_SESSION['teamId'] = $teamId;
-            $_SESSION['teamMembers'] = $teamMembers;
             // reroute to team-home page
             $f3->reroute("/");
             // create user object, store user object in session, and reroute to team-home

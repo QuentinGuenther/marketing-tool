@@ -106,4 +106,19 @@ class Db_user extends RestDB
 
         return $result;
     }
+
+    public static function getUserTeamId($userId)
+    {
+        //SELECT teamId FROM `user` WHERE userId = 14 LIMIT 1
+        $sql = "SELECT teamId FROM `user` WHERE userId = :userId LIMIT 1";
+
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        return $result[0]['teamId'];
+
+    }
 }
