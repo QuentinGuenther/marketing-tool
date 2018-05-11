@@ -43,6 +43,8 @@ $f3->set('DEBUG', 3);
 $db = new Db_post();
 
 $f3->route('GET|POST @login: /login', function($f3) {
+    $db2 = new Db_user();
+
     if (isset($_POST['submit'])) {
         $password = "";
         $username = "";
@@ -75,24 +77,37 @@ $f3->route('GET|POST @login: /login', function($f3) {
         }
         //both fields are not empty
         if ($isValid) {
+            $userId = "";
+            $dbPassword = "";
             //check if username matches db
-            $userId = Db_post::getLoginUsername($username);
+            $userArray = $db2::getLoginUsername($username);
+            print_r($userArray);
             //the case where username does not exist
-            if(empty($userId)) {
+            if(empty($userArray)) {
                 $usernameErr = "This username does not exist.";
                 $f3->set('usernameErr', $usernameErr);
             } else { //username exists
                 //check password against userId
-                $dbPassword = Db_post::getLoginPassword($userId);
+                //Array ( [0] => Array ( [userId] => 2 ) )
+                foreach ($userArray as $row) {
+                    $userId = $row['userId'];
+                }
+
+                $dbPasswordArray = $db2::getLoginPassword($userId);
+                //Array ( [0] => Array ( [password] => 40b
+                //print_r($dbPassword);
+                foreach ($dbPasswordArray as $row) {
+                    $dbPassword = $row['password'];
+                    echo $dbPassword;
+                }
                 //if successful
-                if($password == $dbPassword) {
+                if(sha1($password) == $dbPassword) {
                     //set userId in session
                     $_SESSION['userId'] = $userId;
 
                     //create user object???
-
                     //reroute to user home
-                    $f3->reroute('views/html/team-home.html');
+                    $f3->reroute('/');
                 } else { //error message to show password is incorrect
                     $passwordErr = "Password is incorrect.";
                     $f3->set('passwordErr', $passwordErr);
@@ -136,7 +151,7 @@ $f3->route('GET /teams', function($f3) {
     global $db;
 
     // retrieve all project ideas with teamId
-    $teams = $db::getAllTeamsId(1);
+    $teams = $db::getAllTeamsId();
     if (empty($teams)) {
         $f3->set('noTeams', "No teams created yet");
     }

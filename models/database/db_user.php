@@ -77,9 +77,14 @@ class Db_user extends RestDB
 
     public static function getLoginUsername($email)
     {
-        $sql = "SELECT userId FROM user WHERE email = :email AND password = :password";
+        //SELECT userId FROM `user` WHERE email = "jshin"
+        $sql = "SELECT userId FROM `user` WHERE email = :email";
 
-        $result = parent::get($sql);
+        $params = array(
+            ':email' => array($email => PDO::PARAM_STR)
+        );
+
+        $result = parent::get($sql, $params);
 
         return $result;
     }
@@ -91,9 +96,13 @@ class Db_user extends RestDB
      */
     public static function getLoginPassword($userId)
     {
-        $sql = "SELECT password FROM user WHERE userId = :userId";
+        $sql = "SELECT password FROM `user` WHERE userId = :userId";
 
-        $result = parent::get($sql);
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
 
         return $result;
     }
