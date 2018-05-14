@@ -138,6 +138,11 @@ Purpose: This file contains forms for creating an account to access the marketin
                                placeholder="Team Name" <check if="{{ isset($_POST['create-team']) }}"> value="{{ $_POST['create-team'] }}" </check>>
                     </div>
 
+                    <!-- Team validation error messages -->
+                    <check if="{{isset (@invalidTeam) }}">
+                        <p class="text-danger">{{ @invalidTeam }}</p>
+                    </check>
+
                     <!-- Submit Button -->
                     <input type="submit" class="btn bg-green-river-green mt-4" name="submit" value="Register">
                 </form>

@@ -1,12 +1,23 @@
 /*
-Authors: Kianna Dyck, Quentin Guenther
+Authors: Kianna Dyck
 Date: 05/02/2018
 File Name: register.js
 Purpose: This file adds javascript functionality for the marketing tool registration page.
 */
 
 $(document).ready(function() {
+    // initially hide select and text input fields for radio options
+    $("#existing-team").hide();
     $("#new-team").hide(); // label + input div
+
+    // if radios checked (sticky after sending to POST)
+    if($("#join-team").is(":checked")) {
+        $("#existing-team").show();
+    }
+
+    if($("#add-team").is(":checked")) {
+        $("#new-team").show();
+    }
 
     // join team radio is selected
     $("#join-team").click(function(){
