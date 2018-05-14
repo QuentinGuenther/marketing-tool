@@ -46,7 +46,7 @@ This is the page that list all the teams from the admin view
 
         <div class="list-group">
             <repeat group="{{ @teams }}" value="{{ @team }}">
-                <a href= "{{ @BASE }}/team-home/{{ @team['teamId']}}"
+                <a href= "{{ @BASE }}/teams/{{ @team['teamId']}}"
                    class="list-group-item list-group-item-action d-none list-bg">{{ @team['team_name'] }}</a>
             </repeat>
         </div>

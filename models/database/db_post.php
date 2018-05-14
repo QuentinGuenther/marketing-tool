@@ -108,7 +108,7 @@ class Db_post extends RestDB
      */
     public static function getAllTeamsId()
     {
-        $sql = "SELECT team_name FROM team";
+        $sql = "SELECT teamId, team_name FROM team";
 
         $result = parent::get($sql);
 

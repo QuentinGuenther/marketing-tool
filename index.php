@@ -199,6 +199,7 @@ $f3->route('GET|POST @login: /admin-login', function($f3) {
                 if((sha1($password) == $dbPassword) && $dbIsAdmin == 1) {
                     //set userId in session
                     $_SESSION['userId'] = $userId;
+                    $_SESSION['admin'] = true;
                     //$_SESSION['email'] = $dbEmail;
 
                     //reroute to user home
@@ -213,8 +214,23 @@ $f3->route('GET|POST @login: /admin-login', function($f3) {
     echo Template::instance()->render('views/html/admin-login.html');
 });
 
-// Team Home Page
+// Default Route
 $f3->route('GET /', function($f3) {
+    if(empty($_SESSION['userId'])) {
+        $f3->reroute("./login");
+    } else {
+        if($_SESSION['admin']) {
+            $f3->reroute('/teams');
+        } else {
+            // Reroute to team home
+            $teamId = $_SESSION['teamId'];
+            $f3->reroute("/teams/".$teamId);
+        }
+    }
+});
+
+// Team Home Page
+$f3->route('GET /teams/@teamId', function($f3, $params) {
     if(empty($_SESSION['userId'])) {
         $f3->reroute("./login");
     } else {
@@ -244,6 +260,10 @@ $f3->route('GET /', function($f3) {
 //user teams view
 // Page with a lis t of teams
 $f3->route('GET /teams', function($f3) {
+
+    if(!$_SESSION['admin']) {
+        $f3->reroute('/');
+    }
 
     global $db;
 
