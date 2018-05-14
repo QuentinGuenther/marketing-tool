@@ -34,7 +34,7 @@ This is the page that list all the teams from the admin view
 
     <!-- Main Content -->
     <div class="container">
-        <h1 class="text-center">Teams</h1>
+        <h1 class="text-center">Marketing Teams</h1>
         <br>
 
         <!--<a class="btn mb-3 bg-green-river-green" href="{{ @BASE }}/create-post">Add New Team??</a>-->
@@ -46,7 +46,7 @@ This is the page that list all the teams from the admin view
 
         <div class="list-group">
             <repeat group="{{ @teams }}" value="{{ @team }}">
-                <a href= "{{ @BASE }}/view-team/{{ @team['teamName']}}"
+                <a href= "{{ @BASE }}/team-home/{{ @team['teamId']}}"
                    class="list-group-item list-group-item-action d-none list-bg">{{ @team['team_name'] }}</a>
             </repeat>
         </div>

@@ -107,6 +107,11 @@ class Db_user extends RestDB
         return $result;
     }
 
+    /**
+     * This function gets the team id of the user
+     * @param $userId int, userId
+     * @return int team Id
+     */
     public static function getUserTeamId($userId)
     {
         //SELECT teamId FROM `user` WHERE userId = 14 LIMIT 1
@@ -119,6 +124,44 @@ class Db_user extends RestDB
         $result = parent::get($sql, $params);
 
         return $result[0]['teamId'];
+
+    }
+
+    /**
+     * This function checks if the user is Admin user.
+     * @param $userId int, userId
+     * @return int isAdmin = 1 for admin user, 0 to normal user
+     */
+    public static function getIsAdmin($userId)
+    {
+        $sql = "SELECT isAdmin FROM `user` WHERE userId = :userId LIMIT 1";
+
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        return $result;
+
+    }
+
+    /**
+     * This function get the user email
+     * @param $userId int, userId
+     * @return string email
+     */
+    public static function getEmail($userId)
+    {
+        $sql = "SELECT email FROM `user` WHERE userId = :userId LIMIT 1";
+
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        return $result;
 
     }
 }

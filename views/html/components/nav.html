@@ -14,9 +14,13 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
         <ul class="navbar-nav">
             <check if ="{{ @_SESSION['userId'] }}">
+                <!--<li class="nav-link"> {{ @_SESSION['email'] }}</li>-->
                 <true>
                     <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
                 </true>
+                <false>
+                    <li class="nav-item"><a class="nav-link" href="./admin-login">Admin Login</a></li>
+                </false>
             </check>
             <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
             <check if ="{{ @_SESSION['userId'] }}">
