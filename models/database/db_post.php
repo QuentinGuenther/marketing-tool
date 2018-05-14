@@ -46,13 +46,14 @@ class Db_post extends RestDB
      * @param $teamId int The unique id number associated with a specific team.
      * @return int The ID of the last inserted row or sequence value.
      */
-    public static function insertPost($title, $content, $teamId)
+    public static function insertPost($title, $content, $userId, $teamId)
     {
-        $sql = "INSERT INTO post(title, content, teamId) VALUES (:title, :content, :teamId)";
+        $sql = "INSERT INTO post(title, content, userId, teamId) VALUES (:title, :content, :userId, :teamId)";
 
         $params = array(
             ':title' => array($title => PDO::PARAM_STR),
             ':content' => array($content => PDO::PARAM_STR),
+            ':userId' => array($userId => PDO::PARAM_STR),
             ':teamId' => array($teamId => PDO::PARAM_STR)
         );
 

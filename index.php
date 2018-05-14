@@ -239,10 +239,11 @@ $f3->route('GET /teams/@teamId', function($f3, $params) {
     global $db;
 
     // get teamId and teamName of logged in user
-    $teamId = $_SESSION['teamId'];
+    $teamId = $params['teamId'];
 
     // retrieve all project ideas with teamId
     $posts = $db::getAllPosts($teamId);
+
     if (empty($posts)) {
         $f3->set('noPosts', "There are currently no project ideas for your team. 
             Click the Add New Project button to be the first to share an idea.");
@@ -330,7 +331,7 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
         if ($isValid) {
             unset($_SESSION['postContent']);
             //reroute to home page with refreshed list after posting
-            $id = Db_post::insertPost($title, $content, $teamId);
+            $id = Db_post::insertPost($title, $content, $userId, $teamId);
             $f3->reroute('/view-post/'.$id);
             //$f3->reroute('/');
         }
