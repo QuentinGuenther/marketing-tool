@@ -80,7 +80,7 @@ var Post = (function() {
         });
 
         // sending an empty string to getQuillContent causes an error since /get-post route now has a parameter
-        editor.setContents(""); //getQuillContent("")
+        editor.setContents(getQuillContent("session", 0)); //getQuillContent("")
         quillFocusHandler(editor);
         quillSubmitHandler(editor);
     }
@@ -141,10 +141,15 @@ var Post = (function() {
      * The URL which the request is made to is "./get-post/{UUID}".
      *
      * @param {String} uuid The unique identifier of a post.
+     * @param {int} levelsToRoot Defines how many levels to the root of the website. 0 or not 0.
      * @return {JSON} Returns a QuillJS delta.
      */
-    function getQuillContent(uuid) {
-        var url = "../get-post/" + uuid;
+    function getQuillContent(uuid, levelsToRoot) {
+        if(levelsToRoot == 0) {
+            var url = "./get-post/" + uuid;
+        } else {
+            var url = "../get-post/" + uuid;
+        }
         var delta;
         $.ajax({
             url: url,

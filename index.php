@@ -313,6 +313,8 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
 
             $json = json_decode($content, true);
 
+            $_SESSION['postContent'] = $content;
+
             if (count($json['ops']) < 1 || $json['ops'][0]['insert'] == "\n") {
                 $isValid = false;
                 $contentErr = "Please input text and/or images.";
@@ -326,13 +328,13 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
         }
 
         if ($isValid) {
+            unset($_SESSION['postContent']);
             //reroute to home page with refreshed list after posting
             $id = Db_post::insertPost($title, $content, $teamId);
             $f3->reroute('/view-post/'.$id);
             //$f3->reroute('/');
         }
     }
-
     echo Template::instance()->render('views/html/create-post.html');
 });
 
@@ -343,8 +345,13 @@ $f3->route('GET /get-post/@uuid', function($f3, $params) {
     } else {
         $userId = $_SESSION['userId'];
     }
-    // retrieve post information
-    $post = Db_post::getPost($params['uuid']);
+
+    if($params['uuid'] == 'session') {
+        $post['content'] = $_SESSION['postContent'];
+    } else {
+        // retrieve post information
+        $post = Db_post::getPost($params['uuid']);
+    }
 
     header('Content-Type: application/json');
     // return string that is encoded in JSON format
