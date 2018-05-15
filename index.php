@@ -82,9 +82,9 @@ $f3->route('GET|POST @login: /login', function($f3) {
             $dbPassword = "";
             //check if username matches db
             $userArray = $db2::getLoginUsername($username);
-//            print_r($userArray);
+
             //the case where username does not exist
-            if(empty($userArray)) {
+            if (empty($userArray)) {
                 $usernameErr = "This username does not exist.";
                 $f3->set('usernameErr', $usernameErr);
             } else { //username exists
@@ -95,11 +95,9 @@ $f3->route('GET|POST @login: /login', function($f3) {
                 }
 
                 $dbPasswordArray = $db2::getLoginPassword($userId);
-                //Array ( [0] => Array ( [password] => 40b
-                //print_r($dbPassword);
+
                 foreach ($dbPasswordArray as $row) {
                     $dbPassword = $row['password'];
-//                    echo $dbPassword;
                 }
                 //if successful
                 if(sha1($password) == $dbPassword) {
@@ -164,12 +162,12 @@ $f3->route('GET|POST @login: /admin-login', function($f3) {
             $userId = "";
             $dbPassword = "";
             $dbIsAdmin = "";
-            $dbEmail= "";
+
             //check if username matches db-----------------------------
             $userArray = $db2::getLoginUsername($username);
 
             //the case where username does not exist
-            if(empty($userArray)) {
+            if (empty($userArray)) {
                 $usernameErr = "This username does not exist.";
                 $f3->set('usernameErr', $usernameErr);
             } else { //username exists
@@ -186,21 +184,15 @@ $f3->route('GET|POST @login: /admin-login', function($f3) {
                 //check if the user is Admin
                 $dbIsAdminArray = $db2::getIsAdmin($userId);
 
-                foreach($dbIsAdminArray as $row){
+                foreach ($dbIsAdminArray as $row){
                     $dbIsAdmin = $row['isAdmin'];
                 }
 
-//                $dbEmailArray = $db2::getEmail($userId);
-//                foreach($dbEmailArray as $row){
-//                    $dbEmail = $row['email'];
-//                }
-
                 //if successful
-                if((sha1($password) == $dbPassword) && $dbIsAdmin == 1) {
+                if ((sha1($password) == $dbPassword) && $dbIsAdmin == 1) {
                     //set userId in session
                     $_SESSION['userId'] = $userId;
                     $_SESSION['admin'] = true;
-                    //$_SESSION['email'] = $dbEmail;
 
                     //reroute to user home
                     $f3->reroute('/teams');
@@ -216,10 +208,10 @@ $f3->route('GET|POST @login: /admin-login', function($f3) {
 
 // Default Route
 $f3->route('GET /', function($f3) {
-    if(empty($_SESSION['userId'])) {
+    if (empty($_SESSION['userId'])) {
         $f3->reroute("./login");
     } else {
-        if($_SESSION['admin']) {
+        if ($_SESSION['admin']) {
             $f3->reroute('/teams');
         } else {
             // Reroute to team home
@@ -231,15 +223,25 @@ $f3->route('GET /', function($f3) {
 
 // Team Home Page
 $f3->route('GET /teams/@teamId', function($f3, $params) {
-    if(empty($_SESSION['userId'])) {
+    if (empty($_SESSION['userId'])) {
         $f3->reroute("./login");
     } else {
         $userId = $_SESSION['userId'];
     }
-    global $db;
 
-    // get teamId and teamName of logged in user
+    // database connection
+    global $db;
+    $db2 = new Db_user();
+
+    // get teamId of logged in user
     $teamId = $params['teamId'];
+    // Retrieve team name with teamId
+    $teamName = $db2::getTeamName($teamId);
+    // retrieve all team member names with teamId
+    $teamMembers = $db2::getTeamMembers($teamId);
+
+    $f3->set('teamName', $teamName);
+    $f3->set('teamMembers', $teamMembers);
 
     // retrieve all project ideas with teamId
     $posts = $db::getAllPosts($teamId);
@@ -249,8 +251,6 @@ $f3->route('GET /teams/@teamId', function($f3, $params) {
             Click the Add New Project button to be the first to share an idea.");
     }
 
-    // retrieve all team member names with teamId
-
     // set hive variables
     $f3->set('postIdeas', $posts);
 
@@ -258,18 +258,19 @@ $f3->route('GET /teams/@teamId', function($f3, $params) {
     echo $template->render('views/html/team-home.html');
 });
 
-//user teams view
-// Page with a lis t of teams
+// user teams view (Admin Home Page)
+// Page with a list of teams
 $f3->route('GET /teams', function($f3) {
 
-    if(!$_SESSION['admin']) {
+    if (!$_SESSION['admin']) {
         $f3->reroute('/');
     }
 
-    global $db;
+    // establish connection with database
+    $db2 = new Db_user();
 
     // retrieve all project ideas with teamId
-    $teams = $db::getAllTeamsId();
+    $teams = $db2::getAllCurrentTeams();
     if (empty($teams)) {
         $f3->set('noTeams', "No teams created yet");
     }
@@ -283,7 +284,7 @@ $f3->route('GET /teams', function($f3) {
 
 // create new post route
 $f3->route('GET|POST @create: /create-post', function($f3) {
-    if(empty($_SESSION['userId'])) {
+    if (empty($_SESSION['userId'])) {
         $f3->reroute("./login");
     } else {
         $userId = $_SESSION['userId'];
@@ -333,7 +334,7 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
             //reroute to home page with refreshed list after posting
             $id = Db_post::insertPost($title, $content, $userId, $teamId);
             $f3->reroute('/view-post/'.$id);
-            //$f3->reroute('/');
+
         }
     }
     echo Template::instance()->render('views/html/create-post.html');
@@ -341,13 +342,13 @@ $f3->route('GET|POST @create: /create-post', function($f3) {
 
 // intermediary route, only accessed by post.js ajax call
 $f3->route('GET /get-post/@uuid', function($f3, $params) {
-    if(empty($_SESSION['userId'])) {
+    if (empty($_SESSION['userId'])) {
         $f3->reroute("./login");
     } else {
         $userId = $_SESSION['userId'];
     }
 
-    if($params['uuid'] == 'session') {
+    if ($params['uuid'] == 'session') {
         $post['content'] = $_SESSION['postContent'];
     } else {
         // retrieve post information
@@ -366,7 +367,7 @@ $f3->route('GET /view-post', function($f3) {
 
 // view post route
 $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
-    if(empty($_SESSION['userId'])) {
+    if (empty($_SESSION['userId'])) {
         $f3->reroute("./register");
     } else {
         $userId = $_SESSION['userId'];
@@ -394,9 +395,6 @@ $f3->route('GET|POST /register', function($f3) {
     $f3->set('currentTeams', $teams);
 
     /* Create an associative array (teamMembers) for all team members for each team */
-    /* Array([team_name] =>
-    Array([0] => ([first_name] => firstName, [last_name] => lastName, [userId] => userId),
-     [1] => ...*/
     $teamMembers = array();
     foreach ($teams as $row) {
         $team = $row['team_name'];
@@ -406,6 +404,7 @@ $f3->route('GET|POST /register', function($f3) {
 
     /* Save retrieved team members for each team to hive */
     $f3->set('teamMembers', $teamMembers);
+
 
     /*  Validation functions (to be moved to another file later) */
 
@@ -478,8 +477,7 @@ $f3->route('GET|POST /register', function($f3) {
         if (!empty($_POST['email']) && validEmail($_POST['email'])) {
             // check if email is already registered
             $allEmails = $db2::getAllStudentEmails();
-            /* Array ( [0] => Array ( [email] => kdyck@mail.greenriver.edu ) ) */
-            if(!empty($allEmails)) {
+            if (!empty($allEmails)) {
                 foreach ($allEmails as $registered) {
                     if(in_array($_POST['email'], $registered)) {
 
@@ -598,10 +596,6 @@ $f3->route('GET|POST /register', function($f3) {
     }
 
     echo Template::instance()->render('views/html/register.html');
-});
-
-$f3->route('GET /admin', function($f3) {
-    echo Template::instance()->render('views/html/admin-team-view.html');
 });
 
 //logout page

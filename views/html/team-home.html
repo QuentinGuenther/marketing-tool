@@ -14,7 +14,7 @@ member names in the team, the team name, and an add button to add a new project 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Team Agility</title> <!-- Replaced with {{ @teamName }} -->
+    <title>{{ @teamName }} Home</title> <!-- Replaced with {{ @teamName }} -->
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/simple-sidebar.css" >
@@ -35,8 +35,12 @@ member names in the team, the team name, and an add button to add a new project 
 
     <!-- Main Content -->
     <div class="container">
-        <h1 class="text-center">The Team's Project Ideas</h1>
-        <h5 class="text-center text-dark">Bessy, Jen, Kianna, Quentin</h5>
+        <h1 class="text-center"><span class="text-secondary">{{ @teamName }}</span> Project Ideas</h1>
+        <h5 class="text-center text-dark">
+            <repeat group="{{ @teamMembers }}" value="{{ @member }}">
+                {{ @member['first_name'] }} {{ @member['last_name'] }} &nbsp;&nbsp;
+            </repeat>
+        </h5>
         <br>
 
         <!-- Add Button -->
@@ -73,7 +77,7 @@ member names in the team, the team name, and an add button to add a new project 
 <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
 <script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
 
-<script src="views/js/paginathing.js"></script>
+<script src="{{ @BASE }}/views/js/paginathing.js"></script>
 
 <!-- External js -->
 <script src="{{ @BASE }}/views/js/team-home.js"></script>

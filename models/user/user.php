@@ -52,7 +52,8 @@ class User
     }
 
     /**
-     * @return mixed
+     * This function retrieves the user's email.
+     * @return String email of user.
      */
     public function getEmailUsername()
     {
@@ -60,7 +61,8 @@ class User
     }
 
     /**
-     * @param mixed $emailUsername
+     * This function sets the user's email to the given value.
+     * @param String $emailUsername A valid email address to replace the old email.
      */
     public function setEmailUsername($emailUsername)
     {
@@ -68,7 +70,8 @@ class User
     }
 
     /**
-     * @return mixed
+     * This function retrieve's the user's current password.
+     * @return String The user's password.
      */
     public function getPassword()
     {
@@ -76,7 +79,8 @@ class User
     }
 
     /**
-     * @param mixed $password
+     * This function sets the user's password to the given password.
+     * @param String $password A valid password to replace old password.
      */
     public function setPassword($password)
     {
@@ -84,20 +88,12 @@ class User
     }
 
     /**
-     * @return mixed
+     * This function retrieves the user's unique id.
+     * @return int user id
      */
     public function getUserId()
     {
         return $this->userId;
     }
-
-    /**
-     * @param mixed $userId
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-    }
-
 
 }

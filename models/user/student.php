@@ -53,7 +53,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @return String
+     * This function retrieves the student's first name.
+     * @return String The student's first name
      */
     public function getFirstName()
     {
@@ -61,7 +62,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @param String $firstName
+     * This function sets the student's first name to the given value.
+     * @param String $firstName The student's new first name.
      */
     public function setFirstName($firstName)
     {
@@ -69,7 +71,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @return String
+     * This function retrieves the student's last name.
+     * @return String The student's last name.
      */
     public function getLastName()
     {
@@ -77,7 +80,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @param String $lastName
+     * This function sets the student's last name to the given value.
+     * @param String $lastName The student's new last name.
      */
     public function setLastName($lastName)
     {
@@ -85,7 +89,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @return int
+     * This function retrieves the student's current team id
+     * @return int Student's team Id
      */
     public function getTeamId()
     {
@@ -93,7 +98,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @param int $teamId
+     * This function sets the student's team Id to the given value.
+     * @param int $teamId Student's new team Id.
      */
     public function setTeamId($teamId)
     {
@@ -101,7 +107,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @return mixed
+     * This function retrieves a student's email address.
+     * @return String The student's email
      */
     public function getEmailUsername()
     {
@@ -109,7 +116,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @param mixed $emailUsername
+     * This function sets the student's email to the given value.
+     * @param String $emailUsername A new email address
      */
     public function setEmailUsername($emailUsername)
     {
@@ -117,7 +125,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @return mixed
+     * This function retrieve's the user's current password.
+     * @return String The user's password.
      */
     public function getPassword()
     {
@@ -125,7 +134,8 @@ class Marketing_Student extends User
     }
 
     /**
-     * @param mixed $password
+     * This function sets the user's password to the given password.
+     * @param String $password A valid password to replace old password.
      */
     public function setPassword($password)
     {
@@ -133,19 +143,12 @@ class Marketing_Student extends User
     }
 
     /**
-     * @return mixed
+     * This function retrieves the user's unique id.
+     * @return int user id
      */
     public function getUserId()
     {
         return $this->userId;
-    }
-
-    /**
-     * @param mixed $userId
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
     }
 
 }

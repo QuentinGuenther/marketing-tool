@@ -101,49 +101,4 @@ class Db_post extends RestDB
 
     }
 
-    /**
-     * This function retrieves all teams from the database.
-     * @param $teamId int The unique id number associated with a specific team.
-     * @return array with all rows from the database with team names
-     *
-     */
-    public static function getAllTeamsId()
-    {
-        $sql = "SELECT teamId, team_name FROM team";
-
-        $result = parent::get($sql);
-
-        return $result;
-    }
-
-    /**
-     * This function checks to see if a username exists in the db
-     * and returns userId.
-     * @param $email string, email is username
-     * @return int userId
-     */
-
-    public static function getLoginUsername($email)
-    {
-        $sql = "SELECT userId FROM user WHERE email = :email AND password = :password";
-
-        $result = parent::get($sql);
-
-        return $result;
-    }
-
-    /**
-     * This function checks if password matches the user during login.
-     * @param $userId int, userId
-     * @return string password
-     */
-    public static function getLoginPassword($userId)
-    {
-        $sql = "SELECT password FROM user WHERE userId = :userId";
-
-        $result = parent::get($sql);
-
-        return $result;
-    }
-
 }

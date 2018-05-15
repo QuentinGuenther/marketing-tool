@@ -1,14 +1,39 @@
 <?php
 /**
+ * This class contains functions for retrieving and inserting user and team information.
+ *
+ * PHP version 5.3
+ * @author Kianna Dyck <kdyck@mail.greenriver.edu>
+ * @author Jen Shin <Jshin13@mail.greenriver.edu>
+ * @author Bessy Torres-Miller <Btorres-miller@mail.greenriver.edu>
+ * @author Quentin Guenther <Qguenther@mail.greenriver.edu>
+ *
+ * @since 1.0
+ * @version 1.0
+ *
+ * @copyright 2018 Team Agility
  *
  */
 
 /**
- * Class Db_user
+ * This class contains functions for retrieving and inserting user and team information.
+ *
+ * PHP version 5.3
+ * @author Kianna Dyck <kdyck@mail.greenriver.edu>
+ * @author Jen Shin <Jshin13@mail.greenriver.edu>
+ * @author Bessy Torres-Miller <Btorres-miller@mail.greenriver.edu>
+ * @author Quentin Guenther <Qguenther@mail.greenriver.edu>
+ *
+ * @since 1.0
+ * @version 1.0
+ *
+ * @copyright 2018 Team Agility
+ *
  */
 class Db_user extends RestDB
 {
     /**
+     * Instantiates a connection with the database.
      * Db_user constructor.
      */
     public function __construct()
@@ -16,6 +41,10 @@ class Db_user extends RestDB
         parent::__construct();
     }
 
+    /**
+     * This function retrieves all teams from the database.
+     * @return array An array containing each team name and associated team id.
+     */
     public static function getAllCurrentTeams()
     {
         $sql = "SELECT teamId, team_name FROM team";
@@ -25,6 +54,11 @@ class Db_user extends RestDB
         return $result;
     }
 
+    /**
+     * This function retrieves all team members associated with a given team id
+     * @param $teamId int team id
+     * @return array Array containing team member information for a given team.
+     */
     public static function getTeamMembers($teamId)
     {
         $sql = "SELECT first_name, last_name, userId FROM `user` WHERE teamId = :teamId";
@@ -38,6 +72,11 @@ class Db_user extends RestDB
         return $result;
     }
 
+    /**
+     * This function inserts a new team into the database.
+     * @param $teamName String The team name for the new team.
+     * @return int The ID of the last inserted row in database.
+     */
     public static function insertNewTeam($teamName)
     {
         // INSERT INTO team (team_name) VALUES ('marketing-team');
@@ -50,6 +89,16 @@ class Db_user extends RestDB
         return parent::insert($sql, $params);
     }
 
+    /**
+     * This function inserts a new user into the database.
+     * @param $firstName User's first name
+     * @param $lastName User's last name
+     * @param $email User's email
+     * @param $password User's password
+     * @param $teamId User's teamId
+     * @param int $isAdmin Admin privilege level. 0 = normal user, 1 = admin user
+     * @return int The ID of the last inserted row in database.
+     */
     public static function insertNewUser($firstName, $lastName, $email, $password, $teamId, $isAdmin = 0)
     {
         //INSERT INTO `user`(first_name, last_name, email, password, teamId, isAdmin) VALUES ('Mary', 'Sue', 'email@mail.greenriver.edu', sha1('abc'), 2, 0)
@@ -72,9 +121,8 @@ class Db_user extends RestDB
      * This function checks to see if a username exists in the db
      * and returns userId.
      * @param $email string, email is username
-     * @return int userId
+     * @return array userId
      */
-
     public static function getLoginUsername($email)
     {
         //SELECT userId FROM `user` WHERE email = "jshin"
@@ -92,7 +140,7 @@ class Db_user extends RestDB
     /**
      * This function checks if password matches the user during login.
      * @param $userId int, userId
-     * @return string password
+     * @return array password
      */
     public static function getLoginPassword($userId)
     {
@@ -130,7 +178,7 @@ class Db_user extends RestDB
     /**
      * This function checks if the user is Admin user.
      * @param $userId int, userId
-     * @return int isAdmin = 1 for admin user, 0 to normal user
+     * @return array isAdmin = 1 for admin user, 0 to normal user
      */
     public static function getIsAdmin($userId)
     {
@@ -149,7 +197,7 @@ class Db_user extends RestDB
     /**
      * This function get the user email
      * @param $userId int, userId
-     * @return string email
+     * @return array email
      */
     public static function getEmail($userId)
     {
@@ -165,6 +213,10 @@ class Db_user extends RestDB
 
     }
 
+    /**
+     * This function retrieves all student emails from the database.
+     * @return array An array containing all student emails
+     */
     public static function getAllStudentEmails()
     {
         $sql = "SELECT email FROM user";
@@ -172,6 +224,25 @@ class Db_user extends RestDB
         $result = parent::get($sql);
 
         return $result;
+    }
+
+    /**
+     * This function retrieves the team name for a single team given a team id
+     * @param $teamId int A user's team id
+     * @return String team name
+     */
+    public static function getTeamName($teamId)
+    {
+        $sql = "SELECT team_name FROM team WHERE teamId = :teamId LIMIT 1";
+
+        $params = array(
+            ':teamId' => array($teamId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        return $result[0]['team_name'];
+
     }
 
 }
