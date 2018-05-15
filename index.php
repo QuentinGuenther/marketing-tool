@@ -476,6 +476,21 @@ $f3->route('GET|POST /register', function($f3) {
 
         /* Email validation */
         if (!empty($_POST['email']) && validEmail($_POST['email'])) {
+            // check if email is already registered
+            $allEmails = $db2::getAllStudentEmails();
+            /* Array ( [0] => Array ( [email] => kdyck@mail.greenriver.edu ) ) */
+            if(!empty($allEmails)) {
+                foreach ($allEmails as $registered) {
+                    if(in_array($_POST['email'], $registered)) {
+
+                        $isValid = false;
+                        // error message
+                        $f3->set('invalidEmail', $_POST['email'].' is already registered to an account.');
+                        break;
+                    }
+                }
+            }
+
             // create variable that will be sent to user object
             $email = $_POST['email'];
         } else {

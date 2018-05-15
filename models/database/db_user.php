@@ -164,4 +164,14 @@ class Db_user extends RestDB
         return $result;
 
     }
+
+    public static function getAllStudentEmails()
+    {
+        $sql = "SELECT email FROM user";
+
+        $result = parent::get($sql);
+
+        return $result;
+    }
+
 }
