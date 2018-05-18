@@ -99,11 +99,29 @@ $f3->route('GET|POST @login: /login', function($f3) {
                 foreach ($dbPasswordArray as $row) {
                     $dbPassword = $row['password'];
                 }
+
+                //check if the user is Admin
+                $dbIsAdminArray = $db2::getIsAdmin($userId);
+
+                foreach ($dbIsAdminArray as $row){
+                    $dbIsAdmin = $row['isAdmin'];
+                }
+
+
                 //if successful
                 if(sha1($password) == $dbPassword) {
                     //set userId in session
                     $_SESSION['userId'] = $userId;
 
+                    //if successful
+                    if ($dbIsAdmin == 1) {
+                        //set userId in session
+                        $_SESSION['userId'] = $userId;
+                        $_SESSION['admin'] = true;
+
+                        //reroute to user home
+                        $f3->reroute('/teams');
+                    }
                     //create user object???
                     // get teamId of user and set to session (eventually will be placed in user object)
                     $teamId = $db2::getUserTeamId($userId);

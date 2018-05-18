@@ -3,6 +3,10 @@
         <true>
             <a class="navbar-brand" href="{{ @BASE }}/">Home</a>
         </true>
+        <false>
+            <a class="navbar-brand" href="{{ @BASE }}/login">Home</a>
+
+        </false>
     </check>
     <!-- Hamburger Button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -18,9 +22,7 @@
                 <true>
                     <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
                 </true>
-                <false>
-                    <li class="nav-item"><a class="nav-link" href="./admin-login">Admin Login</a></li>
-                </false>
+
             </check>
             <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
             <check if ="{{ @_SESSION['userId'] }}">
