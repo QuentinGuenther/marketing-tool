@@ -623,6 +623,61 @@ $f3->route('GET|POST /logout', function($f3) {
 });
 
 
+//route used for a page to show teams (user picks to change teams)
+$f3->route('GET|POST /change-teams', function($f3) {
+
+    if ($_SESSION['admin']) {
+        $f3->reroute('/');
+    }
+
+    //grabs the current user's info from the session
+    $userId = $_SESSION['userId'];
+    $teamId = $_SESSION['teamId'];
+
+    // establish connection with database
+    $db2 = new Db_user();
+
+    //get the teams availables to the user
+    $teams = $db2::getOtherTeams($teamId);
+    if (empty($teams)) {
+        $f3->set('noTeams', "No teams created yet");
+    }
+
+    // set hive variables
+    $f3->set('teams', $teams);
+
+    // verifies team chosen from selection is a valid option.
+    function validExistingTeam($teams, $teamChosen) {
+        foreach($teams as $team) {
+            if ($teamChosen == $team['teamId']) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //if a team is chosen
+    if (isset($_POST['submit'])) {
+
+        if (validExistingTeam($teams, $_POST['teams'])) {
+            $teamId = $_POST['teams'];
+
+            $success = $db2::updateTeam($teamId, $userId);
+
+            // retrieve new teamId
+            $teamId = $db2::getUserTeamId($userId);
+            $_SESSION['teamId'] = $teamId;
+            $_SESSION['success'] = $success;
+
+            $f3 -> reroute('/teams');
+        }
+    }
+
+    $template = new Template();
+    echo $template->render('views/html/teamsList.html');
+});
+
+
 /**
  * Route for the error page
  *

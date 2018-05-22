@@ -18,13 +18,30 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
         <ul class="navbar-nav">
             <check if ="{{ @_SESSION['userId'] }}">
-                <!--<li class="nav-link"> {{ @_SESSION['email'] }}</li>-->
                 <true>
                     <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
                 </true>
-
             </check>
-            <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+
+            <check if ="{{ @_SESSION['userId'] }}">
+                <true>
+                    <li class="nav-item dropdown">
+                        <check if ="{{ @_SESSION['admin'] }}">
+                            <false>
+                                <a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="#">Help</a>
+                                <ul class="dropdown-menu text-dark">
+                                    <li class="dropdown-item">
+                                        <a class="nav-link text-dark" href="{{ @BASE }}/change-teams">
+                                            <span class="text-dark">Change Team</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </false>
+                        </check>
+                    </li>
+                </true>
+            </check>
+
             <check if ="{{ @_SESSION['userId'] }}">
                 <li class="nav-item"><a class="nav-link" href="{{ @BASE }}/logout">Logout</a></li>
             </check>

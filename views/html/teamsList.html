@@ -1,0 +1,90 @@
+<!--
+Authors: Bessy Torres-Miller
+Date: 05/06/2018
+File Name: teamsList.html
+Purpose: To show to the student a list with the available teams, so the user will be able to pick one if he wants to
+change his/her actual team
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required Meta Tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Change Team</title>
+
+    <!--jQuery library-->
+    <script src="http://code.jquery.com/jquery.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/simple-sidebar.css" >
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
+
+    <!-- External Styles -->
+    <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/styles.css" />
+
+</head>
+<body>
+
+<!-- Navigation Menu -->
+<include href="views/html/components/nav.html" />
+
+<div id="wrapper">
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="text-center">Available Teams</h1>
+        <br>
+
+        <!-- Team List -->
+        <check if="{{isset (@noTeams) }}">
+            <p class="text-center">{{ @noTeams }}</p>
+        </check>
+
+        <form action="#" method="post">
+            <div class="list-group ">
+
+                <repeat group="{{ @teams }}" value="{{ @team }} ">
+                    <div class="form-check "> <br><hr>
+                        <label class="form-check-label">
+                            <input class="form-check-input " type="radio" name="teams" value="{{ @team['teamId']}}">
+                            {{ @team['team_name'] }}
+                        </label>
+                    </div>
+                </repeat>
+
+            </div>
+
+            <!-- Submit Button -->
+            <input id ="success" type="submit" class="btn bg-green-river-green mt-4 " name="submit" value="Save">
+
+        </form>
+        <check if ="{{ @$_SESSION['success']}}">
+            <script src="{{ @BASE }}/views/js/teamChanged.js"></script>
+        </check>
+    </div> <!-- container -->
+
+</div> <!-- wrapper -->
+
+<!-- Scripts -->
+<!-- jQuery -->
+<script src="{{ @BASE }}/views/js/jquery.min.js"></script>
+
+<!-- Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous">
+</script>
+
+<!-- Bootstrap js -->
+<script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
+<script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

@@ -245,4 +245,45 @@ class Db_user extends RestDB
 
     }
 
+
+    /**
+     * This function retrieves all teams from the database excepting the one that user already belongs
+     * @param $teamId current teamId of the user
+     * @return array An array containing each team name and associated team id
+     */
+    public static function getOtherTeams($teamId)
+    {
+        $sql = "SELECT teamId, team_name FROM team WHERE teamId <> :teamId";
+
+        $params = array(
+            ':teamId' => array($teamId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql,$params);
+
+        return $result;
+    }
+
+    /**
+     * This function retrieves if the sql was success
+     * @param $teamId int A user's team id
+     * @param $userId int user's Id
+     * @return boolean success
+     */
+    public static function updateTeam($teamId, $userId)
+    {
+        //UPDATE user SET teamId = 3 WHERE userId= 1
+        $sql = "UPDATE user SET teamId = :teamId WHERE userId = :userId ";
+
+        $params = array(
+            ':teamId' => array($teamId => PDO::PARAM_INT),
+            ':userId' => array($userId => PDO::PARAM_INT)
+        );
+
+        $result = parent::update($sql, $params);
+
+        return $result;
+
+    }
+
 }
