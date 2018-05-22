@@ -399,6 +399,22 @@ $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
     $f3->set('postId', $postId);
     $f3->set('title', Db_post::getPost($params['postId'])['title'] );
 
+    /* establish connection to the database */
+    $db2 = new Db_post();
+    $db3 = new Db_user();
+    /* Retrieve all teams (team_name & teamId) from database */
+    $postVersions = $db2::getAllPostVersions($postId);
+    print_r($postVersions);
+
+    /* Save retrieved teams to the hive */
+    $f3->set('currentTeams', $postVersions);
+
+    foreach ($postVersions as $row) {
+        $time = $row['date_created'];
+        $member = $db3::getUserName($row['userId']);
+        echo "<p>".$member." - ".$time;
+    }
+
     echo Template::instance()->render('views/html/view-post.html');
 });
 

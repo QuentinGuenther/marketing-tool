@@ -176,6 +176,24 @@ class Db_user extends RestDB
     }
 
     /**
+     * This function gets the user name from a user id.
+     * @param $userId int user id
+     * @return string user first and last name
+     */
+    public static function getUserName($userId)
+    {
+        $sql = "SELECT first_name, last_name FROM `user` WHERE userId = :userId LIMIT 1";
+
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        return $result[0]['first_name']." ".$result[0]['last_name'];
+    }
+
+    /**
      * This function checks if the user is Admin user.
      * @param $userId int, userId
      * @return array isAdmin = 1 for admin user, 0 to normal user

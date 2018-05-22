@@ -101,4 +101,22 @@ class Db_post extends RestDB
 
     }
 
+    /**
+     * This function retrieves all versions of a post.
+     * @param $postId int original post aka parent id
+     * @return array All rows from db for versions of original post
+     */
+    public static function getAllPostVersions($postId)
+    {
+        $sql = "SELECT content, date_created, userId FROM post WHERE parent_id = :parentId ORDER BY date_created DESC";
+
+        $params = array(
+            ':parentId' => array($postId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        return $result;
+    }
+
 }
