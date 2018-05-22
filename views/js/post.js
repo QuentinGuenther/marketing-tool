@@ -48,12 +48,10 @@ var Post = (function() {
             if(percent < 50) {
                 $(PROGRESS_BAR_ID).removeClass('bg-success bg-warning bg-danger');
                 $(PROGRESS_BAR_ID).addClass('bg-success');
-            }
-            else if(percent >= 50 && percent < 80) {
+            } else if(percent >= 50 && percent < 80) {
                 $(PROGRESS_BAR_ID).removeClass('bg-success bg-warning bg-danger');
                 $(PROGRESS_BAR_ID).addClass('bg-warning');
-            }
-            else {
+            } else {
                 $(PROGRESS_BAR_ID).removeClass('bg-success bg-warning bg-danger');
                 $(PROGRESS_BAR_ID).addClass('bg-danger');
             }
@@ -79,8 +77,20 @@ var Post = (function() {
             updateSubmitButton(percentUsed);
         });
 
+        // Get the path of the page. 1-... indicates a view post page,
+        // otherwise the create-post page is indicated.
+        var path = window.location.pathname;
+        var page = path.split("/").pop();
+        
+        // Get the content from get-post/page
+        // or from the session if not a view post page
+        if(!isNaN(parseFloat(page)) && isFinite(page)) {
+            editor.setContents(getQuillContent(page, 1));
+        } else {
+            editor.setContents(getQuillContent("session", 0));
+        }
+
         // sending an empty string to getQuillContent causes an error since /get-post route now has a parameter
-        editor.setContents(getQuillContent("session", 0)); //getQuillContent("")
         quillFocusHandler(editor);
         quillSubmitHandler(editor);
     }
