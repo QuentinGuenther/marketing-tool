@@ -18,6 +18,7 @@
  * PHP version 5.3
  * @author Kianna Dyck <kdyck@mail.greenriver.edu>
  * @author Jen Shin <Jshin13@mail.greenriver.edu>
+ * @author Quentin Guenther
  *
  * @since 1.0
  * @version 1.0
@@ -79,12 +80,43 @@ class ViewPostRoute extends ParentController
             echo "<p>".$member." - ".$time."</p>";
         }
 
+
         // Set hive variables
         $f3->set('postId', $postId);
         $f3->set('userId', $this->userId);
         $f3->set('availableVotes', $availableVotes);
         $f3->set('postVotes', $postVotes);
         $f3->set('title', $post['title'] );
+
+
+        /* Quentin Validation */
+        if (isset($_POST['submit'])) {
+            $title = $f3->get('title');
+            $content = "";
+            // retrieve teamId from Session
+            $teamId = $_SESSION['teamId'];
+            $isValid = true;
+            if (isset($_POST['new-post'])) {
+                $content = $_POST['new-post'];
+                $json = json_decode($content, true);
+                $_SESSION['postContent'] = $content;
+                if (count($json['ops']) < 1 || $json['ops'][0]['insert'] == "\n") {
+                    $isValid = false;
+                    $contentErr = "Please input text and/or images.";
+                    $f3->set('contentErr', $contentErr);
+                } else if(strlen(implode('', $json)) > 7000000) {
+                    $isValid = false;
+                    $contentErr = "Post is too large. Try resizing/compressing your images.";
+                    $f3->set('contentErr', $contentErr);
+                }
+            }
+            if ($isValid) {
+                unset($_SESSION['postContent']);
+                //reroute to home page with refreshed list after posting
+                $id = $db::insertPost($title, $content, $this->userId, $teamId);
+                $f3->reroute('/view-post/'.$id);
+            }
+        }
 
         echo Template::instance()->render('views/html/view-post.html');
     }
