@@ -67,7 +67,7 @@ class Db_post extends RestDB
      */
     public static function getPost($postId)
     {
-        $sql = "SELECT title, content FROM post WHERE postId = :postId";
+        $sql = "SELECT title, content, teamId FROM post WHERE postId = :postId";
 
         $params = array(
             ':postId' => array($postId => PDO::PARAM_INT)
@@ -119,4 +119,48 @@ class Db_post extends RestDB
         return $result;
     }
 
+    public static function addVote($userId, $postId)
+    {
+        $sql = "INSERT INTO postVotes(userId, postId) VALUES (:userId, :postId);";
+
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT),
+            ':postId' => array($postId => PDO::PARAM_INT)
+        );
+
+        return parent::insert($sql, $params);
+    }
+
+    public static function getUserVoteCount($userId)
+    {
+//        $sql = "SELECT COUNT(postId) FROM postVotes WHERE userId = :userId";
+        $sql = "SELECT postId FROM postVotes WHERE userId = :userId";
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT)
+        );
+
+        return count(parent::get($sql, $params));
+
+    }
+
+    public static function getUserVote($userId, $postId)
+    {
+        $sql = "SELECT postId FROM postVotes WHERE userId = :userId AND postId = :postId";
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT),
+            ':postId' => array($postId => PDO::PARAM_INT)
+        );
+
+        return parent::get($sql, $params);
+    }
+
+    public static function getAllVotesForPost($postId)
+    {
+        $sql = "SELECT userId FROM postVotes WHERE postId = :postId";
+        $params = array(
+            ':postId' => array($postId => PDO::PARAM_INT)
+        );
+
+        return count(parent::get($sql, $params));
+    }
 }

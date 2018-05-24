@@ -1,0 +1,15 @@
+/*
+Author:     Kianna Dyck
+Date:       05/23/2018
+File Name:  view-post-styles.css
+Purpose:    This file contains styles specific to the view-post page of our marketing application.
+*/
+
+/* Voting styles */
+#vote {
+    cursor: pointer;
+}
+
+.clicked {
+    color: blue;
+}
