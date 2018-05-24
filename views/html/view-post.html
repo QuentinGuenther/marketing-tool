@@ -53,10 +53,11 @@
             </div>
             <br>
 
+            <p class="text-danger">{{ @contentErr}}</p>
+
             <div class="form-group">
                 <input type = "hidden" name = "new-post">
                 <div id="editor-container" rel="quill-editor"  tabindex="2"></div>
-                <span class="text-danger">{{ @contentErr}}</span>
             </div>
 
             <input type="submit" id = "submit"  name = "submit" class="btn bg-green-river-green" value="Add Post" />

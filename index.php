@@ -412,6 +412,43 @@ $f3->route('GET|POST @view: /view-post/@postId', function($f3, $params) {
         echo "<p>".$member." - ".$time."</p>";
     }
 
+    if (isset($_POST['submit'])) {
+        $title = $f3->get('title');
+
+        $content = "";
+        // retrieve teamId from Session
+         $teamId = $_SESSION['teamId'];
+
+        $isValid = true;
+
+        if (isset($_POST['new-post'])) {
+            $content = $_POST['new-post'];
+
+            $json = json_decode($content, true);
+
+            $_SESSION['postContent'] = $content;
+
+            if (count($json['ops']) < 1 || $json['ops'][0]['insert'] == "\n") {
+                $isValid = false;
+                $contentErr = "Please input text and/or images.";
+                $f3->set('contentErr', $contentErr);
+            } else if(strlen(implode('', $json)) > 7000000) {
+                $isValid = false;
+                $contentErr = "Post is too large. Try resizing/compressing your images.";
+                $f3->set('contentErr', $contentErr);
+            }
+
+        }
+
+        if ($isValid) {
+            unset($_SESSION['postContent']);
+            //reroute to home page with refreshed list after posting
+            $id = Db_post::insertPost($title, $content, $userId, $teamId);
+            $f3->reroute('/view-post/'.$id);
+
+        }
+    }
+
     echo Template::instance()->render('views/html/view-post.html');
 });
 
