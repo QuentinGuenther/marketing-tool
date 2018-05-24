@@ -38,12 +38,7 @@
                         <input type = "text" id ="title" name = "title" class="form-control" tabindex="1" maxlength="50" placeholder="Post Title" value="{{ @title }}">
                         <span class="text-danger">{{ @titleErr }}<br/></span>
                     </div>
-                    <div class="form-group">
-                        <input type = "hidden" name = "new-post">
-                        <div id="editor-container" rel="quill-editor"  tabindex="2"></div>
-                        <span class="text-danger">{{ @contentErr}}</span>
-                    </div>
-                    
+
                     <div>
                         <p><strong>Note:</strong><br>Your post must be less than 7mb <em>total</em>. Below is a progress bar to help you gauge the size of your post. If you find your post going over the limit, try resizing and/or compressing your images.</p>
                     </div>
@@ -52,6 +47,12 @@
                     </div>
 
                     <br>
+
+                    <div class="form-group">
+                        <input type = "hidden" name = "new-post">
+                        <div id="editor-container" rel="quill-editor"  tabindex="2"></div>
+                        <span class="text-danger">{{ @contentErr}}</span>
+                    </div>
 
                     <input type="submit" id = "submit"  name = "submit" class="btn bg-green-river-green" value="Add Post" />
                 </form>

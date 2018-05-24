@@ -30,7 +30,13 @@
 
     <!-- User Content -->
     <div class="container mt-2">
-        <h1>{{ @title }}</h1>
+        <div class="row">
+            <h1 class="col col-12">{{ @title }}</h1>
+            <div class="col col-12 mb-1 text-right">
+                <button class="btn bg-green-river-green" onclick="toggleEditor();">Edit</button>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col">
                 <div id="reader-container" class="ql-reader" rel="quill-reader"></div>
@@ -38,21 +44,20 @@
                 <input type="hidden" id="postId" value="{{ @postId }}">
             </div>
         </div>
-        <form id="idea-form" method="post" action="">
-            <div class="form-group">
-                <input type = "hidden" name = "new-post">
-                <div id="editor-container" rel="quill-editor"  tabindex="2"></div>
-                <span class="text-danger">{{ @contentErr}}</span>
-            </div>
-            
+        <form id="idea-form" method="post" action="" style="display: none">
             <div>
                 <p><strong>Note:</strong><br>Your post must be less than 7mb <em>total</em>. Below is a progress bar to help you gauge the size of your post. If you find your post going over the limit, try resizing and/or compressing your images.</p>
             </div>
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="width: 0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-
             <br>
+
+            <div class="form-group">
+                <input type = "hidden" name = "new-post">
+                <div id="editor-container" rel="quill-editor"  tabindex="2"></div>
+                <span class="text-danger">{{ @contentErr}}</span>
+            </div>
 
             <input type="submit" id = "submit"  name = "submit" class="btn bg-green-river-green" value="Add Post" />
         </form>
@@ -68,6 +73,13 @@
     <script src="{{ @BASE }}/views/js/post.js"></script>
     <script src="{{ @BASE }}/views/js/view-post.js"></script>
     <script src="{{ @BASE }}/views/js/create-post.js"></script>
+
+    <script>
+        function toggleEditor() {
+            $( "#reader-container" ).toggle();
+            $( "#idea-form" ).toggle();
+        }
+    </script>
 
 </body>
 </html>
