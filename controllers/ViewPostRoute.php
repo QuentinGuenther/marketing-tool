@@ -75,9 +75,12 @@ class ViewPostRoute extends ParentController
         print_r($postVersions);
 
         foreach ($postVersions as $row) {
-            $time = $row['date_created'];
-            $member = $db2::getUserName($row['userId']);
-            echo "<p>".$member." - ".$time."</p>";
+            //if not most current
+            if ($row['isActive'] != 1) {
+                $time = $row['date_created'];
+                $member = $db2::getUserName($row['userId']);
+                echo "<p>" . $member . " - " . $time . "</p>";
+            }
         }
 
 

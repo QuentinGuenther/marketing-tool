@@ -48,7 +48,7 @@ class Db_post extends RestDB
      */
     public static function insertPost($title, $content, $userId, $teamId)
     {
-        $sql = "INSERT INTO post(title, content, userId, teamId) VALUES (:title, :content, :userId, :teamId)";
+        $sql = "INSERT INTO post(title, content, userId, teamId, parent_id) VALUES (:title, :content, :userId, :teamId)";
 
         $params = array(
             ':title' => array($title => PDO::PARAM_STR),
@@ -103,15 +103,27 @@ class Db_post extends RestDB
 
     /**
      * This function retrieves all versions of a post.
-     * @param $postId int original post aka parent id
+     * First sql query retrieves parent id of the post
+     * to query for all versions based on original post.
+     * @param $postId int post id
      * @return array All rows from db for versions of original post
      */
     public static function getAllPostVersions($postId)
     {
-        $sql = "SELECT content, date_created, userId FROM post WHERE parent_id = :parentId ORDER BY date_created DESC";
+        $sql = "SELECT parent_id FROM post WHERE postId = :postId";
 
         $params = array(
-            ':parentId' => array($postId => PDO::PARAM_INT)
+            ':postId' => array($postId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        $parentId = $result[0]['parent_id'];
+
+        $sql = "SELECT content, date_created, userId, isActive FROM post WHERE parent_id = :parentId ORDER BY date_created DESC";
+
+        $params = array(
+            ':parentId' => array($parentId => PDO::PARAM_INT)
         );
 
         $result = parent::get($sql, $params);
@@ -119,6 +131,12 @@ class Db_post extends RestDB
         return $result;
     }
 
+    /**
+     * Allows user to vote for a post.
+     * @param $userId int user id
+     * @param $postId int post id
+     * @return int
+     */
     public static function addVote($userId, $postId)
     {
         $sql = "INSERT INTO postVotes(userId, postId) VALUES (:userId, :postId);";
