@@ -190,7 +190,7 @@ class Db_user extends RestDB
 
         $result = parent::get($sql, $params);
 
-        echo $result[0]['first_name']." ".$result[0]['last_name'];
+        return $result[0]['first_name']." ".$result[0]['last_name'];
     }
 
     /**

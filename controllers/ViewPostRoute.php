@@ -71,26 +71,38 @@ class ViewPostRoute extends ParentController
         /* Version Control Logic */
 
         /* Retrieve all teams (team_name & teamId) from database */
-        $postVersions = $db::getAllPostVersions($postId);
-        print_r($postVersions);
+        $postsArray = $db::getAllPostVersions($postId);
+        //print_r($postVersions);
 
-        foreach ($postVersions as $row) {
+        $postsVersion = array();
+
+        foreach ($postsArray as $row) {
             //if not most current
-            if ($row['isActive'] != 1) {
+            //if ($row['isActive'] != 1) {
                 $time = $row['date_created'];
-                echo $time;
+                $postId = $row['postId'];
+                $isActive = $row['isActive'];
+//                echo $time;
                 $member = $db2::getUserName($row['userId']);
-                echo "<p>" . $member . " - " . $time . "</p>";
-            }
-        }
+                $postsVersion[] = array(
+                    'member' => $member,
+                    'time' => $time,
+                    'postId' => $postId,
+                    'isActive' => $isActive
+                );
+          //  }
 
+        }//
+
+        print_r($postsVersion);
 
         // Set hive variables
-        $f3->set('postId', $postId);
+       // $f3->set('postId', $postId);
         $f3->set('userId', $this->userId);
         $f3->set('availableVotes', $availableVotes);
         $f3->set('postVotes', $postVotes);
         $f3->set('title', $post['title'] );
+        $f3->set('postsVersions', $postsVersion);
 
 
         /* Quentin Validation */
@@ -118,8 +130,9 @@ class ViewPostRoute extends ParentController
                 unset($_SESSION['postContent']);
 
                 //change active status of previous version
-                Db_post::changeActiveStatus($postId);
-                $parentId = Db_post::getParentId($postId);
+                Db_post::changeActiveStatus($params['postId']);
+
+                $parentId = Db_post::getParentId($params['postId']);
                 //reroute to new post with refreshed list after posting
                 $id = $db::insertPostVersion($title, $content, $this->userId, $teamId, $parentId);
 

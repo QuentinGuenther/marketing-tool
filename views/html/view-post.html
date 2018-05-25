@@ -50,10 +50,14 @@
                     </span>
                 </p>
             </div>
+            <repeat group="{{ @postsVersions }}" value= "{{ @post }}">
+                <check if =" {{ @PARAMS['postId'] == @post['postId'] && @post['isActive'] == 1 }}">
 
-            <div class="col-6 mb-0 text-right">
-                <button class="btn bg-green-river-green" onclick="toggleEditor();">Edit</button>
-            </div>
+                <div class="col-6 mb-0 text-right">
+                    <button class="btn bg-green-river-green" onclick="toggleEditor();">Edit</button>
+                </div>
+                </check>
+            </repeat>
         </div>
 
         <!-- Hidden input containing votes user has -->
@@ -65,7 +69,7 @@
             <div class="col">
                 <div id="reader-container" class="ql-reader" rel="quill-reader"></div>
                 <!-- Hidden input containing value of param, postId -->
-                <input type="hidden" id="postId" value="{{ @postId }}">
+                <input type="hidden" id="postId" value="{{ @PARAMS['postId'] }}">
             </div>
         </div>
         <form id="idea-form" method="post" action="" style="display: none">
@@ -86,6 +90,21 @@
 
             <input type="submit" id = "submit"  name = "submit" class="btn bg-green-river-green" value="Add Post" />
         </form>
+        <div class = "m-5 list-group">
+        <check if = "{{ sizeOf(@postsVersions) }}">
+            <true><h3>Post Versions</h3>
+            <repeat group="{{ @postsVersions }}" value= "{{ @post }}">
+                <check if =" {{@PARAMS['postId']}} != {{@post['postId']}}">
+
+                    <a href = "{{ @post['postId']}}"
+                       class="text-primary list-group-item list-group-item-action"><b>Last Modified:</b> {{ @post['time' ] }} <b>by</b> {{ @post['member'] }} </a>
+
+                </check>
+            </repeat>
+            </true>
+            <false><p>Array not set properly.</p></false>
+        </check>
+        </div>
     </div>
 
     <!-- jQuery Library -->
