@@ -40,7 +40,7 @@ class Db_post extends RestDB
     }
 
     /**
-     * This functions inserts a single post into the database.
+     * This functions inserts original post into the database.
      * @param $title String The title of the project post.
      * @param $content String The quill json object containing text, formatting, and images.
      * @param $teamId int The unique id number associated with a specific team.
@@ -48,7 +48,7 @@ class Db_post extends RestDB
      */
     public static function insertPost($title, $content, $userId, $teamId)
     {
-        $sql = "INSERT INTO post(title, content, userId, teamId, parent_id) VALUES (:title, :content, :userId, :teamId)";
+        $sql = "INSERT INTO post(title, content, userId, teamId, isActive) VALUES (:title, :content, :userId, :teamId, 1)";
 
         $params = array(
             ':title' => array($title => PDO::PARAM_STR),
@@ -59,6 +59,70 @@ class Db_post extends RestDB
 
         return parent::insert($sql, $params);
     }
+
+    public static function insertPostVersion($title, $content, $userId, $teamId, $parentId)
+    {
+        //$parentId = self::getParentId();
+
+        $sql = "INSERT INTO post(title, content, userId, teamId, isActive, parent_id) VALUES (:title, :content, :userId, :teamId, 1, :parentId)";
+
+        $params = array(
+            ':title' => array($title => PDO::PARAM_STR),
+            ':content' => array($content => PDO::PARAM_STR),
+            ':userId' => array($userId => PDO::PARAM_STR),
+            ':teamId' => array($teamId => PDO::PARAM_STR),
+            ':parentId' => array($parentId =>PDO::PARAM_INT)
+        );
+
+        return parent::insert($sql, $params);
+    }
+
+
+    /**
+     * When original post is inserted, need to change parent id to itself
+     * once postId is created on db.
+     * @param $postId int post id
+     */
+    public static function updateParentId($parentId, $postId)
+    {
+        $sql = "UPDATE post SET parent_id = :parentId WHERE postId = :postId";
+
+        $params = array (
+            ':parentId' => array($parentId => PDO::PARAM_INT),
+            ':postId' => array($postId => PDO::PARAM_INT)
+        );
+
+        return parent::update($sql, $params);
+    }
+
+    public static function changeActiveStatus($postId)
+    {
+        //UPDATE table_name SET column1 = value1, column2 = value2, WHERE condition;
+
+        $sql = "UPDATE post SET isActive = 0 WHERE postId = :postId ";
+
+        $params = array(
+            ':postId' => array($postId => PDO::PARAM_STR)
+        );
+
+        return parent::update($sql, $params);
+    }
+
+    public static function getParentId($postId)
+    {
+        $sql = "SELECT parent_id FROM post WHERE postId = :postId";
+
+        $params = array(
+            ':postId' => array($postId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        $parentId = $result[0]['parent_id'];
+
+        return $parentId;
+    }
+
 
     /**
      * This function retrieves a single post from the database.
@@ -110,17 +174,9 @@ class Db_post extends RestDB
      */
     public static function getAllPostVersions($postId)
     {
-        $sql = "SELECT parent_id FROM post WHERE postId = :postId";
+        $parentId = self::getParentId($postId);
 
-        $params = array(
-            ':postId' => array($postId => PDO::PARAM_INT)
-        );
-
-        $result = parent::get($sql, $params);
-
-        $parentId = $result[0]['parent_id'];
-
-        $sql = "SELECT content, date_created, userId, isActive FROM post WHERE parent_id = :parentId ORDER BY date_created DESC";
+        $sql = "SELECT postId, content, date_created, userId, isActive FROM post WHERE parent_id = :parentId ORDER BY date_created DESC";
 
         $params = array(
             ':parentId' => array($parentId => PDO::PARAM_INT)

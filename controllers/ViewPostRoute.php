@@ -78,6 +78,7 @@ class ViewPostRoute extends ParentController
             //if not most current
             if ($row['isActive'] != 1) {
                 $time = $row['date_created'];
+                echo $time;
                 $member = $db2::getUserName($row['userId']);
                 echo "<p>" . $member . " - " . $time . "</p>";
             }
@@ -115,9 +116,15 @@ class ViewPostRoute extends ParentController
             }
             if ($isValid) {
                 unset($_SESSION['postContent']);
-                //reroute to home page with refreshed list after posting
-                $id = $db::insertPost($title, $content, $this->userId, $teamId);
+
+                //change active status of previous version
+                Db_post::changeActiveStatus($postId);
+                $parentId = Db_post::getParentId($postId);
+                //reroute to new post with refreshed list after posting
+                $id = $db::insertPostVersion($title, $content, $this->userId, $teamId, $parentId);
+
                 $f3->reroute('/view-post/'.$id);
+
             }
         }
 

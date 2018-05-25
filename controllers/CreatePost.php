@@ -79,6 +79,7 @@ class CreatePost extends ParentController
                 unset($_SESSION['postContent']);
                 //reroute to home page with refreshed list after posting
                 $id = Db_post::insertPost($title, $content, $this->userId, $teamId);
+                Db_post::updateParentId($id, $id);
                 $f3->reroute('/view-post/'.$id);
 
             }
