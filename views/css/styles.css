@@ -47,7 +47,7 @@
 }
 
 .ql-reader {
-    border: var(--light) solid 1px;
+    border: #ccc solid 1px;
     border-radius: 1%
 }
 

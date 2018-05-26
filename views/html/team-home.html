@@ -57,8 +57,10 @@ member names in the team, the team name, and an add button to add a new project 
 
         <div class="list-group">
             <repeat group="{{ @postIdeas }}" value="{{ @post }}">
-                <a href= "{{ @BASE }}/view-post/{{ @post['postId']}}"
-                   class="list-group-item list-group-item-action list-bg">{{ @post['title'] }}</a>
+                <check if = "{{ @post['isActive'] == 1 }}">
+                     <a href= "{{ @BASE }}/view-post/{{ @post['postId']}}"
+                              class="list-group-item list-group-item-action list-bg">{{ @post['title'] }}</a>
+                </check>
             </repeat>
         </div>
 
