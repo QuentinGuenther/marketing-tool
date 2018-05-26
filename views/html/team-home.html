@@ -44,7 +44,11 @@ member names in the team, the team name, and an add button to add a new project 
         <br>
 
         <!-- Add Button -->
-        <a class="btn mb-3 bg-green-river-green" href="{{ @BASE }}/create-post">Add New Project</a>
+        <check if="{{$_SESSION['admin']==1}}">
+            <false>
+                <a class="btn mb-3 bg-green-river-green" href="{{ @BASE }}/create-post">Add New Project</a>
+            </false>
+        </check>
 
         <!-- Project Idea Posts -->
         <check if="{{isset (@noPosts) }}">
@@ -53,10 +57,8 @@ member names in the team, the team name, and an add button to add a new project 
 
         <div class="list-group">
             <repeat group="{{ @postIdeas }}" value="{{ @post }}">
-                <check if = "{{ @post['isActive'] == 1 }}">
-                    <a href= "{{ @BASE }}/view-post/{{ @post['postId']}}"
-                       class="list-group-item list-group-item-action list-bg">{{ @post['title'] }}</a>
-                </check>
+                <a href= "{{ @BASE }}/view-post/{{ @post['postId']}}"
+                   class="list-group-item list-group-item-action list-bg">{{ @post['title'] }}</a>
             </repeat>
         </div>
 

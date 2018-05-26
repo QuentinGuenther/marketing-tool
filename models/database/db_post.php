@@ -237,4 +237,42 @@ class Db_post extends RestDB
 
         return count(parent::get($sql, $params));
     }
+
+    /**
+     * Delete the all posts from the team Id passed
+     * @param $teamId team to delete
+     * @return bool true if successful, false otherwise
+     */
+    public function removePosts($teamId)
+    {
+        $sql = "DELETE FROM post WHERE teamId =:teamId";
+
+        $params = array(
+            'teamId' => array($teamId=>PDO::PARAM_INT)
+        );
+
+        $result = parent::update($sql, $params);
+
+        return $result;
+    }
+
+    /**
+     * Delete the all posts from the users that belong to the team Id passed
+     * @param $teamId the team to remove
+     * @return bool true if successful, false otherwise
+     */
+    public function removeVotes($teamId)
+    {
+        $sql = "DELETE FROM postVotes WHERE userId IN (SELECT userId FROM user WHERE teamId =:teamId)";
+
+
+        $params = array(
+            'teamId' => array($teamId=>PDO::PARAM_INT)
+        );
+
+        $result = parent::update($sql, $params);
+
+        return $result;
+
+    }
 }

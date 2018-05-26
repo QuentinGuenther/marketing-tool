@@ -47,7 +47,7 @@
 }
 
 .ql-reader {
-    border: #ccc solid 1px;
+    border: var(--light) solid 1px;
     border-radius: 1%
 }
 
@@ -70,4 +70,8 @@
 
 .clickable-row {
     cursor: pointer;
+}
+
+.col-2{
+    padding-top: 6px;
 }

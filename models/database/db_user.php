@@ -176,24 +176,6 @@ class Db_user extends RestDB
     }
 
     /**
-     * This function gets the user name from a user id.
-     * @param $userId int user id
-     * @return string user first and last name
-     */
-    public static function getUserName($userId)
-    {
-        $sql = "SELECT first_name, last_name FROM `user` WHERE userId = :userId LIMIT 1";
-
-        $params = array(
-            ':userId' => array($userId => PDO::PARAM_INT)
-        );
-
-        $result = parent::get($sql, $params);
-
-        return $result[0]['first_name']." ".$result[0]['last_name'];
-    }
-
-    /**
      * This function checks if the user is Admin user.
      * @param $userId int, userId
      * @return array isAdmin = 1 for admin user, 0 to normal user
@@ -303,5 +285,42 @@ class Db_user extends RestDB
         return $result;
 
     }
+
+    /**
+     * Remove a team from the db
+     * @param $teamId team Id to delete
+     * @return bool true if successful, false otherwise
+     */
+    public function removeTeam($teamId)
+    {
+        $sql = "DELETE FROM team WHERE teamId = :teamId";
+
+        $params = array(
+            'teamId' => array($teamId=>PDO::PARAM_INT)
+        );
+
+        $result = parent::update($sql, $params);
+
+        return $result;
+    }
+
+    /**
+     * Remove the users from the team to delete
+     * @param $teamId team to delete
+     * @return bool true if successful, false otherwise
+     */
+    public function removeUser($teamId)
+    {
+        $sql = "DELETE FROM user WHERE teamId = :teamId";
+
+        $params = array(
+            'teamId' => array($teamId=>PDO::PARAM_INT)
+        );
+
+        $result = parent::update($sql, $params);
+
+        return $result;
+    }
+
 
 }

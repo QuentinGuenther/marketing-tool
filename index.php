@@ -328,6 +328,32 @@ $f3->route('GET|POST /change-teams', function($f3) {
 });
 
 
+//route to a page used to grab the teamId when admin user is removing teams
+$f3->route('GET|POST /remove/@teamId', function($f3, $params) {
+
+    // establish connection with database
+    $db1 = new Db_post();
+    $db2 = new Db_user();
+
+    //grabbing the teamId from the parameter
+    $teamId = $params['teamId'];
+
+    //calling the sql statements by passing the teamId
+    $success4 = $db1->removeVotes($teamId);
+    $success3 = $db1->removePosts($teamId);
+    $success1 = $db2->removeUser($teamId);
+    $success = $db2->removeTeam($teamId);
+
+    //if all the remove where successful, reroute to team page
+    if($success && $success1 && $success3 && $success4)
+    {
+        $f3 -> reroute('/teams');
+    } else {
+        echo "Unsuccessful";
+    }
+});
+
+
 /**
  * Route for the error page
  *

@@ -1,8 +1,8 @@
 <!--
-Authors: Bessy Torres-Miller
+Authors: Bessy Torres-Miller , Kianna Dyck
 Date: 05/06/2018
 File Name: admin-teams.html
-This is the page that list all the teams from the admin view
+This is the page that list all the teams from the admin view, with the option to remove teams
 -->
 
 <!DOCTYPE html>
@@ -14,9 +14,6 @@ This is the page that list all the teams from the admin view
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Teams</title>
-
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" type="text/css" href="{{ @BASE }}/views/css/simple-sidebar.css" >
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
@@ -43,14 +40,24 @@ This is the page that list all the teams from the admin view
         </check>
 
         <div class="list-group">
-            <repeat group="{{ @teams }}" value="{{ @team }}">
-                <a href= "{{ @BASE }}/teams/{{ @team['teamId']}}"
-                   class="list-group-item list-group-item-action d-none list-bg">{{ @team['team_name'] }}</a>
+
+            <repeat group="{{ @teams }}" value="{{ @team }}" >
+                <div class="row">
+                    <div class="col-10">
+                        <!--  Link to each team page -->
+                        <a href= "{{ @BASE }}/teams/{{ @team['teamId']}}"
+                           class="list-group-item list-group-item-action list-bg padding-2">{{ @team['team_name'] }}</a><br>
+                    </div>
+
+                    <div class="col-2">
+                        <!--  Remove button-->
+                        <a class="btn bg-green-river-green float-right remove" href= "{{ @BASE }}/remove/{{ @team['teamId']}}">
+                            Remove</a>
+                    </div>
+                </div>
             </repeat>
         </div>
-
     </div> <!-- container -->
-
 </div> <!-- wrapper -->
 
 
@@ -68,10 +75,6 @@ This is the page that list all the teams from the admin view
 <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
 <script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
 
-<script src="views/js/paginathing.js"></script>
-
-<!-- External js -->
-<script src="{{ @BASE }}/views/js/team-home.js"></script>
 
 </body>
 
