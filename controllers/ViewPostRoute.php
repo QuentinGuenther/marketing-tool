@@ -77,22 +77,21 @@ class ViewPostRoute extends ParentController
         $postsVersion = array();
 
         foreach ($postsArray as $row) {
-            //if not most current
-            //if ($row['isActive'] != 1) {
-                $time = $row['date_created'];
-                $postId = $row['postId'];
-                $isActive = $row['isActive'];
-//                echo $time;
-                $member = $db2::getUserName($row['userId']);
-                $postsVersion[] = array(
-                    'member' => $member,
-                    'time' => $time,
-                    'postId' => $postId,
-                    'isActive' => $isActive
-                );
-          //  }
-
-        }//
+//            $time = $row['date_created'];
+            // timestamp in database returns as eastern standard time.
+            // This converts 2018-05-26 04:46:22 to May 26, 2018 at 01:46am, subtracting three hours for pacific standard time
+            // because the DateTime setTimeZone doesn't output the correct time...
+            $time = date("M d, Y \a\\t h:ia", strtotime('-3 hours', strtotime($row['date_created'])));
+            $postId = $row['postId'];
+            $isActive = $row['isActive'];
+            $member = $db2::getUserName($row['userId']);
+            $postsVersion[] = array(
+                'member' => $member,
+                'time' => $time,
+                'postId' => $postId,
+                'isActive' => $isActive
+            );
+        }
 
         print_r($postsVersion);
 

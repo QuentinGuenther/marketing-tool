@@ -97,7 +97,13 @@
                 <check if =" {{@PARAMS['postId']}} != {{@post['postId']}}">
 
                     <a href = "{{ @post['postId']}}"
-                       class="text-primary list-group-item list-group-item-action"><b>Last Modified:</b> {{ @post['time' ] }} <b>by</b> {{ @post['member'] }} </a>
+                       class="text-primary list-group-item list-group-item-action">
+                        <b>Last Modified:</b> {{ @post['time' ] }} <b>by</b> {{ @post['member'] }}
+                    <!-- Check if post is current version -->
+                        <check if="{{@post['isActive'] == 1}}">
+                            &nbsp;(Current Version)
+                        </check>
+                    </a>
 
                 </check>
             </repeat>
