@@ -82,6 +82,7 @@ class Db_post extends RestDB
      * When original post is inserted, need to change parent id to itself
      * once postId is created on db.
      * @param $postId int post id
+     * @return bool
      */
     public static function updateParentId($parentId, $postId)
     {
@@ -95,14 +96,15 @@ class Db_post extends RestDB
         return parent::update($sql, $params);
     }
 
-    public static function changeActiveStatus($postId)
+    public static function changeActiveStatus($postId, $active = 0)
     {
         //UPDATE table_name SET column1 = value1, column2 = value2, WHERE condition;
 
-        $sql = "UPDATE post SET isActive = 0 WHERE postId = :postId ";
+        $sql = "UPDATE post SET isActive = :active WHERE postId = :postId ";
 
         $params = array(
-            ':postId' => array($postId => PDO::PARAM_STR)
+            ':postId' => array($postId => PDO::PARAM_STR),
+            ':active' => array($active => PDO::PARAM_INT)
         );
 
         return parent::update($sql, $params);

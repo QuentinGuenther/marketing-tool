@@ -354,6 +354,39 @@ $f3->route('GET|POST /remove/@teamId', function($f3, $params) {
 });
 
 
+$f3->route('GET|POST /set-new-current', function($f3, $params) {
+
+    // establish connection with database
+    $db = new Db_post();
+
+    $success = false;
+
+    //grabbing the teamId from the parameter
+    $postId = $_POST['postId'];
+
+    $allVersions = $db::getAllPostVersions($postId);
+
+    // Search for current active version and set isActive to zero
+    foreach ($allVersions as $row) {
+        if ($row['isActive'] == 1) {
+            $success = $db::changeActiveStatus($row['postId']);
+            break;
+        }
+    }
+
+    // update current post to isActive
+    $success = $db::changeActiveStatus($postId, 1);
+
+    if($success)
+    {
+//        $f3 -> reroute('/view-post/'.$postId);
+        echo "success";
+    } else {
+        echo "Failed to set post as current version. Please try again later.";
+    }
+
+});
+
 /**
  * Route for the error page
  *

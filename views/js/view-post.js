@@ -8,6 +8,7 @@
 $(document).ready(function() {
     Post.createReader();
     vote();
+    setAsCurrentVersion();
 });
 
 /**
@@ -58,4 +59,31 @@ function vote()
         }
 
     });
+}
+
+function setAsCurrentVersion()
+{
+    // if button exists
+    if ($("#" + "setAsCurrent").length !== 0) {
+        $("#setAsCurrent").one("click", function() {
+            var postId = $("#postId").val();
+
+            $.ajax({
+                type: "post",
+                url: "../set-new-current",
+                data: {'postId' : postId},
+                success: function(response) {
+                    if (response === "success") {
+                        // alert("Post successfully set to current!");
+                        // Remove current from list
+                        $("#current").text("");
+                        // replace button with edit button
+                        $('#setAsCurrent').prop('id', 'edit').text("Edit").addClass("bg-green-river-green").removeClass("btn-primary").attr('onclick', 'toggleEditor()');
+                    } else {
+                        alert(response);
+                    }
+
+                }}); //ajax
+        });
+    }
 }

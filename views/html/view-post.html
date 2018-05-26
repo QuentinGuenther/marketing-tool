@@ -52,12 +52,20 @@
             </div>
             <repeat group="{{ @postsVersions }}" value= "{{ @post }}">
                 <check if =" {{ @PARAMS['postId'] == @post['postId'] && @post['isActive'] == 1 }}">
-
-                <div class="col-6 mb-0 text-right">
-                    <button class="btn bg-green-river-green" onclick="toggleEditor();">Edit</button>
-                </div>
+                    <div class="col-6 mb-0 text-right">
+                        <button class="btn bg-green-river-green" onclick="toggleEditor();">Edit</button>
+                    </div>
                 </check>
+
+                <check if =" {{ @PARAMS['postId'] == @post['postId'] && @post['isActive'] == 0 }}">
+                    <div class="col-6 mb-0 text-right">
+                        <!--<a class="btn btn btn-primary" href= "{{ @BASE }}/set-new-current/{{ @PARAMS['postId']}}">Set as Current Version</a>-->
+                        <button class="btn btn-primary" id="setAsCurrent">Set as Current Version</button>
+                    </div>
+                </check>
+
             </repeat>
+
         </div>
 
         <!-- Hidden input containing votes user has -->
@@ -101,7 +109,7 @@
                         <b>Last Modified:</b> {{ @post['time' ] }} <b>by</b> {{ @post['member'] }}
                     <!-- Check if post is current version -->
                         <check if="{{@post['isActive'] == 1}}">
-                            &nbsp;(Current Version)
+                            &nbsp;<span id="current">(Current Version)</span>
                         </check>
                     </a>
 
