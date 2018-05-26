@@ -54,7 +54,7 @@ class ViewPostRoute extends ParentController
         }
 
         // Voting Logic
-        $maxVotes = 20;
+        $maxVotes = 10;
         $currentVoteCount = $db::getUserVoteCount($this->userId);
         $availableVotes = $maxVotes - $currentVoteCount;
 

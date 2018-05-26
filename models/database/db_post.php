@@ -188,27 +188,35 @@ class Db_post extends RestDB
     }
 
     /**
-     * Allows user to vote for a post.
+     * This function allows a user to vote for a post.
      * @param $userId int user id
      * @param $postId int post id
      * @return int
      */
     public static function addVote($userId, $postId)
     {
-        $sql = "INSERT INTO postVotes(userId, postId) VALUES (:userId, :postId);";
+        // get the parent id
+        $parentId = self::getParentId($postId);
+
+        $sql = "INSERT INTO postVotes(userId, parent_Id) VALUES (:userId, :parentId)";
 
         $params = array(
             ':userId' => array($userId => PDO::PARAM_INT),
-            ':postId' => array($postId => PDO::PARAM_INT)
+            ':parentId' => array($parentId => PDO::PARAM_INT)
         );
 
         return parent::insert($sql, $params);
     }
 
+    /**
+     * This function will select all entries in the votePosts table with associated
+     * userId and return a count. This is the number of votes a student has made.
+     * @param $userId
+     * @return int
+     */
     public static function getUserVoteCount($userId)
     {
-//        $sql = "SELECT COUNT(postId) FROM postVotes WHERE userId = :userId";
-        $sql = "SELECT postId FROM postVotes WHERE userId = :userId";
+        $sql = "SELECT parent_id FROM postVotes WHERE userId = :userId";
         $params = array(
             ':userId' => array($userId => PDO::PARAM_INT)
         );
@@ -217,22 +225,39 @@ class Db_post extends RestDB
 
     }
 
+    /**
+     * This function checks if a user has already voted for a specific post.
+     * @param $userId
+     * @param $postId
+     * @return array
+     */
     public static function getUserVote($userId, $postId)
     {
-        $sql = "SELECT postId FROM postVotes WHERE userId = :userId AND postId = :postId";
+        // get parent id
+        $parentId = self::getParentId($postId);
+
+        $sql = "SELECT parent_id FROM postVotes WHERE userId = :userId AND parent_id = :parent_id";
         $params = array(
             ':userId' => array($userId => PDO::PARAM_INT),
-            ':postId' => array($postId => PDO::PARAM_INT)
+            ':parent_id' => array($parentId => PDO::PARAM_INT)
         );
 
         return parent::get($sql, $params);
     }
 
+    /**
+     * This function retrieves the total number of votes for a given post.
+     * @param $postId
+     * @return int
+     */
     public static function getAllVotesForPost($postId)
     {
-        $sql = "SELECT userId FROM postVotes WHERE postId = :postId";
+        // get parent id
+        $parentId = self::getParentId($postId);
+
+        $sql = "SELECT userId FROM postVotes WHERE parent_id = :parentId";
         $params = array(
-            ':postId' => array($postId => PDO::PARAM_INT)
+            ':parentId' => array($parentId => PDO::PARAM_INT)
         );
 
         return count(parent::get($sql, $params));
@@ -257,7 +282,7 @@ class Db_post extends RestDB
     }
 
     /**
-     * Delete the all posts from the users that belong to the team Id passed
+     * Delete all the votes from the users that belong to the team Id passed
      * @param $teamId the team to remove
      * @return bool true if successful, false otherwise
      */
