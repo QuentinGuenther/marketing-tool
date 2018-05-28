@@ -53,7 +53,16 @@
             <repeat group="{{ @postsVersions }}" value= "{{ @post }}">
                 <check if =" {{ @PARAMS['postId'] == @post['postId'] && @post['isActive'] == 1 }}">
                     <div class="col-6 mb-0 text-right">
-                        <button class="btn bg-green-river-green" onclick="toggleEditor();">Edit</button>
+                        <check if="{{ @contentErr != '' }}">
+                            <true>
+                                <button id="edit-btn" class="btn bg-green-river-green" style="display: none" onclick="toggleEditor();">Edit</button>
+                                <button id="cancel-btn" class="btn btn-danger" onclick="toggleEditor();">Cancel</button>
+                            </true>
+                            <false>
+                                <button id="edit-btn" class="btn bg-green-river-green" onclick="toggleEditor();">Edit</button>
+                                <button id="cancel-btn" class="btn btn-danger" style="display: none" onclick="toggleEditor();">Cancel</button>
+                            </false>
+                        </check>
                     </div>
                 </check>
 
@@ -75,12 +84,28 @@
 
         <div class="row">
             <div class="col">
-                <div id="reader-container" class="ql-reader" rel="quill-reader"></div>
+                <check if="{{ @contentErr != '' }}">
+                    <true>
+                        <div id="reader-container" class="ql-reader" style="display: none" rel="quill-reader"></div>
+                    </true>
+                    <false>
+                        <div id="reader-container" class="ql-reader" rel="quill-reader"></div>
+                    </false>
+                </check>
                 <!-- Hidden input containing value of param, postId -->
                 <input type="hidden" id="postId" value="{{ @PARAMS['postId'] }}">
             </div>
         </div>
-        <form id="idea-form" method="post" action="" style="display: none">
+
+        <check if="{{ @contentErr != '' }}">
+            <true>
+                <form id="idea-form" method="post" action="">
+            </true>
+            <false>
+                <form id="idea-form" method="post" action="" style="display: none">
+            </false>
+        </check>
+            <br>
             <div>
                 <p><strong>Note:</strong><br>Your post must be less than 7mb <em>total</em>. Below is a progress bar to help you gauge the size of your post. If you find your post going over the limit, try resizing and/or compressing your images.</p>
             </div>
@@ -96,7 +121,7 @@
                 <div id="editor-container" rel="quill-editor"  tabindex="2"></div>
             </div>
 
-            <input type="submit" id = "submit"  name = "submit" class="btn bg-green-river-green" value="Add Post" />
+            <input type="submit" id = "submit"  name = "submit" class="btn bg-green-river-green" value="Save" />
         </form>
         <div class = "m-5 list-group">
         <check if = "{{ sizeOf(@postsVersions) }}">
@@ -136,6 +161,8 @@
         function toggleEditor() {
             $( "#reader-container" ).toggle();
             $( "#idea-form" ).toggle();
+            $( "#edit-btn" ).toggle();
+            $( "#cancel-btn" ).toggle();
         }
     </script>
 
