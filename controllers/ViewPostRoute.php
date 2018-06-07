@@ -93,7 +93,7 @@ class ViewPostRoute extends ParentController
             );
         }
 
-        print_r($postsVersion);
+        //print_r($postsVersion);
 
         // Set hive variables
        // $f3->set('postId', $postId);
