@@ -189,6 +189,25 @@ class Db_post extends RestDB
         return $result;
     }
 
+
+    public static function getPostsByVote()
+    {
+        //gets top five posts
+        $sql = "SELECT parent_id, points FROM postVotes ORDER BY points DESC LIMIT 5";
+
+        $params = array(
+        );
+
+        $result = parent::get($sql, $params);
+
+        //go through results and sql parent_id and isActive to get second list
+        $count = 5;
+
+
+
+        return $result;
+    }
+
     /**
      * This function allows a user to vote for a post.
      * @param $userId int user id
