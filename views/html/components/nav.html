@@ -1,7 +1,19 @@
+
+<!--Popper library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
+<!--jQuery library-->
+<script src="http://code.jquery.com/jquery.js"></script>
+
+<!-- jQuery -->
+<script src="{{ @BASE }}/views/js/jquery.min.js"></script>
+
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-green-river-green mb-2">
     <check if ="{{ @_SESSION['userId'] }}">
         <true>
-            <a class="navbar-brand" href="{{ @BASE }}/">Home</a>
+            <a class="navbar-brand" href="{{ @BASE }}/">Team Projects</a>
         </true>
         <false>
             <a class="navbar-brand" href="{{ @BASE }}/login">Home</a>
@@ -19,22 +31,33 @@
         <ul class="navbar-nav">
             <check if ="{{ @_SESSION['userId'] }}">
                 <true>
-                    <li class="nav-item"><a class="nav-link" href="#">Account</a></li>
-                </true>
-            </check>
-
-            <check if ="{{ @_SESSION['userId'] }}">
-                <true>
                     <li class="nav-item dropdown">
                         <check if ="{{ @_SESSION['admin'] }}">
                             <false>
                                 <a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="#">Help</a>
-                                <ul class="dropdown-menu text-dark">
+                                <ul class="dropdown-menu dropdown-menu-right text-dark ">
+
                                     <li class="dropdown-item">
-                                        <a class="nav-link text-dark" href="{{ @BASE }}/change-teams">
-                                            <span class="text-dark">Change Team</span>
+                                        <check if="{{ @_SESSION['hasChangedTeam'] == 0}}">
+                                            <true>
+                                                <a class="nav-link text-dark" href="{{ @BASE }}/change-teams">
+                                                    <span class="text-dark">Change Team</span>
+                                                </a>
+                                            </true>
+                                            <false>
+                                                <a class="nav-link text-dark" href="{{ @BASE }}/teams">
+                                                    <span id ="noChangeTeam" class="text-dark">Change Team</span>
+                                                </a>
+                                            </false>
+                                        </check>
+                                    </li>
+
+                                    <li class="dropdown-item">
+                                        <a class="nav-link text-dark" href="{{ @BASE }}/faq">
+                                            <span class="text-dark">FAQ</span>
                                         </a>
                                     </li>
+
                                 </ul>
                             </false>
                         </check>
@@ -47,4 +70,18 @@
             </check>
         </ul>
     </div>
+
 </nav>
+
+
+<!-- Scripts -->
+<script src="{{ @BASE }}/views/js/teamChanged.js"></script>
+
+
+
+
+
+
+
+
+

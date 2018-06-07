@@ -340,5 +340,44 @@ class Db_user extends RestDB
         return $result[0]['first_name']." ".$result[0]['last_name'];
     }
 
+    /**
+     * This function retrieves the value 1 or 0, depending if the user already changed teams
+     *
+     * @param $userId int user's Id
+     * @return int hasChangedTeam value
+     */
+    public static function getHasChangedTeam($userId)
+    {
+        $sql = "SELECT hasChangedTeam FROM user WHERE userId = :userId";
+
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT)
+        );
+
+        $result = parent::get($sql, $params);
+
+        return $result[0] ['hasChangedTeam'];
+    }
+
+    /**
+     * This function retrieves if the sql was success
+     * Allows user to change team just one time
+     * @param $userId int user's Id
+     * @return boolean success
+     */
+    public static function hasChangeTeamUpdate($userId)
+    {
+
+        $sql = "UPDATE user SET hasChangedTeam = 1 WHERE userId = :userId ";
+
+        $params = array(
+            ':userId' => array($userId => PDO::PARAM_INT)
+        );
+
+        $result = parent::update($sql, $params);
+
+        return $result;
+
+    }
 
 }

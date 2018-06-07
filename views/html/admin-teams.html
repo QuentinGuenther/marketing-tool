@@ -51,8 +51,8 @@ This is the page that list all the teams from the admin view, with the option to
 
                     <div class="col-2">
                         <!--  Remove button-->
-                        <a class="btn bg-green-river-green float-right remove" href= "{{ @BASE }}/remove/{{ @team['teamId']}}">
-                            Remove</a>
+                        <a class="btn bg-danger float-right remove" href= "{{ @BASE }}/remove/{{ @team['teamId']}}">
+                            <span class="text-white">Remove</span></a>
                     </div>
                 </div>
             </repeat>

@@ -1,9 +1,8 @@
 <!--
 Authors: Bessy Torres-Miller
 Date: 05/06/2018
-File Name: teamsList.html
-Purpose: To show to the student a list with the available teams, so the user will be able to pick one if he wants to
-change his/her actual team
+File Name: faq.html
+Purpose: To show to the student a list with the frequently asked questions
 -->
 
 <!DOCTYPE html>
@@ -14,7 +13,7 @@ change his/her actual team
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Change Team</title>
+    <title>Frequently Ask Questions</title>
 
     <!--jQuery library-->
     <script src="http://code.jquery.com/jquery.js"></script>
@@ -38,36 +37,27 @@ change his/her actual team
 
     <!-- Main Content -->
     <div class="container">
-        <h1 class="text-center">Available Teams</h1>
-        <p class="text-danger font-weight-bold text-center">You are able to change teams just one time</p>
+        <h1 class="text-center">Frequently Asked Questions</h1>
         <br>
 
-        <!-- Team List -->
-        <check if="{{isset (@noTeams) }}">
-            <p class="text-center">{{ @noTeams }}</p>
-        </check>
+        <h3 class="text-success font-weight-bold">Change Teams</h3>
+        <p>If you pick the wrong team when you created your account, you can change you teams. This option is under the
+            help link in the nav bar. You are able to change team just one time</p><br>
 
-        <form action="#" method="post">
-            <div class="list-group ">
+        <h3 class="text-success font-weight-bold">About this Site</h3>
+        <p>Tool for students in BAS in Marketing & Entrepreneurship to collaborate in teams by creating posts with
+            project ideas, modifying created posts and voting for the posts of your preference</p><br>
 
-                <repeat group="{{ @teams }}" value="{{ @team }} ">
-                    <div class="form-check "> <br><hr>
-                        <label class="form-check-label">
-                            <input class="form-check-input " type="radio" name="teams" value="{{ @team['teamId']}}">
-                            {{ @team['team_name'] }}
-                        </label>
-                    </div>
-                </repeat>
+        <h3 class="text-success font-weight-bold">Voting System</h3>
+        <p>Vote for a post idea that you like by assigning a quantity of points. You originally have 10
+            points to distribute between the projects of your preference.</p><br>
 
-            </div>
+        <h3 class="text-success font-weight-bold">Editing a Post System</h3>
+        <p>You can edit the current version of a post; this new edited version will be saved as the current. You can
+            also set as current version any of the previous post versions that are listed under the post.</p><br>
 
-            <!-- Submit Button -->
-            <input id ="success" type="submit" class="btn bg-green-river-green mt-4 " name="submit" value="Save">
 
-        </form>
-        <check if ="{{ @$_SESSION['success']}}">
-            <script src="{{ @BASE }}/views/js/teamChanged.js"></script>
-        </check>
+
     </div> <!-- container -->
 
 </div> <!-- wrapper -->
