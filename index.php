@@ -18,7 +18,7 @@
 /*
     Authors: Quentin Guenther, Kianna Dyck, Jen Shin, Bessy Torres-Miller
     Date: 04/10/2018
-    Name of File: index.php
+    Name of File: index2.php
     Purpose: This page is the controller for marketing tool application.
  */
 
@@ -125,7 +125,9 @@ $f3->route('GET|POST @login: /login', function($f3) {
                     //create user object???
                     // get teamId of user and set to session (eventually will be placed in user object)
                     $teamId = $db2::getUserTeamId($userId);
+                    $hasChangedTeam = $db2::getHasChangedTeam($userId);   //added B.T
                     $_SESSION['teamId'] = $teamId;
+                    $_SESSION['hasChangedTeam']=$hasChangedTeam;  //added B.T.
 
                     //reroute to user home
                     $f3->reroute('/');
@@ -273,6 +275,13 @@ $f3->route('GET|POST /logout', function($f3) {
 });
 
 
+//FAQ page
+$f3->route('GET /faq', function() {
+
+    $template = new Template();
+    echo $template->render('views/html/faq.html');
+});
+
 //route used for a page to show teams (user picks to change teams)
 $f3->route('GET|POST /change-teams', function($f3) {
 
@@ -287,10 +296,18 @@ $f3->route('GET|POST /change-teams', function($f3) {
     // establish connection with database
     $db2 = new Db_user();
 
+    //check if the user has changed teams before
+    $hasChangesTeam = $db2::getHasChangedTeam($userId);
+    if($hasChangesTeam == 1)
+    {
+        //reroute to teams page
+        $f3->reroute('/teams');
+    }
+
     //get the teams availables to the user
     $teams = $db2::getOtherTeams($teamId);
     if (empty($teams)) {
-        $f3->set('noTeams', "No teams created yet");
+        $f3->set('noTeams', "No other teams created yet");
     }
 
     // set hive variables
@@ -318,6 +335,11 @@ $f3->route('GET|POST /change-teams', function($f3) {
             $teamId = $db2::getUserTeamId($userId);
             $_SESSION['teamId'] = $teamId;
             $_SESSION['success'] = $success;
+
+            //update has Changed Team -
+            $changedTeam = $db2::hasChangeTeamUpdate($userId);
+            $hasChangedTeam = $db2::getHasChangedTeam($userId);
+            $_SESSION['hasChangedTeam'] = $hasChangedTeam;
 
             $f3 -> reroute('/teams');
         }
@@ -355,17 +377,12 @@ $f3->route('GET|POST /remove/@teamId', function($f3, $params) {
 
 
 $f3->route('GET|POST /set-new-current', function($f3, $params) {
-
     // establish connection with database
     $db = new Db_post();
-
     $success = false;
-
     //grabbing the teamId from the parameter
     $postId = $_POST['postId'];
-
     $allVersions = $db::getAllPostVersions($postId);
-
     // Search for current active version and set isActive to zero
     foreach ($allVersions as $row) {
         if ($row['isActive'] == 1) {
@@ -373,10 +390,8 @@ $f3->route('GET|POST /set-new-current', function($f3, $params) {
             break;
         }
     }
-
     // update current post to isActive
     $success = $db::changeActiveStatus($postId, 1);
-
     if($success)
     {
 //        $f3 -> reroute('/view-post/'.$postId);
@@ -384,8 +399,8 @@ $f3->route('GET|POST /set-new-current', function($f3, $params) {
     } else {
         echo "Failed to set post as current version. Please try again later.";
     }
-
 });
+
 
 /**
  * Route for the error page
