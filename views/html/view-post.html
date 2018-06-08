@@ -42,11 +42,22 @@
             <div class="col-6 mb-0">
                 <h6 class="mb-0">Total Votes: <span id="count">{{ @postVotes }}</span></h6>
                 <p class="mb-0">
-                    <span id="vote">Vote
-                    <check if="{{isset (@hasAlreadyVoted) }}">
+                    <!--<div class="row">
+                        <div class="col-2">
+                            <span id="vote">Vote</span>
+                        </div>
+                        <div class="col-8">
+                            <input class="form-control" type="number" >
+                        </div>
+                    </div>--> <!-- row -->
+                    <span class="form-inline">Vote
+                        <input id="vote" class="form-control" type="number"
+                               min="0" max="{{@hasAlreadyVoted + @availableVotes}}" value="{{@hasAlreadyVoted}}">
+                        <!--<check if="{{isset (@hasAlreadyVoted) }}">
                         <true><i class="fas fa-thumbs-up clicked"></i></true>
                         <false><i class="fas fa-thumbs-up"></i></false>
-                    </check>
+                    </check>-->
+                        <button id="voteForThis" class="btn btn-primary">Vote!</button>
                     </span>
                 </p>
             </div>
@@ -81,6 +92,8 @@
         <input type="hidden" id="totalUserVotes" value="{{ @availableVotes }}">
         <!-- Hidden input for userId -->
         <input type="hidden" id="userId" value="{{ @userId }}">
+
+        <input type="hidden" id="currentVoteCount" value="{{ @hasAlreadyVoted }}">
 
         <div class="row">
             <div class="col">

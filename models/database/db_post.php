@@ -212,21 +212,53 @@ class Db_post extends RestDB
      * This function allows a user to vote for a post.
      * @param $userId int user id
      * @param $postId int post id
-     * @return int
+     * @return String
      */
-    public static function addVote($userId, $postId)
+    public static function addVote($userId, $postId, $points)
     {
         // get the parent id
         $parentId = self::getParentId($postId);
 
-        $sql = "INSERT INTO postVotes(userId, parent_Id) VALUES (:userId, :parentId)";
-
         $params = array(
             ':userId' => array($userId => PDO::PARAM_INT),
-            ':parentId' => array($parentId => PDO::PARAM_INT)
+            ':parentId' => array($parentId => PDO::PARAM_INT),
+            ':points' => array($points => PDO::PARAM_INT)
         );
 
-        return parent::insert($sql, $params);
+        if(is_null(self::getUserVote($userId, $postId))) {
+
+            $sql = "INSERT INTO postVotes(userId, parent_Id, points) VALUES (:userId, :parentId, :points)";
+
+            $vote = parent::insert($sql, $params);
+        } else {
+            // UPDATE postVotes SET points = 2 WHERE userId = 2 AND parent_id = 2
+            $sql = "UPDATE postVotes SET points = :points WHERE userId = :userId AND parent_id = :parentId";
+
+            $vote = parent::update($sql, $params);
+        }
+
+        // insertLastId returns 0 if no auto increment returned or false if failed to connect with db
+        // insertLastId returns 0 if no auto incrementing column too
+        // update return true if successful (1), false otherwise (0)
+
+        if (gettype($vote) == "boolean" && gettype($vote) == false)
+        {
+            return "unsuccessful";
+        }
+
+        // this returns points a given member has made on a post
+//        return self::getUserVote($userId, $postId);
+
+        // this returns all points for given post (this one if not using array)
+//        return self::getAllVotesForPost($postId);
+
+        // totalPostCount, availableUserVotes, totalVotesForPostFromUser
+        $pointTotals = array("totalPostCount" => self::getAllVotesForPost($postId),
+            "availableUserVotes" => 10 - self::getUserVoteCount($userId),
+            "totalVotesForPostFromUser" => self::getUserVote($userId, $postId));
+
+        return json_encode($pointTotals);
+
     }
 
     /**
@@ -237,12 +269,20 @@ class Db_post extends RestDB
      */
     public static function getUserVoteCount($userId)
     {
-        $sql = "SELECT parent_id FROM postVotes WHERE userId = :userId";
+        $sql = "SELECT points FROM postVotes WHERE userId = :userId";
         $params = array(
             ':userId' => array($userId => PDO::PARAM_INT)
         );
 
-        return count(parent::get($sql, $params));
+//        return count(parent::get($sql, $params));
+        $totalVotes = parent::get($sql, $params);
+        $totalPoints = 0;
+        foreach($totalVotes as $row)
+        {
+            $totalPoints += $row['points'];
+        }
+
+        return $totalPoints;
 
     }
 
@@ -257,13 +297,14 @@ class Db_post extends RestDB
         // get parent id
         $parentId = self::getParentId($postId);
 
-        $sql = "SELECT parent_id FROM postVotes WHERE userId = :userId AND parent_id = :parent_id";
+        $sql = "SELECT points FROM postVotes WHERE userId = :userId AND parent_id = :parent_id";
         $params = array(
             ':userId' => array($userId => PDO::PARAM_INT),
             ':parent_id' => array($parentId => PDO::PARAM_INT)
         );
 
-        return parent::get($sql, $params);
+        $points = parent::get($sql, $params);
+        return $points[0]['points'];
     }
 
     /**
@@ -276,12 +317,21 @@ class Db_post extends RestDB
         // get parent id
         $parentId = self::getParentId($postId);
 
-        $sql = "SELECT userId FROM postVotes WHERE parent_id = :parentId";
+        $sql = "SELECT points FROM postVotes WHERE parent_id = :parentId";
         $params = array(
             ':parentId' => array($parentId => PDO::PARAM_INT)
         );
 
-        return count(parent::get($sql, $params));
+//        return count(parent::get($sql, $params));
+        $totalVotes = parent::get($sql, $params);
+
+        $totalPoints = 0;
+        foreach($totalVotes as $row)
+        {
+            $totalPoints += $row['points'];
+        }
+
+        return $totalPoints;
     }
 
     /**

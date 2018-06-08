@@ -37,13 +37,8 @@ class AjaxRoutes
     public function addVote()
     {
         global $db;
-        $success = $db::addVote($_POST['userId'], $_POST['postId']); // String, boolean
+        echo $db::addVote($_POST['userId'], $_POST['postId'], $_POST['inputVote']); // String, boolean
 
-        if (gettype($success) != "string") {
-            echo "You have already voted for this project.";
-        } else {
-            echo "success";
-        }
     }
 
     /**

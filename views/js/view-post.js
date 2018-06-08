@@ -17,16 +17,27 @@ $(document).ready(function() {
  */
 function vote()
 {
-    $("#vote").click(function(){
+    // update value for number input on change
+    $("#vote").change(function(){
+        $(this).attr("value", $("#vote").val());
+    });
 
+    // click the button!
+    $("#voteForThis").click(function() {
+
+        // current votes
+        var currentVoteCount = $('#currentVoteCount').val();
         // Number of votes available for logged-in user
         var availableVotes = $('#totalUserVotes').val();
 
-        if (availableVotes === 0)
-        {
-            alert("No more available votes!");
+        var vote = parseInt(currentVoteCount) + parseInt(availableVotes);
 
-        } else {
+        // alert(currentVoteCount + " + " + availableVotes + " = " + vote);
+        if ($("#vote").val() < 0 || $("#vote").val() > vote)
+        {
+            alert("Votes must be a positive number between 1 and 10. You currently have " + availableVotes +
+            " vote(s) left to distribute.");
+        }else {
             // userId of logged-in user and postId for project idea
             var userId = $("#userId").val();
             var postId = $("#postId").val();
@@ -35,29 +46,38 @@ function vote()
             $.ajax({
                 type: "post",
                 url: "../addVote",
-                data: {'userId' : userId,
-                    'postId' : postId},
-                success: function(response) {
-                    if (response === "success") {
-                        /* Update the vote count */
-                        var count = $("#count");
-                        var previousCount = parseInt(count.text());
-                        count.text(previousCount+1);
-
-                        // subtract from student's total available votes
-                        $('#totalUserVotes').val(availableVotes - 1);
-
-                        // change icon color to reflect student has voted for this project
-                        $('.fa-thumbs-up').addClass('clicked');
+                data: {
+                    'userId': userId,
+                    'postId': postId,
+                    'inputVote': $("#vote").val()
+                },
+                success: function (response) {
+                    if (response === "unsuccessful") {
+                        // display a message if there is a database error
+                        alert("Error saving vote. Please try again later.");
                     } else {
-                        // display a message if user has already voted for this project
-                        alert(response);
+
+                        /* Update the vote count */
+
+                        /* This changes the value of vote count with value returned */
+                        // count.text(response);
+
+
+                        /* This updates the vote count, available votes, and totalVotesMade by user for a post,
+                        * parsing an associative array from php. */
+                        // alert(response.toString());
+                        var parsed = JSON.parse(response);
+
+                        $("#count").text(parsed["totalPostCount"]);
+                        /* update available */
+                        $("#totalUserVotes").val(parsed["availableUserVotes"]);
+                        /* update total votes from user */
+                        $("#currentVoteCount").val(parsed["totalVotesForPostFromUser"]);
                     }
 
-                }}); //ajax
-
+                }
+            });
         }
-
     });
 }
 

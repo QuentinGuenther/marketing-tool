@@ -55,7 +55,7 @@ class ViewPostRoute extends ParentController
 
         // Voting Logic
         $maxVotes = 10;
-        $currentVoteCount = $db::getUserVoteCount($this->userId);
+        $currentVoteCount = $db::getUserVoteCount($this->userId); // user votes made
         $availableVotes = $maxVotes - $currentVoteCount;
 
         // get total vote count for project post
@@ -63,10 +63,18 @@ class ViewPostRoute extends ParentController
 
         // check if user has already voted for this post
         $voted = $db::getUserVote($this->userId, $postId);
-        if (!empty($voted))
+        /*var_dump($voted);
+        var_dump("current: ".$currentVoteCount);
+        var_dump("available: ".$availableVotes);*/
+        if(is_null($voted)) {
+            $voted = 0;
+        }
+
+        $f3->set('hasAlreadyVoted', $voted);
+        /*if (!empty($voted))
         {
             $f3->set('hasAlreadyVoted', "You have already voted for this project.");
-        }
+        }*/
 
         /* Version Control Logic */
 
@@ -93,12 +101,13 @@ class ViewPostRoute extends ParentController
             );
         }
 
-        //print_r($postsVersion);
+        /*        print_r($postsVersion);*/
 
         // Set hive variables
-       // $f3->set('postId', $postId);
+        // $f3->set('postId', $postId);
         $f3->set('userId', $this->userId);
         $f3->set('availableVotes', $availableVotes);
+        $f3->set('currentVoteCount', $currentVoteCount);
         $f3->set('postVotes', $postVotes);
         $f3->set('title', $post['title'] );
         $f3->set('postsVersions', $postsVersion);
