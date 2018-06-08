@@ -155,7 +155,18 @@ class Db_post extends RestDB
      */
     public static function getAllPosts($teamId)
     {
-        $sql = "SELECT postId, title, content, isActive FROM post WHERE teamId = :teamId ORDER BY postId DESC";
+        /*
+         * SELECT post.postId, post.title, sum(postVotes.points) FROM post, postVotes
+         * WHERE teamId = 3 AND isActive = 1 AND post.parent_id = postVotes.parent_id
+         * GROUP BY postId ORDER BY postId DESC
+         */
+
+        $sql = "SELECT post.postId, post.title, sum(postVotes.points) as totalVotes FROM post, postVotes 
+WHERE teamId = :teamId AND isActive = 1 AND post.parent_id = postVotes.parent_id GROUP BY postId ORDER BY postId DESC";
+
+//        $sql = "SELECT postId, title, content, isActive FROM post WHERE teamId = :teamId ORDER BY postId DESC";
+
+
 
         $params = array(
             ':teamId' => array($teamId => PDO::PARAM_INT)
