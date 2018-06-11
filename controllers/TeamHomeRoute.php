@@ -48,6 +48,12 @@ class TeamHomeRoute extends ParentController
         // retrieve all team member names with teamId
         $teamMembers = $db2::getTeamMembers($teamId);
 
+        // check if postId's associated teamId matches teamId of logged in user
+        // or if user is admin
+        if (!$_SESSION['admin'] && $_SESSION['teamId'] != $teamId) {
+            $f3->reroute("/");
+        }
+
         // retrieve all project ideas with teamId
         $posts = $db::getAllPosts($teamId);
 

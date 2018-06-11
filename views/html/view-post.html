@@ -63,18 +63,22 @@
             </div>
             <repeat group="{{ @postsVersions }}" value= "{{ @post }}">
                 <check if =" {{ @PARAMS['postId'] == @post['postId'] && @post['isActive'] == 1 }}">
-                    <div class="col-6 mb-0 text-right">
-                        <check if="{{ @contentErr != '' }}">
-                            <true>
-                                <button id="edit-btn" class="btn bg-green-river-green" style="display: none" onclick="toggleEditor();">Edit</button>
-                                <button id="cancel-btn" class="btn btn-danger" onclick="toggleEditor();">Cancel</button>
-                            </true>
-                            <false>
-                                <button id="edit-btn" class="btn bg-green-river-green" onclick="toggleEditor();">Edit</button>
-                                <button id="cancel-btn" class="btn btn-danger" style="display: none" onclick="toggleEditor();">Cancel</button>
-                            </false>
-                        </check>
-                    </div>
+                    <check if="{{$_SESSION['admin']==1}}">
+                        <false>
+                            <div class="col-6 mb-0 text-right">
+                                <check if="{{ @contentErr != '' }}">
+                                    <true>
+                                        <button id="edit-btn" class="btn bg-green-river-green" style="display: none" onclick="toggleEditor();">Edit</button>
+                                        <button id="cancel-btn" class="btn btn-danger" onclick="toggleEditor();">Cancel</button>
+                                    </true>
+                                    <false>
+                                        <button id="edit-btn" class="btn bg-green-river-green" onclick="toggleEditor();">Edit</button>
+                                        <button id="cancel-btn" class="btn btn-danger" style="display: none" onclick="toggleEditor();">Cancel</button>
+                                    </false>
+                                </check>
+                            </div>
+                        </false>
+                    </check>
                 </check>
 
                 <check if =" {{ @PARAMS['postId'] == @post['postId'] && @post['isActive'] == 0 }}">
