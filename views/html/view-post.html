@@ -40,8 +40,8 @@
         <h1 class="mb-4">{{ @title }}</h1>
         <div class="row">
             <div class="col-6 mb-0">
-                <h6 class="mb-0">Total Votes: <span id="count">{{ @postVotes }}</span></h6>
-                <p class="mb-0">
+                <h6 class="m-1">Total Votes: <span id="count">{{ @postVotes }}</span></h6>
+                <p class="m-1">
                     <!--<div class="row">
                         <div class="col-2">
                             <span id="vote">Vote</span>
@@ -50,14 +50,14 @@
                             <input class="form-control" type="number" >
                         </div>
                     </div>--> <!-- row -->
-                    <span class="form-inline">Vote
+                    <span class="form-inline m-1">Vote&nbsp
                         <input id="vote" class="form-control" type="number"
                                min="0" max="{{@hasAlreadyVoted + @availableVotes}}" value="{{@hasAlreadyVoted}}">
                         <!--<check if="{{isset (@hasAlreadyVoted) }}">
                         <true><i class="fas fa-thumbs-up clicked"></i></true>
                         <false><i class="fas fa-thumbs-up"></i></false>
                     </check>-->
-                        <button id="voteForThis" class="btn btn-primary">Vote!</button>
+                        <button id="voteForThis" class="btn btn-primary m-1">Vote!</button>
                     </span>
                 </p>
             </div>
@@ -141,24 +141,23 @@
             <input type="submit" id = "submit"  name = "submit" class="btn bg-green-river-green" value="Save" />
         </form>
         <div class = "m-5 list-group">
-        <check if = "{{ sizeOf(@postsVersions) }}">
+        <check if = "{{ sizeOf(@postsVersions) > 1}} ">
             <true><h3>Post Versions</h3>
-            <repeat group="{{ @postsVersions }}" value= "{{ @post }}">
-                <check if =" {{@PARAMS['postId']}} != {{@post['postId']}}">
+                <repeat group="{{ @postsVersions }}" value= "{{ @post }}">
+                    <check if =" {{@PARAMS['postId']}} != {{@post['postId']}}">
 
-                    <a href = "{{ @post['postId']}}"
-                       class="text-primary list-group-item list-group-item-action">
-                        <b>Last Modified:</b> {{ @post['time' ] }} <b>by</b> {{ @post['member'] }}
-                    <!-- Check if post is current version -->
-                        <check if="{{@post['isActive'] == 1}}">
-                            &nbsp;<span id="current">(Current Version)</span>
-                        </check>
-                    </a>
+                        <a href = "{{ @post['postId']}}"
+                           class="text-primary list-group-item list-group-item-action">
+                            <b>Last Modified:</b> {{ @post['time' ] }} <b>by</b> {{ @post['member'] }}
+                        <!-- Check if post is current version -->
+                            <check if="{{@post['isActive'] == 1}}">
+                                &nbsp;<span id="current">(Current Version)</span>
+                            </check>
+                        </a>
 
-                </check>
-            </repeat>
+                    </check>
+                </repeat>
             </true>
-            <false><p>Array not set properly.</p></false>
         </check>
         </div>
     </div>
