@@ -165,12 +165,16 @@ class Db_post extends RestDB
          * SELECT post.postId, post.title, sum(postVotes.points) as totalVotes FROM post
          * LEFT JOIN postVotes ON post.parent_id = postVotes.parent_id WHERE teamId = 3 AND isActive = 1
          * GROUP BY postId ORDER BY postId DESC
+         *
+         * SELECT post.postId, post.title, sum(postVotes.points) as totalVotes FROM post
+         * LEFT JOIN postVotes ON post.parent_id = postVotes.parent_id WHERE teamId = 1 AND isActive = 1
+         * GROUP BY postId ORDER BY totalVotes DESC
          * */
 
         $sql = "SELECT post.postId, post.title, sum(postVotes.points) as totalVotes FROM post 
                 LEFT JOIN postVotes ON post.parent_id = postVotes.parent_id 
                 WHERE teamId = :teamId AND isActive = 1 
-                GROUP BY postId ORDER BY postId DESC";
+                GROUP BY postId ORDER BY totalVotes DESC";
 
 //        $sql = "SELECT post.postId, post.title, sum(postVotes.points) as totalVotes FROM post, postVotes
 //WHERE teamId = :teamId AND isActive = 1 AND post.parent_id = postVotes.parent_id GROUP BY postId ORDER BY postId DESC";
