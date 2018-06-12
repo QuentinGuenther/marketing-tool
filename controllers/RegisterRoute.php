@@ -53,21 +53,21 @@ class RegisterRoute
         if (isset($_POST['submit'])) {
 
             /* Email validation */
-            $isValid = $this->validateEmail($f3, $db2);
+            $isValidEmail = $this->validateEmail($f3, $db2);
 
             /* First name validation */
-            $isValid = $this->validateName($f3, $_POST['first_name'], 'invalidFirst', 'Please enter a first name.');
+            $isValidFirst = $this->validateName($f3, $_POST['first_name'], 'invalidFirst', 'Please enter a first name.');
 
             /* Last name validation */
-            $isValid = $this->validateName($f3, $_POST['last-name'], 'invalidLast', 'Please enter a last name.');
+            $isValidLast = $this->validateName($f3, $_POST['last-name'], 'invalidLast', 'Please enter a last name.');
 
             /* Password validation */
-            $isValid = $this->validatePassword($f3);
+            $isValidPw = $this->validatePassword($f3);
 
             /* Team Placement Validations */
             $this->validateTeam($f3, $teams);
 
-            if ($isValid)
+            if ($isValidEmail && $isValidFirst && $isValidLast && $isValidPw)
             {
                 $email = $_POST['email'];
                 $firstName = $_POST['first-name'];

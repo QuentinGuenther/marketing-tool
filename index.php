@@ -103,18 +103,4 @@ $f3->route('GET|POST /remove/@teamId', 'AjaxRoutes->removeTeam');
 $f3->route('GET|POST /set-new-current', 'AjaxRoutes->setNewCurrent');
 
 
-/**
- * Route for the error page
- *
- * If a page is not found, the error page
- * gets displayed
- *
- * @alias /views/error.html
- * @param $f3 Base
- */
-$f3->set('ONERROR', function($f3) {
-    if ($f3->get('ERROR.code') == '404')
-        echo Template::instance()->render('views/error.html');
-});
-
 $f3->run();
