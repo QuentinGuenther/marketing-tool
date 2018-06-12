@@ -25,21 +25,15 @@
                             <false>
                                 <a class=" nav-link dropdown-toggle" data-toggle="dropdown" href="#">Help</a>
                                 <ul class="dropdown-menu dropdown-menu-right text-dark ">
+                                    <check if="{{ @_SESSION['hasChangedTeam'] == 0}}">
+                                        <li class="dropdown-item">
 
-                                    <li class="dropdown-item">
-                                        <check if="{{ @_SESSION['hasChangedTeam'] == 0}}">
-                                            <true>
-                                                <a class="nav-link text-dark" href="{{ @BASE }}/change-teams">
-                                                    <span class="text-dark">Change Team</span>
-                                                </a>
-                                            </true>
-                                            <false>
-                                                <a class="nav-link text-dark" href="{{ @BASE }}/teams">
-                                                    <span id ="noChangeTeam" class="text-dark">Change Team</span>
-                                                </a>
-                                            </false>
-                                        </check>
-                                    </li>
+                                            <a class="nav-link text-dark" href="{{ @BASE }}/change-teams">
+                                                <span class="text-dark">Change Team</span>
+                                            </a>
+
+                                        </li>
+                                    </check>
 
                                     <li class="dropdown-item">
                                         <a class="nav-link text-dark" href="{{ @BASE }}/faq">

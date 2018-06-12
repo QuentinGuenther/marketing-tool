@@ -32,7 +32,6 @@ function vote()
 
         var vote = parseInt(currentVoteCount) + parseInt(availableVotes);
 
-        // alert(currentVoteCount + " + " + availableVotes + " = " + vote);
         if ($("#vote").val() < 0 || $("#vote").val() > vote)
         {
             alert("Votes must be a positive number between 1 and 10. You currently have " + availableVotes +
@@ -58,7 +57,6 @@ function vote()
                     } else {
 
                         /* Update the vote count */
-
 
                         /* This updates the vote count, available votes, and totalVotesMade by user for a post */
                         var parsed = JSON.parse(response);
