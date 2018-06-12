@@ -28,10 +28,8 @@ member names in the team, the team name, and an add button to add a new project 
 </head>
 <body>
 
-<!-- Navigation Menu -->
-<include href="views/html/components/nav.html" />
-
-<div id="wrapper">
+    <!-- Navigation Menu -->
+    <include href="views/html/components/nav.html" />
 
     <!-- Main Content -->
     <div class="container">
@@ -57,38 +55,33 @@ member names in the team, the team name, and an add button to add a new project 
 
         <div class="list-group">
             <repeat group="{{ @postIdeas }}" value="{{ @post }}">
-                     <a href= "{{ @BASE }}/view-post/{{ @post['postId']}}"
-                              class="list-group-item list-group-item-action list-bg">{{ @post['title'] }} (
+                 <a href= "{{ @BASE }}/view-post/{{ @post['postId']}}"
+                          class="list-group-item list-group-item-action list-bg">{{ @post['title'] }}
+                     <span class="badge badge-secondary badge-pill float-right">
+                         Votes:
                          <check if="{{ @post['totalVotes'] == NULL}}">
                              <true> 0 </true>
                              <false>{{ @post['totalVotes'] }}</false>
                          </check>
-                          )</a>
+                     </span>
+                 </a>
             </repeat>
         </div>
 
     </div> <!-- container -->
 
-</div> <!-- wrapper -->
+    <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="{{ @BASE }}/views/js/jquery.min.js"></script>
 
+    <!-- Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous">
+    </script>
 
-<!-- Scripts -->
-<!-- jQuery -->
-<script src="{{ @BASE }}/views/js/jquery.min.js"></script>
-
-<!-- Popper -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous">
-</script>
-
-<!-- Bootstrap js -->
-<script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
-<script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
-
-
-<!-- External js -->
-<script src="{{ @BASE }}/views/js/team-home.js"></script>
+    <!-- Bootstrap js -->
+    <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
 
 </body>
 

@@ -40,10 +40,10 @@
         <h1 class="mb-4">{{ @title }}</h1>
         <div class="row">
             <div class="col-6 mb-0">
+                <!-- Voting -->
                 <h6 class="m-1">Total Votes: <span id="count">{{ @postVotes }}</span></h6>
                 <p class="m-1">
 
-                    <!-- row -->
                     <span class="form-inline m-1">Vote&nbsp
                         <input id="vote" class="form-control" type="number"
                                min="0" max="{{@hasAlreadyVoted + @availableVotes}}" value="{{@hasAlreadyVoted}}">
@@ -51,6 +51,8 @@
                     </span>
                 </p>
             </div>
+
+            <!-- Hide edit button if post is not current version or if user is an admin -->
             <repeat group="{{ @postsVersions }}" value= "{{ @post }}">
                 <check if =" {{ @PARAMS['postId'] == @post['postId'] && @post['isActive'] == 1 }}">
                     <check if="{{$_SESSION['admin']==1}}">
@@ -71,6 +73,7 @@
                     </check>
                 </check>
 
+                <!-- Show a button to allow user to set an older version of the post as the current -->
                 <check if =" {{ @PARAMS['postId'] == @post['postId'] && @post['isActive'] == 0 }}">
                     <div class="col-6 mb-0 text-right">
                         <button class="btn btn-primary" id="setAsCurrent">Set as Current Version</button>
@@ -88,6 +91,7 @@
 
         <input type="hidden" id="currentVoteCount" value="{{ @hasAlreadyVoted }}">
 
+        <!-- Quill editor, read only -->
         <div class="row">
             <div class="col">
                 <check if="{{ @contentErr != '' }}">
@@ -111,21 +115,10 @@
                 <form id="idea-form" method="post" action="" style="display: none">
             </false>
         </check>
-            <br>
-            <div>
-                <p><strong>Note:</strong><br>Your post must be less than 7mb <em>total</em>. Below is a progress bar to help you gauge the size of your post. If you find your post going over the limit, try resizing and/or compressing your images.</p>
-            </div>
-            <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <br>
 
-            <p class="text-danger">{{ @contentErr}}</p>
-
-            <div class="form-group">
-                <input type = "hidden" name = "new-post">
-                <div id="editor-container" rel="quill-editor"  tabindex="2"></div>
-            </div>
+        <br>
+            <!-- Quill Editor, writable -->
+            <include href="views/html/components/editor.html">
 
             <input type="submit" id = "submit"  name = "submit" class="btn bg-green-river-green" value="Save" />
         </form>

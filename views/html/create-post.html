@@ -33,29 +33,17 @@
         <div class="row">
             <div class="col">
                 <h1 class="text-center">Create New Post</h1>
-                <form id="idea-form" method="post" action="">
+                <form id="idea-form" method="post" action="#">
                     <div class="form-group">
                         <input type = "text" id ="title" name = "title" class="form-control" tabindex="1" maxlength="50" placeholder="Post Title" value="{{ @title }}">
                         <span class="text-danger">{{ @titleErr }}<br/></span>
                     </div>
 
-                    <div>
-                        <p><strong>Note:</strong><br>Your post must be less than 7mb <em>total</em>. Below is a progress bar to help you gauge the size of your post. If you find your post going over the limit, try resizing and/or compressing your images.</p>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-
-                    <br>
-
-                    <span class="text-danger">{{ @contentErr}}</span>
-
-                    <div class="form-group">
-                        <input type = "hidden" name = "new-post">
-                        <div id="editor-container" rel="quill-editor"  tabindex="2"></div>
-                    </div>
+                    <!-- Quill Editor and Progress Bar -->
+                    <include href="views/html/components/editor.html">
 
                     <input type="submit" id = "submit"  name = "submit" class="btn bg-green-river-green" value="Add Post" />
+
                 </form>
             </div>
         </div>

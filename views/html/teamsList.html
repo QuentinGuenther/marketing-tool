@@ -34,7 +34,6 @@ change his/her actual team
 <!-- Navigation Menu -->
 <include href="views/html/components/nav.html" />
 
-<div id="wrapper">
 
     <!-- Main Content -->
     <div class="container">
@@ -65,12 +64,9 @@ change his/her actual team
             <input id ="success" type="submit" class="btn bg-green-river-green mt-4 " name="submit" value="Save">
 
         </form>
-        <check if ="{{ @$_SESSION['success']}}">
-            <script src="{{ @BASE }}/views/js/teamChanged.js"></script>
-        </check>
+
     </div> <!-- container -->
 
-</div> <!-- wrapper -->
 
 <!-- Scripts -->
 <!-- jQuery -->
@@ -84,7 +80,6 @@ change his/her actual team
 
 <!-- Bootstrap js -->
 <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
-<script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

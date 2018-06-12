@@ -1,34 +1,13 @@
-<!--
-Authors: Bessy Torres-Miller , Kianna Dyck , Quentin Guenther
-Date: 05/06/2018
-File Name: admin-teams.html
-This is the nav bar for the website pages. Will be included in each of them
--->
-<!--Popper library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-
-<!--jQuery library-->
-<script src="http://code.jquery.com/jquery.js"></script>
-
-<!-- jQuery -->
-<script src="{{ @BASE }}/views/js/jquery.min.js"></script>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-green-river-green mb-2">
     <check if ="{{ @_SESSION['userId'] }}">
-        <true>
-            <check if ="{{ @_SESSION['admin'] }}">
-                <true>
-                    <a class="navbar-brand" href="{{ @BASE }}/">Marketing Teams</a>
-                </true>
-                <false>
-                    <a class="navbar-brand" href="{{ @BASE }}/">Project Ideas</a>
-                </false>
-            </check>
-        </true>
-        <false>
-            <a class="navbar-brand" href="{{ @BASE }}/login">Home</a>
-
-        </false>
+        <check if ="{{ @_SESSION['admin'] }}">
+            <true>
+                <a class="navbar-brand" href="{{ @BASE }}/">Marketing Teams</a>
+            </true>
+            <false>
+                <a class="navbar-brand" href="{{ @BASE }}/">Project Ideas</a>
+            </false>
+        </check>
     </check>
     <!-- Hamburger Button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -82,10 +61,6 @@ This is the nav bar for the website pages. Will be included in each of them
     </div>
 
 </nav>
-
-
-<!-- Scripts -->
-<script src="{{ @BASE }}/views/js/teamChanged.js"></script>
 
 
 

@@ -68,6 +68,10 @@
     font-size: large;
 }
 
+.badge {
+    font-size: inherit;
+}
+
 .clickable-row {
     cursor: pointer;
 }

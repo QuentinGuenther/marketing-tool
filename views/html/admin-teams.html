@@ -27,48 +27,39 @@ This is the page that list all the teams from the admin view, with the option to
 <!-- Navigation Menu -->
 <include href="views/html/components/nav.html" />
 
-<div id="wrapper">
 
-    <!-- Main Content -->
-    <div class="container">
-        <h1 class="text-center">Marketing Teams</h1>
-        <br>
+<!-- Main Content -->
+<div class="container">
+    <h1 class="text-center">Marketing Teams</h1>
+    <br>
 
-        <!-- Team List -->
-        <check if="{{isset (@noTeams) }}">
-            <p class="text-center">{{ @noTeams }}</p>
-        </check>
+    <!-- Team List -->
+    <check if="{{isset (@noTeams) }}">
+        <p class="text-center">{{ @noTeams }}</p>
+    </check>
 
-        <div class="list-group">
+    <div class="list-group">
 
-            <repeat group="{{ @teams }}" value="{{ @team }}" >
-                <div class="row">
-                    <div class="col-10">
-                        <!--  Link to each team page -->
-                        <a href= "{{ @BASE }}/teams/{{ @team['teamId']}}"
-                           class="list-group-item list-group-item-action list-bg padding-2">{{ @team['team_name'] }}</a><br>
-                    </div>
-
-                    <div class="col-2">
-                        <!--  Remove button-->
-                        <a class="btn bg-danger float-right remove" href= "{{ @BASE }}/remove/{{ @team['teamId']}}">
-                            <span class="text-white removeTeam">Remove</span></a>
-                    </div>
+        <repeat group="{{ @teams }}" value="{{ @team }}" >
+            <div class="row">
+                <div class="col-10">
+                    <!--  Link to each team page -->
+                    <a href= "{{ @BASE }}/teams/{{ @team['teamId']}}"
+                       class="list-group-item list-group-item-action list-bg padding-2">{{ @team['team_name'] }}</a><br>
                 </div>
-            </repeat>
-        </div>
-    </div> <!-- container -->
-</div> <!-- wrapper -->
+
+                <div class="col-2">
+                    <!--  Remove button-->
+                    <a class="btn bg-danger float-right remove" href= "{{ @BASE }}/remove/{{ @team['teamId']}}">
+                        <span class="text-white removeTeam">Remove</span></a>
+                </div>
+            </div>
+        </repeat>
+    </div>
+</div> <!-- container -->
 
 
 <!-- Scripts -->
-
-<!-- Scripts -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-<script src="{{ @BASE }}/views/js/removeTeam.js"></script>
 
 <!-- jQuery -->
 <script src="{{ @BASE }}/views/js/jquery.min.js"></script>
@@ -81,8 +72,9 @@ This is the page that list all the teams from the admin view, with the option to
 
 <!-- Bootstrap js -->
 <script src="{{ @BASE }}/views/js/bootstrap.min.js"></script>
-<script src="{{ @BASE }}/views/js/bootstrap.bundle.min.js"></script>
 
+<!--  External js -->
+<script src="{{ @BASE }}/views/js/removeTeam.js"></script>
 
 </body>
 
