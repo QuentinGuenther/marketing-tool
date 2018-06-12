@@ -42,14 +42,17 @@
             <div class="col-6 mb-0">
                 <!-- Voting -->
                 <h6 class="m-1">Total Votes: <span id="count">{{ @postVotes }}</span></h6>
-                <p class="m-1">
 
+                <check if="{{$_SESSION['admin']==0}}">
+                    <p class="m-1">
                     <span class="form-inline m-1">Vote&nbsp
                         <input id="vote" class="form-control" type="number"
                                min="0" max="{{@hasAlreadyVoted + @availableVotes}}" value="{{@hasAlreadyVoted}}">
                         <button id="voteForThis" class="btn btn-primary m-1">Vote!</button>
                     </span>
-                </p>
+                    </p>
+                </check>
+
             </div>
 
             <!-- Hide edit button if post is not current version or if user is an admin -->

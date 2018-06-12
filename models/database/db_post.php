@@ -60,10 +60,17 @@ class Db_post extends RestDB
         return parent::insert($sql, $params);
     }
 
+    /**
+     * This function inserts a new post version and returns the post id of the newly inserted post version.
+     * @param $title String the title of the post
+     * @param $content String the content of the post
+     * @param $userId int userId of logged in user
+     * @param $teamId int teamId of logged in user
+     * @param $parentId int An id all versions share in common.
+     * @return int the postId of the newly inserted post version.
+     */
     public static function insertPostVersion($title, $content, $userId, $teamId, $parentId)
     {
-        //$parentId = self::getParentId();
-
         $sql = "INSERT INTO post(title, content, userId, teamId, isActive, parent_id) VALUES (:title, :content, :userId, :teamId, 1, :parentId)";
 
         $params = array(
@@ -96,10 +103,14 @@ class Db_post extends RestDB
         return parent::update($sql, $params);
     }
 
+    /**
+     * This function changes the active statis of a given post
+     * @param $postId int
+     * @param int $active int
+     * @return bool
+     */
     public static function changeActiveStatus($postId, $active = 0)
     {
-        //UPDATE table_name SET column1 = value1, column2 = value2, WHERE condition;
-
         $sql = "UPDATE post SET isActive = :active WHERE postId = :postId ";
 
         $params = array(
@@ -155,33 +166,10 @@ class Db_post extends RestDB
      */
     public static function getAllPosts($teamId)
     {
-        /*
-         * SELECT post.postId, post.title, sum(postVotes.points) FROM post, postVotes
-         * WHERE teamId = 3 AND isActive = 1 AND post.parent_id = postVotes.parent_id
-         * GROUP BY postId ORDER BY postId DESC
-         */
-
-        /*
-         * SELECT post.postId, post.title, sum(postVotes.points) as totalVotes FROM post
-         * LEFT JOIN postVotes ON post.parent_id = postVotes.parent_id WHERE teamId = 3 AND isActive = 1
-         * GROUP BY postId ORDER BY postId DESC
-         *
-         * SELECT post.postId, post.title, sum(postVotes.points) as totalVotes FROM post
-         * LEFT JOIN postVotes ON post.parent_id = postVotes.parent_id WHERE teamId = 1 AND isActive = 1
-         * GROUP BY postId ORDER BY totalVotes DESC
-         * */
-
         $sql = "SELECT post.postId, post.title, sum(postVotes.points) as totalVotes FROM post 
                 LEFT JOIN postVotes ON post.parent_id = postVotes.parent_id 
                 WHERE teamId = :teamId AND isActive = 1 
                 GROUP BY postId ORDER BY totalVotes DESC";
-
-//        $sql = "SELECT post.postId, post.title, sum(postVotes.points) as totalVotes FROM post, postVotes
-//WHERE teamId = :teamId AND isActive = 1 AND post.parent_id = postVotes.parent_id GROUP BY postId ORDER BY postId DESC";
-
-//        $sql = "SELECT postId, title, content, isActive FROM post WHERE teamId = :teamId ORDER BY postId DESC";
-
-
 
         $params = array(
             ':teamId' => array($teamId => PDO::PARAM_INT)
@@ -215,25 +203,6 @@ class Db_post extends RestDB
         return $result;
     }
 
-
-    public static function getPostsByVote()
-    {
-        //gets top five posts
-        $sql = "SELECT parent_id, points FROM postVotes ORDER BY points DESC LIMIT 5";
-
-        $params = array(
-        );
-
-        $result = parent::get($sql, $params);
-
-        //go through results and sql parent_id and isActive to get second list
-        $count = 5;
-
-
-
-        return $result;
-    }
-
     /**
      * This function allows a user to vote for a post.
      * @param $userId int user id
@@ -257,7 +226,6 @@ class Db_post extends RestDB
 
             $vote = parent::insert($sql, $params);
         } else {
-            // UPDATE postVotes SET points = 2 WHERE userId = 2 AND parent_id = 2
             $sql = "UPDATE postVotes SET points = :points WHERE userId = :userId AND parent_id = :parentId";
 
             $vote = parent::update($sql, $params);
@@ -272,13 +240,6 @@ class Db_post extends RestDB
             return "unsuccessful";
         }
 
-        // this returns points a given member has made on a post
-//        return self::getUserVote($userId, $postId);
-
-        // this returns all points for given post (this one if not using array)
-//        return self::getAllVotesForPost($postId);
-
-        // totalPostCount, availableUserVotes, totalVotesForPostFromUser
         $pointTotals = array("totalPostCount" => self::getAllVotesForPost($postId),
             "availableUserVotes" => 10 - self::getUserVoteCount($userId),
             "totalVotesForPostFromUser" => self::getUserVote($userId, $postId));
@@ -300,7 +261,6 @@ class Db_post extends RestDB
             ':userId' => array($userId => PDO::PARAM_INT)
         );
 
-//        return count(parent::get($sql, $params));
         $totalVotes = parent::get($sql, $params);
         $totalPoints = 0;
         foreach($totalVotes as $row)
@@ -348,7 +308,6 @@ class Db_post extends RestDB
             ':parentId' => array($parentId => PDO::PARAM_INT)
         );
 
-//        return count(parent::get($sql, $params));
         $totalVotes = parent::get($sql, $params);
 
         $totalPoints = 0;

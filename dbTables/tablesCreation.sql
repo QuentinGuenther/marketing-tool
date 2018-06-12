@@ -52,7 +52,6 @@ CREATE TABLE IF NOT EXISTS post
 );
 
 /*Create postVotes Table*/
-/*CREATE INDEX title ON lookup(title) USING BTREE;*/
 DROP TABLE IF EXISTS postVotes;
 CREATE TABLE IF NOT EXISTS postVotes
 (

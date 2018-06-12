@@ -79,7 +79,6 @@ class Db_user extends RestDB
      */
     public static function insertNewTeam($teamName)
     {
-        // INSERT INTO team (team_name) VALUES ('marketing-team');
         $sql = "INSERT INTO team (team_name) VALUES (:teamName)";
 
         $params = array(
@@ -101,7 +100,6 @@ class Db_user extends RestDB
      */
     public static function insertNewUser($firstName, $lastName, $email, $password, $teamId, $isAdmin = 0)
     {
-        //INSERT INTO `user`(first_name, last_name, email, password, teamId, isAdmin) VALUES ('Mary', 'Sue', 'email@mail.greenriver.edu', sha1('abc'), 2, 0)
         $sql = "INSERT INTO `user`(first_name, last_name, email, password, teamId, isAdmin) VALUES (:firstName, :lastName, :email, :password, :teamId, :isAdmin)";
 
         $params = array(
@@ -125,7 +123,6 @@ class Db_user extends RestDB
      */
     public static function getLoginUsername($email)
     {
-        //SELECT userId FROM `user` WHERE email = "jshin"
         $sql = "SELECT userId FROM `user` WHERE email = :email";
 
         $params = array(
@@ -162,7 +159,6 @@ class Db_user extends RestDB
      */
     public static function getUserTeamId($userId)
     {
-        //SELECT teamId FROM `user` WHERE userId = 14 LIMIT 1
         $sql = "SELECT teamId FROM `user` WHERE userId = :userId LIMIT 1";
 
         $params = array(
@@ -248,7 +244,7 @@ class Db_user extends RestDB
 
     /**
      * This function retrieves all teams from the database excepting the one that user already belongs
-     * @param $teamId current teamId of the user
+     * @param $teamId int current teamId of the user
      * @return array An array containing each team name and associated team id
      */
     public static function getOtherTeams($teamId)
@@ -288,7 +284,7 @@ class Db_user extends RestDB
 
     /**
      * Remove a team from the db
-     * @param $teamId team Id to delete
+     * @param $teamId int teamId to delete
      * @return bool true if successful, false otherwise
      */
     public function removeTeam($teamId)
@@ -306,7 +302,7 @@ class Db_user extends RestDB
 
     /**
      * Remove the users from the team to delete
-     * @param $teamId team to delete
+     * @param $teamId int team to delete
      * @return bool true if successful, false otherwise
      */
     public function removeUser($teamId)

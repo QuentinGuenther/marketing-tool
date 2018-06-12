@@ -22,11 +22,6 @@
     Purpose: This page is the controller for marketing tool application.
  */
 
-// Turn on error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // Require autoload
 require_once 'vendor/autoload.php';
 
@@ -36,111 +31,11 @@ session_start();
 // Create fat-free instance
 $f3 = Base::instance();
 
-// Set debug level to dev
-$f3->set('DEBUG', 3);
-
 // establish connection to database
 $db = new Db_post();
 
-//Login for user (student)
-$f3->route('GET|POST @login: /login', function($f3) {
-    $db2 = new Db_user();
-
-    if (isset($_POST['submit'])) {
-        $password = "";
-        $username = "";
-
-        $isValid = true;
-
-        //if empty, not valid, otherwise sent into hive
-        if (!empty($_POST['username'])) {
-            $username = $_POST['username'];
-            $f3->set('username', $username);
-        } else {
-            $usernameErr = "Please input your email in the username field.";
-            $f3->set('usernameErr', $usernameErr);
-            $isValid = false;
-        }
-
-        if (isset($_POST['password'])) {
-            $password = $_POST['password'];
-
-            if (!empty($_POST['password'])) {
-                $password = $_POST['password'];
-                $f3->set('password', $password);
-            } else {
-                //empty
-                $passwordErr = "Please input a password.";
-                $f3->set('passwordErr', $passwordErr);
-                $isValid = false;
-            }
-
-        }
-        //both fields are not empty
-        if ($isValid) {
-            $userId = "";
-            $dbPassword = "";
-            //check if username matches db
-            $userArray = $db2::getLoginUsername($username);
-
-            //the case where username does not exist
-            if (empty($userArray)) {
-                $usernameErr = "This username does not exist.";
-                $f3->set('usernameErr', $usernameErr);
-            } else { //username exists
-                //check password against userId
-                //Array ( [0] => Array ( [userId] => 2 ) )
-                foreach ($userArray as $row) {
-                    $userId = $row['userId'];
-                }
-
-                $dbPasswordArray = $db2::getLoginPassword($userId);
-
-                foreach ($dbPasswordArray as $row) {
-                    $dbPassword = $row['password'];
-                }
-
-                //check if the user is Admin
-                $dbIsAdminArray = $db2::getIsAdmin($userId);
-
-                foreach ($dbIsAdminArray as $row){
-                    $dbIsAdmin = $row['isAdmin'];
-                }
-
-
-                //if successful
-                if(sha1($password) == $dbPassword) {
-                    //set userId in session
-                    $_SESSION['userId'] = $userId;
-
-                    //if successful
-                    if ($dbIsAdmin == 1) {
-                        //set userId in session
-                        $_SESSION['userId'] = $userId;
-                        $_SESSION['admin'] = true;
-
-                        //reroute to user home
-                        $f3->reroute('/teams');
-                    }
-                    //create user object???
-                    // get teamId of user and set to session (eventually will be placed in user object)
-                    $teamId = $db2::getUserTeamId($userId);
-                    $hasChangedTeam = $db2::getHasChangedTeam($userId);   //added B.T
-                    $_SESSION['teamId'] = $teamId;
-                    $_SESSION['hasChangedTeam']=$hasChangedTeam;  //added B.T.
-
-                    //reroute to user home
-                    $f3->reroute('/');
-                } else { //error message to show password is incorrect
-                    $passwordErr = "Password is incorrect.";
-                    $f3->set('passwordErr', $passwordErr);
-                }
-            }
-        }
-    }
-    echo Template::instance()->render('views/html/home.html');
-
-});
+//Login for user
+$f3->route('GET|POST @login: /login', 'Login->render');
 
 // Default Route
 $f3->route('GET /', function($f3) {
@@ -199,123 +94,13 @@ $f3->route('GET /faq', function() {
 });
 
 //route used for a page to show teams (user picks to change teams)
-$f3->route('GET|POST /change-teams', function($f3) {
-
-    if ($_SESSION['admin']) {
-        $f3->reroute('/');
-    }
-
-    //grabs the current user's info from the session
-    $userId = $_SESSION['userId'];
-    $teamId = $_SESSION['teamId'];
-
-    // establish connection with database
-    $db2 = new Db_user();
-
-    //check if the user has changed teams before
-    $hasChangesTeam = $db2::getHasChangedTeam($userId);
-    if($hasChangesTeam == 1)
-    {
-        //reroute to teams page
-        $f3->reroute('/teams');
-    }
-
-    //get the teams availables to the user
-    $teams = $db2::getOtherTeams($teamId);
-    if (empty($teams)) {
-        $f3->set('noTeams', "No other teams created yet");
-    }
-
-    // set hive variables
-    $f3->set('teams', $teams);
-
-    // verifies team chosen from selection is a valid option.
-    function validExistingTeam($teams, $teamChosen) {
-        foreach($teams as $team) {
-            if ($teamChosen == $team['teamId']) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //if a team is chosen
-    if (isset($_POST['submit'])) {
-
-        if (validExistingTeam($teams, $_POST['teams'])) {
-            $teamId = $_POST['teams'];
-
-            $success = $db2::updateTeam($teamId, $userId);
-
-            // retrieve new teamId
-            $teamId = $db2::getUserTeamId($userId);
-            $_SESSION['teamId'] = $teamId;
-            $_SESSION['success'] = $success;
-
-            //update has Changed Team -
-            $changedTeam = $db2::hasChangeTeamUpdate($userId);
-            $hasChangedTeam = $db2::getHasChangedTeam($userId);
-            $_SESSION['hasChangedTeam'] = $hasChangedTeam;
-
-            $f3 -> reroute('/teams');
-        }
-    }
-
-    $template = new Template();
-    echo $template->render('views/html/teamsList.html');
-});
-
+$f3->route('GET|POST /change-teams', 'AjaxRoutes->changeTeam');
 
 //route to a page used to grab the teamId when admin user is removing teams
-$f3->route('GET|POST /remove/@teamId', function($f3, $params) {
+$f3->route('GET|POST /remove/@teamId', 'AjaxRoutes->removeTeam');
 
-    // establish connection with database
-    $db1 = new Db_post();
-    $db2 = new Db_user();
-
-    //grabbing the teamId from the parameter
-    $teamId = $params['teamId'];
-
-    //calling the sql statements by passing the teamId
-    $success4 = $db1->removeVotes($teamId);
-    $success3 = $db1->removePosts($teamId);
-    $success1 = $db2->removeUser($teamId);
-    $success = $db2->removeTeam($teamId);
-
-    //if all the remove where successful, reroute to team page
-    if($success && $success1 && $success3 && $success4)
-    {
-        $f3 -> reroute('/teams');
-    } else {
-        echo "Unsuccessful";
-    }
-});
-
-
-$f3->route('GET|POST /set-new-current', function($f3, $params) {
-    // establish connection with database
-    $db = new Db_post();
-    $success = false;
-    //grabbing the teamId from the parameter
-    $postId = $_POST['postId'];
-    $allVersions = $db::getAllPostVersions($postId);
-    // Search for current active version and set isActive to zero
-    foreach ($allVersions as $row) {
-        if ($row['isActive'] == 1) {
-            $success = $db::changeActiveStatus($row['postId']);
-            break;
-        }
-    }
-    // update current post to isActive
-    $success = $db::changeActiveStatus($postId, 1);
-    if($success)
-    {
-//        $f3 -> reroute('/view-post/'.$postId);
-        echo "success";
-    } else {
-        echo "Failed to set post as current version. Please try again later.";
-    }
-});
+// route to set post being viewed as current
+$f3->route('GET|POST /set-new-current', 'AjaxRoutes->setNewCurrent');
 
 
 /**

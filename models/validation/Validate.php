@@ -1,11 +1,31 @@
 <?php
 /**
- * Author: Kianna Dyck
- * Date: 5/23/2018
- * File Name: Validate.php
- * Purpose: This class validates user input when created an account
+ * This class validates user input when created an account
+ *
+ * PHP version 5.3
+
+ * @author Kianna Dyck <kdyck@mail.greenriver.edu>
+ *
+ * @since 1.0
+ * @version 1.0
+ *
+ * @copyright 2018 Kianna Dyck <kdyck@mail.greenriver.edu>
+ *
  */
 
+/**
+ * This class validates user input when created an account
+ *
+ * PHP version 5.3
+
+ * @author Kianna Dyck <kdyck@mail.greenriver.edu>
+ *
+ * @since 1.0
+ * @version 1.0
+ *
+ * @copyright 2018 Kianna Dyck <kdyck@mail.greenriver.edu>
+ *
+ */
 class Validate
 {
     /**

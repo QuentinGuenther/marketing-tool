@@ -59,15 +59,11 @@ function vote()
 
                         /* Update the vote count */
 
-                        /* This changes the value of vote count with value returned */
-                        // count.text(response);
 
-
-                        /* This updates the vote count, available votes, and totalVotesMade by user for a post,
-                        * parsing an associative array from php. */
-                        // alert(response.toString());
+                        /* This updates the vote count, available votes, and totalVotesMade by user for a post */
                         var parsed = JSON.parse(response);
 
+                        /* update vote count */
                         $("#count").text(parsed["totalPostCount"]);
                         /* update available */
                         $("#totalUserVotes").val(parsed["availableUserVotes"]);
@@ -94,7 +90,6 @@ function setAsCurrentVersion()
                 data: {'postId' : postId},
                 success: function(response) {
                     if (response === "success") {
-                        // alert("Post successfully set to current!");
                         // Remove current from list
                         $("#current").text("");
                         // replace button with edit button

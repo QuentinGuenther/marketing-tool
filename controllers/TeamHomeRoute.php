@@ -62,57 +62,6 @@ class TeamHomeRoute extends ParentController
             Click the Add New Project button to be the first to share an idea.");
         }
 
-        /* $posts array */
-
-        /*Array
-        ( [0] => Array (
-            [postId] => 16
-            [title] => asas
-            [totalVotes] => 9 )
-          [1] => Array (
-            [postId] => 14
-            [title] => sdfsdf
-            [totalVotes] => 2 )
-          [2] => Array (
-            [postId] => 13
-            [title] => new
-            [totalVotes] => 5 )
-        [3] => Array (
-            [postId] => 12
-            [title] => post
-            [totalVotes] => 8 )
-        [4] => Array (
-            [postId] => 11
-             [title] => potato
-            [totalVotes] => 7 )
-        [5] => Array (
-            [postId] => 10
-            [title] => Test Vote #6
-            [totalVotes] => 4 )
-        [6] => Array (
-            [postId] => 9
-            [title] => Test Vote #5
-            [totalVotes] => 4 )
-        [7] => Array (
-            [postId] => 8
-            [title] => Test Vote #4
-            [totalVotes] => 11 )
-        [8] => Array (
-            [postId] => 7
-            [title] => Vote Test #3
-            [totalVotes] => 3 )
-        [9] => Array (
-            [postId] => 6
-            [title] => Vote Test #2
-            [totalVotes] => 6 )
-        [10] => Array (
-            [postId] => 5
-            [title] => Testing Voting
-            [totalVotes] => 18 ) )
-        */
-
-//        print_r($posts);
-
         // set hive variables
         $f3->set('postIdeas', $posts);
         $f3->set('teamName', $teamName);
