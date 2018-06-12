@@ -2,7 +2,7 @@
   Author: Quentin Guenther, Kianna Dyck, Jen Shin, Bessy Torres-Miller
   Date: 04/10/2018
   Name: tablesCreation.sql
-  Purpose: This file has the sql statement used to create the db tables
+  Purpose: This file has the sql statements used to create the db tables
 
  */
 
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `user`
     password VARCHAR(40),
     isAdmin tinyInt,
     teamId int NOT NULL,
-	hasChangedTeam tinyInt NOT NULL DEFAULT 0,
+	  hasChangedTeam tinyInt NOT NULL DEFAULT 0,
     date_created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     date_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT FK_teamUser FOREIGN KEY (teamId) REFERENCES team(teamId)
@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS post
 (
     postId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
-   content longtext NOT NULL,
-   isActive tinyInt,
+    content longtext NOT NULL,
+    isActive tinyInt,
     date_created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     date_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     userId int NOT NULL,
@@ -58,12 +58,12 @@ CREATE TABLE IF NOT EXISTS postVotes
 (
     userId int NOT NULL,
     parent_id int NOT NULL,
-	points int,
+	  points int,
     date_created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     date_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY(userId, parent_id),
+    PRIMARY KEY(userId, parent_id),
     CONSTRAINT FK_userPostVotes FOREIGN KEY (userId) REFERENCES user(userId),
-	CONSTRAINT FK_postPostVotes FOREIGN KEY (parent_id) REFERENCES post(parent_id)
+	  CONSTRAINT FK_postPostVotes FOREIGN KEY (parent_id) REFERENCES post(parent_id)
 );
 
 /* Create Admin user */
