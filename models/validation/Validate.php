@@ -3,7 +3,7 @@
  * Author: Kianna Dyck
  * Date: 5/23/2018
  * File Name: Validate.php
- * Purpose: This class validates user input
+ * Purpose: This class validates user input when created an account
  */
 
 class Validate
@@ -42,13 +42,21 @@ class Validate
         return true;
     }
 
-    // verifies password meets password complexity rules
+    /**
+     * This function verifies password meets password complexity rules
+     * @param $password password enter by the user
+     * @return bool returns true is the password is valid, false otherwise
+     */
     public static function validPassword($password) {
         // 8 or more characters
         return strlen($password) >= 8;
     }
 
-    // validates radio to join/create a team is chosen & is a valid option
+    /**
+     * This function validates radio to join/create a team is chosen & is a valid option
+     * @param $choice is option selected by the user (join or create a team)
+     * @return bool returns true if it's a valid option, false otherwise
+     */
     public static function validTeamChoice($choice)
     {
         $choices = array("old", "new");
@@ -62,7 +70,12 @@ class Validate
         }
     }
 
-    // check if to-be-created name is already taken
+    /**
+     * This function check if to-be-created name is already taken
+     * @param $teams list of teams from the db
+     * @param $teamName name entered by the user
+     * @return bool true if it's a valid name or false otherwise
+     */
     public static function validNewTeamName($teams, $teamName) {
         foreach($teams as $team) {
             if (strtoupper($teamName) == strtoupper($team['team_name'])) {
@@ -73,9 +86,14 @@ class Validate
         return true;
     }
 
-    // verifies team chosen from dropdown selection is a valid option.
+
+    /**
+     * This function verifies team chosen from drop down selection is a valid option.
+     * @param $teams Team names from the db
+     * @param $teamChosen team selected by the user
+     * @return bool returns true if it's valid selection or false otherwise
+     */
     public static function validExistingTeam($teams, $teamChosen) {
-        // $teams is all teams from database
 
         foreach($teams as $team) {
             if ($teamChosen == $team['teamId']) {
