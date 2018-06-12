@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Home Page</title>
+    <title>View Post</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" media="screen" href="{{ @BASE }}/views/css/bootstrap.min.css" />
@@ -42,21 +42,11 @@
             <div class="col-6 mb-0">
                 <h6 class="m-1">Total Votes: <span id="count">{{ @postVotes }}</span></h6>
                 <p class="m-1">
-                    <!--<div class="row">
-                        <div class="col-2">
-                            <span id="vote">Vote</span>
-                        </div>
-                        <div class="col-8">
-                            <input class="form-control" type="number" >
-                        </div>
-                    </div>--> <!-- row -->
+
+                    <!-- row -->
                     <span class="form-inline m-1">Vote&nbsp
                         <input id="vote" class="form-control" type="number"
                                min="0" max="{{@hasAlreadyVoted + @availableVotes}}" value="{{@hasAlreadyVoted}}">
-                        <!--<check if="{{isset (@hasAlreadyVoted) }}">
-                        <true><i class="fas fa-thumbs-up clicked"></i></true>
-                        <false><i class="fas fa-thumbs-up"></i></false>
-                    </check>-->
                         <button id="voteForThis" class="btn btn-primary m-1">Vote!</button>
                     </span>
                 </p>
@@ -83,7 +73,6 @@
 
                 <check if =" {{ @PARAMS['postId'] == @post['postId'] && @post['isActive'] == 0 }}">
                     <div class="col-6 mb-0 text-right">
-                        <!--<a class="btn btn btn-primary" href= "{{ @BASE }}/set-new-current/{{ @PARAMS['postId']}}">Set as Current Version</a>-->
                         <button class="btn btn-primary" id="setAsCurrent">Set as Current Version</button>
                     </div>
                 </check>
