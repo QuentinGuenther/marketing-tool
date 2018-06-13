@@ -56,7 +56,7 @@ class RegisterRoute
             $isValidEmail = $this->validateEmail($f3, $db2);
 
             /* First name validation */
-            $isValidFirst = $this->validateName($f3, $_POST['first_name'], 'invalidFirst', 'Please enter a first name.');
+            $isValidFirst = $this->validateName($f3, $_POST['first-name'], 'invalidFirst', 'Please enter a first name.');
 
             /* Last name validation */
             $isValidLast = $this->validateName($f3, $_POST['last-name'], 'invalidLast', 'Please enter a last name.');
